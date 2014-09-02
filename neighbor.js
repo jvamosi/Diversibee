@@ -51,7 +51,7 @@ var neighbor = function(field, row, col) {
     forests: forest,
     population: population,
     crops: crop,
-    capacity: (field[row][col].type == "forest" ? 1000 : 0) + (forest*10);
+    capacity: (field[row][col].type == "forest" ? 1000 : 0) + (forest*10)
   };
 }
 
