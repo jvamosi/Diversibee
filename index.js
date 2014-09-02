@@ -38,6 +38,22 @@ var field = [
 
 // need function to update rate of change and population
 // need function to determine neighbor
+var neighbor = function(x, y) {
+  var count = 0,
+      i = x>0 ? x-1 : x,
+      min_j = y>0 ? y-1 : y,
+      max_i = (x>=field.length) ? x : x+1,
+      max_j = (y>=field[0].length) ? y : y+1;
+
+  for(; i <= max_i; i++){
+    for(var j=min_j; j <= max_j; j++){
+      if (i==x && j==y) continue;
+      if(field[i][j] == F) count++;
+    }
+  }
+
+  return count;
+}
 
 
 // console.log(field[0][0]);
