@@ -53,9 +53,9 @@ var neighbor = function(row, col) {
       // begin counting one column left, unless already in leftmost column
       min_j = col>0 ? col-1 : col,
       // finish counting one row down, unless already in bottommost row
-      max_i = (row>=field.length) ? row : row+1,
+      max_i = (row>=field.length-1) ? row : row+1,
       // finish counting one column right, unless already in rightmost column
-      max_j = (col>=field[0].length) ? col : col+1;
+      max_j = (col>=field[0].length-1) ? col : col+1;
 
   for(; i <= max_i; i++){
     for(var j=min_j; j <= max_j; j++){
