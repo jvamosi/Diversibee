@@ -13,6 +13,7 @@
 var neighbor = function(field, row, col) {
 
   var count = 0, // count all the forests found
+    population = 0,
     // begin counting one row up, unless already in topmost row
     i = row > 0 ? row - 1 : row,
     // begin counting one column left, unless already in leftmost column
@@ -29,13 +30,19 @@ var neighbor = function(field, row, col) {
       if (i == row && j == col) continue;
 
       // Increase count when you find a forest
-      if (field[i][j].type == "forest") count++;
+      if (field[i][j].type == "forest") {
+        count++;
+        population += field[i][j].bees.population;
+      }
 
     }
   }
 
   // Return the number of neighboring forests found
-  return count;
+  return {
+    forests: count,
+    population: population
+  };
 }
 
 module.exports.neighbor = neighbor;
