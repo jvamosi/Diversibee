@@ -28,8 +28,8 @@ var neighbor = function(field, row, col) {
       // Don't add the block you're on!
       if (i == row && j == col) continue;
 
-      // Increase count when you find a field
-      if (field[i][j] == F) count++;
+      // Increase count when you find a forest
+      if (field[i][j].type == "forest") count++;
 
     }
   }
