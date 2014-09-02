@@ -12,8 +12,9 @@
 //   count of neighboring forests around current cell
 var neighbor = function(field, row, col) {
 
-  var count = 0, // count all the forests found
+  var forest = 0, // count all the forests found
     population = 0,
+    crop = 0,
     // begin counting one row up, unless already in topmost row
     i = row > 0 ? row - 1 : row,
     // begin counting one column left, unless already in leftmost column
@@ -31,8 +32,10 @@ var neighbor = function(field, row, col) {
 
       // Increase count when you find a forest
       if (field[i][j].type == "forest") {
-        count++;
+        forest++;
         population += field[i][j].bees.population;
+      } else {
+        crop++;
       }
 
     }
@@ -40,8 +43,9 @@ var neighbor = function(field, row, col) {
 
   // Return the number of neighboring forests found
   return {
-    forests: count,
-    population: population
+    forests: forest,
+    population: population,
+    crops: crop
   };
 }
 
