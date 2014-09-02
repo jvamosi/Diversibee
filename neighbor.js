@@ -50,7 +50,8 @@ var neighbor = function(field, row, col) {
   return {
     forests: forest,
     population: population,
-    crops: crop
+    crops: crop,
+    capacity: (field[row][col].type == "forest" ? 1000 : 0) + (forest*10);
   };
 }
 
