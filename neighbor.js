@@ -6,10 +6,14 @@
 
 // function to determine count of neighboring forests to a cell
 // inputs:
+//   field: field 2d array
 //   row: row of the cell
 //   column: column number of the cell
 // return:
-//   count of neighboring forests around current cell
+//   info on the neighboring cells
+//   forest: count of neighboring forest cells
+//   crops: count of neighboring crop cells
+//   population: sum of bee population in neighboring cells
 var neighbor = function(field, row, col) {
 
   var forest = 0, // count all the forests found
@@ -41,7 +45,8 @@ var neighbor = function(field, row, col) {
     }
   }
 
-  // Return the number of neighboring forests found
+  // Return info on the neighboring cells.
+  // Number of forests/crops, bee population
   return {
     forests: forest,
     population: population,
