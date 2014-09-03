@@ -5,9 +5,8 @@
 //   column: column number of the cell
 // return:
 //   info on the neighboring cells
-//   forest: count of neighboring forest cells
-//   crops: count of neighboring crop cells
-//   population: sum of bee population in neighboring cells
+//   population: sum of bee population in neighboring cells & current cell
+//   capacity: carrying capacity for the current cell
 var neighbor = function(field, row, col) {
 
   var forest = 0, // count all the forests found
@@ -30,12 +29,8 @@ var neighbor = function(field, row, col) {
       if (i == row && j == col) continue;
 
       // Increase count when you find a forest
-      if (field[i][j].type == "forest") {
-        forest++;
-        population += field[i][j].bees.population;
-      } else {
-        crop++;
-      }
+      (field[i][j].type == "forest") ? forest++ : crop++;
+      population += field[i][j].bees.population;
 
     }
   }
@@ -49,9 +44,7 @@ var neighbor = function(field, row, col) {
   // Return info on the neighboring cells.
   // Number of forests/crops, bee population
   return {
-    forests: forest,
     population: population,
-    crops: crop,
     capacity: capacity + (forest*10)
   };
 }

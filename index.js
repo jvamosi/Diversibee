@@ -51,7 +51,12 @@ var F = {
 
 // crop block
 var C = {
-  type: "crop"
+  type: "crop",
+  bees: [{
+    type: "A",
+    population: 1,
+    rate: 0
+  }]
 };
 
 
@@ -99,7 +104,7 @@ var advanceBeePopulation = function(field) {
 
     _(row).each(function(cell, cellIndex) {
 
-      if (cell.type === "forest") {
+      // if (cell.type === "forest") {
 
         var forest = clone(cell);
 
@@ -110,7 +115,7 @@ var advanceBeePopulation = function(field) {
         forest.bees[0].population = forest.bees[0].population * Math.pow(Math.E, intrinsicRateOfIncrease * (1 - forest.bees[0].population / neighbors.capacity));
 
         field[rowIndex][cellIndex] = forest;
-      }
+      // }
 
     }) //cell
   }); //row
@@ -142,3 +147,8 @@ var iterateGameBoard = function(numOfIterations) {
 }
 
 iterateGameBoard(2);
+
+
+c("***** final field *****");
+c(field);
+c("*************************");
