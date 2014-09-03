@@ -104,18 +104,15 @@ var advanceBeePopulation = function(field) {
 
     _(row).each(function(cell, cellIndex) {
 
-      // if (cell.type === "forest") {
+        var currCell = clone(cell);
 
-        var forest = clone(cell);
-
-        // determine how many forest neighbors are there
+        // get info on the current cell
         var neighbors = neighbor(field, rowIndex, cellIndex);
 
         // popsize(t+1) = popsize(t) * e^(intrinsic rate of increase(1-(popsize(t)/carrying capacity))+random variability in rate of increase
-        forest.bees[0].population = forest.bees[0].population * Math.pow(Math.E, intrinsicRateOfIncrease * (1 - forest.bees[0].population / neighbors.capacity));
+        currCell.bees[0].population = currCell.bees[0].population * Math.pow(Math.E, intrinsicRateOfIncrease * (1 - currCell.bees[0].population / neighbors.capacity));
 
-        field[rowIndex][cellIndex] = forest;
-      // }
+        field[rowIndex][cellIndex] = currCell;
 
     }) //cell
   }); //row

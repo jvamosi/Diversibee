@@ -1,17 +1,25 @@
+// CONSTANTS
+
+// base carrying capacity for a forest cell
+var baseForestCapacity = 1000,
+
+// additional carrying capacity added to each neighboring cell
+    neighborForestCapacity = 10;
+
+
 // function to determine count of neighboring forests to a cell
 // inputs:
 //   field: field 2d array
 //   row: row of the cell
 //   column: column number of the cell
 // return:
-//   info on the neighboring cells
-//   population: sum of bee population in neighboring cells & current cell
+//   info on the current cell
+//   population: sum of bee population in neighboring cells including current cell
 //   capacity: carrying capacity for the current cell
 var neighbor = function(field, row, col) {
 
   var forest = 0, // count all the forests found
     population = 0,
-    crop = 0,
     capacity = 0,
     // begin counting one row up, unless already in topmost row
     i = row > 0 ? row - 1 : row,
@@ -25,27 +33,30 @@ var neighbor = function(field, row, col) {
   for (; i <= max_i; i++) {
     for (var j = min_j; j <= max_j; j++) {
 
+      // Add bee population in all blocks
+      population += field[i][j].bees.population;
+
       // Don't add the block you're on!
       if (i == row && j == col) continue;
 
       // Increase count when you find a forest
-      (field[i][j].type == "forest") ? forest++ : crop++;
-      population += field[i][j].bees.population;
-
+      if (field[i][j].type == "forest") forest++
     }
   }
 
-  // If we're currently on a forest, increase capacity and add bee pop'n
+  // If we're currently on a forest, add base capacity
   if(field[row][col].type == "forest"){
-    capacity = 1000;
-    population += field[row][col].bees.population;
+    capacity = baseForestCapacity;
   }
 
   // Return info on the neighboring cells.
   // Number of forests/crops, bee population
   return {
+    // bee population in current cell and in all neighboring cells
     population: population,
-    capacity: capacity + (forest*10)
+
+    // carrying capacity of the current cell
+    capacity: capacity + (forest*neighborForestCapacity)
   };
 }
 
