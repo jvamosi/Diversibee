@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <script src='http://code.createjs.com/easeljs-0.7.1.min.js'></script>
+
+    <script>
+    	function init() {
+
+        stage = new createjs.Stage("demo");
+        // grab canvas width and height for later calculations:
+        w = stage.canvas.width;
+        h = stage.canvas.height;
+
+        handleComplete()
+      }
+
+      function handleComplete() {
+
+        var data = {
+           images: ["http://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Cat_Briciola_with_pretty_and_different_colour_of_eyes.jpg/1024px-Cat_Briciola_with_pretty_and_different_colour_of_eyes.jpg"],
+           frames: {width:20, height:20},
+           animations: {run:[0,1000]}
+        };
+        var spriteSheet = new createjs.SpriteSheet(data);
+        var animation = [];
+
+        for(i=0; i<400; i++){
+          animation[i] = new createjs.Sprite(spriteSheet, "run");
+          animation[i].x = 20*(i%20);
+          animation[i].y = 20*Math.floor(i/20);
+
+          stage.addChild(animation[i]);
+          animation[i].gotoAndPlay("run");
+        }
+
+        setInterval(function(){stage.update();}, 30);
+      }
+    </script>
+  </head>
+
+  <body onload='init()'>
+    <canvas id='demo' width=400 height=400></canvas>
+  </body>
+</html>
