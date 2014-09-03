@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var clone = require('clone');
-var neighbor = require('./neighbor').neighbor;
+var f = require('./field');
+
 
 var util = require('util');
 
@@ -27,7 +28,6 @@ var polinationPercentage = function(beeCount) {
 
 
 
-//TODO: each forest should have a max population size that bees can't exceed
 
 // DEFINITIONS
 // a single forest isolated block would have negative rate of change
@@ -81,15 +81,15 @@ c("*************************");
 var advanceCropProduction = function(field) {
   _(field).each(function(row, rowIndex) {
 
-    _(row).each(function(cell, cellIndex) {
+    _(row).each(function(cell, colIndex) {
 
       if (cell.type === "crop") {
 
         // determine how many forest neighbors are there
-        var neighbors = neighbor(field, rowIndex, cellIndex);
-        // console.log("(", rowIndex, ",", cellIndex, ")");
+        var pop = f.population(field, rowIndex, colIndex);
+        // console.log("(", rowIndex, ",", colIndex, ")");
 
-        productionOutput += polinationPercentage(neighbors.population);
+        productionOutput += polinationPercentage(pop);
       }
 
     }) //cell
@@ -100,17 +100,17 @@ var advanceCropProduction = function(field) {
 var advanceBeePopulation = function(field) {
   _(field).each(function(row, rowIndex) {
 
-    _(row).each(function(cell, cellIndex) {
+    _(row).each(function(cell, colIndex) {
 
         var currCell = clone(cell);
 
         // get info on the current cell
-        var neighbors = neighbor(field, rowIndex, cellIndex);
+        var cap = f.capacity(field, rowIndex, colIndex);
 
         // popsize(t+1) = popsize(t) * e^(intrinsic rate of increase(1-(popsize(t)/carrying capacity))+random variability in rate of increase
-        currCell.bees[0].population = currCell.bees[0].population * Math.pow(Math.E, intrinsicRateOfIncrease * (1 - currCell.bees[0].population / neighbors.capacity));
+        currCell.bees[0].population = currCell.bees[0].population * Math.pow(Math.E, intrinsicRateOfIncrease * (1 - currCell.bees[0].population / cap));
 
-        field[rowIndex][cellIndex] = currCell;
+        field[rowIndex][colIndex] = currCell;
 
     }) //cell
   }); //row
