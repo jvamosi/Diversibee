@@ -20,7 +20,7 @@ var intrinsicRateOfIncrease = 0.1;
 var polinationPercentage = function(beeCount) {
   // polination = base + scale(1-e(-N/1000))
   // N = number of bees
-  return 0 + 100 * (1 - Math.pow(Math.E, beeCount * -1 / 1000));
+  return 0 + 100 * (1 - Math.pow(Math.E, (beeCount * -1) / 1000));
 }
 
 
@@ -54,8 +54,7 @@ var C = {
   type: "crop",
   bees: [{
     type: "A",
-    population: 1,
-    rate: 0
+    population: 1
   }]
 };
 
@@ -90,8 +89,7 @@ var advanceCropProduction = function(field) {
         var neighbors = neighbor(field, rowIndex, cellIndex);
         // console.log("(", rowIndex, ",", cellIndex, ")");
 
-        productionOutput += polinationPercentage(neighbors.capacity);
-
+        productionOutput += polinationPercentage(neighbors.population);
       }
 
     }) //cell

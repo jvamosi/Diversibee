@@ -14,7 +14,7 @@ var baseForestCapacity = 1000,
 //   column: column number of the cell
 // return:
 //   info on the current cell
-//   population: sum of bee population in neighboring cells including current cell
+//   population: bee population in polination range
 //   capacity: carrying capacity for the current cell
 var neighbor = function(field, row, col) {
 
@@ -34,7 +34,7 @@ var neighbor = function(field, row, col) {
     for (var j = min_j; j <= max_j; j++) {
 
       // Add bee population in all blocks
-      population += field[i][j].bees.population;
+      population += field[i][j].bees[0].population;
 
       // Don't add the block you're on!
       if (i == row && j == col) continue;
@@ -46,7 +46,7 @@ var neighbor = function(field, row, col) {
 
   // If we're currently on a forest, add base capacity
   if(field[row][col].type == "forest"){
-    capacity = baseForestCapacity;
+    capacity += baseForestCapacity;
   }
 
   // Return info on the neighboring cells.
