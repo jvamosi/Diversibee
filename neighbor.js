@@ -1,9 +1,3 @@
-// DEFINITIONS
-// a single forest isolated block would have negative rate of change
-
-// need function to update rate of change and population
-
-
 // function to determine count of neighboring forests to a cell
 // inputs:
 //   field: field 2d array
