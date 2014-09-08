@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var clone = require('clone');
-var neighbor = require('./neighbor').neighbor;
+var f = require('./field');
+
 
 var util = require('util');
 
@@ -20,14 +21,13 @@ var intrinsicRateOfIncrease = 0.1;
 var polinationPercentage = function(beeCount) {
   // polination = base + scale(1-e(-N/1000))
   // N = number of bees
-  return 0 + 100 * (1 - Math.pow(Math.E, beeCount * -1 / 1000));
+  return 0 + 100 * (1 - Math.pow(Math.E, (beeCount * -1) / 1000));
 }
 
 
 
 
 
-//TODO: each forest should have a max population size that bees can't exceed
 
 // DEFINITIONS
 // a single forest isolated block would have negative rate of change
@@ -54,8 +54,7 @@ var C = {
   type: "crop",
   bees: [{
     type: "A",
-    population: 1,
-    rate: 0
+    population: 1
   }]
 };
 
@@ -82,16 +81,15 @@ c("*************************");
 var advanceCropProduction = function(field) {
   _(field).each(function(row, rowIndex) {
 
-    _(row).each(function(cell, cellIndex) {
+    _(row).each(function(cell, colIndex) {
 
       if (cell.type === "crop") {
 
         // determine how many forest neighbors are there
-        var neighbors = neighbor(field, rowIndex, cellIndex);
-        // console.log("(", rowIndex, ",", cellIndex, ")");
+        var pop = f.population(field, rowIndex, colIndex);
+        // console.log("(", rowIndex, ",", colIndex, ")");
 
-        productionOutput += polinationPercentage(neighbors.capacity);
-
+        productionOutput += polinationPercentage(pop);
       }
 
     }) //cell
@@ -102,20 +100,17 @@ var advanceCropProduction = function(field) {
 var advanceBeePopulation = function(field) {
   _(field).each(function(row, rowIndex) {
 
-    _(row).each(function(cell, cellIndex) {
+    _(row).each(function(cell, colIndex) {
 
-      // if (cell.type === "forest") {
+        var currCell = clone(cell);
 
-        var forest = clone(cell);
-
-        // determine how many forest neighbors are there
-        var neighbors = neighbor(field, rowIndex, cellIndex);
+        // get info on the current cell
+        var cap = f.capacity(field, rowIndex, colIndex);
 
         // popsize(t+1) = popsize(t) * e^(intrinsic rate of increase(1-(popsize(t)/carrying capacity))+random variability in rate of increase
-        forest.bees[0].population = forest.bees[0].population * Math.pow(Math.E, intrinsicRateOfIncrease * (1 - forest.bees[0].population / neighbors.capacity));
+        currCell.bees[0].population = currCell.bees[0].population * Math.pow(Math.E, intrinsicRateOfIncrease * (1 - currCell.bees[0].population / cap));
 
-        field[rowIndex][cellIndex] = forest;
-      // }
+        field[rowIndex][colIndex] = currCell;
 
     }) //cell
   }); //row
