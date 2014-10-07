@@ -1,4 +1,4 @@
-MoneyBee
+Diversibee
 ========
 
 
