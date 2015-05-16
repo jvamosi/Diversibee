@@ -56,7 +56,7 @@ Here is a quick, high-level orientation of how Diversibee is designed:
  - Diversibee consists of only a few series of functions:
   - **On load**: `init()` establishes the data stores, sets up the initial game state using `setUpBoardState()`, and draws the initial map using `setAnimation()` and `repaintBoard()`.
   - **On click**: When a user clicks a tile on the map to turn it into blueberry crop, `clickCell()` rewrites the appropriate entry in `store.state`, and updates the map image.
-  - **On turn advancement**: `advanceTurn()` is triggered when the 'Next Turn' button is clicked; it uses `updateBeePop()`, `updateBeeGrowth()` and `updateProfits()` to modify the game state.
+  - **On turn advancement**: `advanceTurn()` is triggered when the 'Next Turn' button is clicked; it uses `updateBeePop()`, `updateBeeGrowth()` and `updateProfits()` to modify the game state. In turn, `profits.js` contains all the functions used to update profits each turn, and `beeDynamics.js` contains the functions that govern bee population dynamics.
 
 #### Data Handling
 
