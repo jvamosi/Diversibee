@@ -34,7 +34,7 @@ We're trying to keep the implementation of Diversibee simple, and accessible to 
 
 We're trying to keep contributing to Diversibee friendly for beginners, so please follow these three rules when sending a pull request:
 
- - Start by reading `Understanding Diversibee in 10 Minutes` below.
+ - Start by reading 'Understanding Diversibee in 10 Minutes' below.
  - Functions should be no longer than 50 lines, and should do exactly one thing.
  - A pull request should be at most 400 lines; please send lots of small contributions rather than one enormous one.
  - All new code must be commented clearly, and any changes that impact the high-level design below must be reflected in updates to this document.
