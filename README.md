@@ -30,6 +30,14 @@ The first row are the animation cells for grassland tiles; the second row, for f
 
 We're trying to keep the implementation of Diversibee simple, and accessible to JavaScript newcomers - but, we could always use expert advice on better implementations & testing. 
 
+## Contributing Guidelines
+
+We're trying to keep contributing to Diversibee friendly for beginners, so please follow these three rules when sending a pull request:
+
+ - Functions should be no longer than 50 lines, and should do exactly one thing.
+ - A pull request should be at most 400 lines; please send lots of small contributions rather than one enormous one.
+ - All new code must be commented clearly, and any changes that impact the high-level design below must be reflected in updates to this document.
+
 ## Diversibee in 10 Minutes
 
 Here is a quick, high-level orientation of how Diversibee is designed:
@@ -67,7 +75,7 @@ Here is a quick, high-level orientation of how Diversibee is designed:
  `cash` | current cash available to the player
  `blueberryBuildPrice` | price to turn one tile into blueberry crop.
 
- - The `store.state` object mentioned above is an array of objects, where the ith array element described the ith tile (where tiles are counted left to right across rows, then top to bottom over columns). Each element in this array is an object with the following structure:
+ - The `store.state` object mentioned above is an array of objects, where the ith array element describes the ith tile (where tiles are counted left to right across rows, then top to bottom over columns). Each element in this array is an object with the following structure:
 
  key | value
  ----|------
