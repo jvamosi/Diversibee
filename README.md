@@ -8,7 +8,7 @@ In this project, we'd like to build a simple browser-based game that illustrates
 
 ## Getting Started
 
-Simply open `index.html` in your browser to see what we've got so far.
+Clone the project to your local machine, and open `index.html` in your browser to see what we've got so far.
 
 ## Get Involved
 
@@ -29,3 +29,48 @@ The first row are the animation cells for grassland tiles; the second row, for f
 #### JavaScript Enthusiasts
 
 We're trying to keep the implementation of Diversibee simple, and accessible to JavaScript newcomers - but, we could always use expert advice on better implementations & testing. 
+
+## Diversibee in 10 Minutes
+
+Here is a quick, high-level orientation of how Diversibee is designed:
+
+#### The Game Mechanic
+
+ - Diversibee is played on a grid of tiles; each tile can be either grassland, forest or blueberry crop.
+ - Each turn, the player can spend money to turn a tile into new blueberry crop.
+ - At the end of each turn, profits are awarded to the player based on the current state of the map, but...
+ - ...before profits are awarded, bee populations are adjusted based on the health of their environment, affecting how well crops are pollenated and how much money is made!
+ - The object of the game is to generate the highest per-turn profits in a stable, steady state.
+
+#### The JavaScript
+
+ - Diversibee consists of only a few series of functions:
+  - **On load**: `init()` establishes the data stores, sets up the initial game state using `setUpBoardState()`, and draws the initial map using `setAnimation()` and `repaintBoard()`.
+  - **On click**: When a user clicks a tile on the map to turn it into blueberry crop, `clickCell()` rewrites the appropriate entry in `store.state`, and updates the map image.
+  - **On turn advancement**: `advanceTurn()` is triggered when the 'Next Turn' button is clicked; it uses `updateBeePop()`, `updateBeeGrowth()` and `updateProfits()` to modify the game state.
+
+#### Data Handling
+
+ - Information is stored and exposed for use in a simple global `store` object, that has the following properties:
+
+ key | value
+ ----|------
+ `width` | number of cells in one row of the map
+ `height` | number of cells in one column of the map
+ `state` | an array of objects describing the state of the board (specification below)
+ `animationData` | object encoding the animations for each cell
+ `stage` | easel.js context for drawing the map
+ `mapCell` | array containing the current visualization state of each cell
+ `spriteSheet` | the easel.js spritesheet built from `img/spriteSheet.png`
+ `w` | width in pixels of the map
+ `h` | height in pixels of the map
+ `cash` | current cash available to the player
+ `blueberryBuildPrice` | price to turn one tile into blueberry crop.
+
+ - The `store.state` object mentioned above is an array of objects, where the ith array element described the ith tile (where tiles are counted left to right across rows, then top to bottom over columns). Each element in this array is an object with the following structure:
+
+ key | value
+ ----|------
+ `type` | string, one of 'forest', 'grass' or 'blueberries' - indicates tile type.
+ `beePop` | array of 4 integers, each representing the current population in that tile of each of 4 types of bees.
+ `beeGrowth` | array of 4 integers, each representing the change that the corresponding value in `beePop` will undergo the next time the turn is advanced

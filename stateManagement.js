@@ -104,8 +104,6 @@ function clickCell(i){
     setAnimation(i)
     repaintBoard();
   }
-
-  adjacentCells(i)
 }
 
 function updateCash(income){
