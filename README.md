@@ -22,6 +22,8 @@ Diversibee strives to reflect authentic ecological modeling in its bee populatio
 
 If you're looking at the demo and wondering 'why are there all these horrible flickering colors', it's because the spritesheet for animating the playing area currently looks like this:
 
+![stylesheet](https://raw.githubusercontent.com/BillMills/Diversibee/master/img/spriteSheet.png)
+
 The first row are the animation cells for grassland tiles; the second row, for forest tiles; and the thrid row, for blueberry crop tiles. We need your artistic skills to replace these blocks of flat color with attractive animation frames.
 
 #### JavaScript Enthusiasts
