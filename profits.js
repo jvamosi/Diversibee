@@ -12,7 +12,6 @@ function basicProfits(neighbours){
             bees += neighbour.beePop[k]
         }
     }
-    console.log( bees )
     return bees;
 
 }
