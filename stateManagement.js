@@ -1,3 +1,6 @@
+//functions managing & updating the game state data, consisting of the `store` object and
+//visualization in the browser.
+
 function init() {
   // Initialize the play area on load
 
@@ -18,6 +21,7 @@ function init() {
         }      
     };
   store.stage = new createjs.Stage("board");
+  store.stage.enableMouseOver(10);
   store.mapCell = []
   store.spriteSheet = new createjs.SpriteSheet(store.animationData);
   store.w = store.stage.canvas.width;
@@ -33,6 +37,8 @@ function init() {
 
   //set up turn advancement
   document.getElementById('nextTurn').onclick = advanceTurn
+  //trigger a turn to finish configuring the board
+  advanceTurn(); 
 
 }
 
@@ -75,6 +81,7 @@ function setAnimation(i){
   store.mapCell[i].x = 20*(i%store.width);
   store.mapCell[i].y = 20*Math.floor(i/store.width);
   store.mapCell[i].addEventListener('click', clickCell.bind(this,i) )
+  store.mapCell[i].addEventListener('mouseover', showStats.bind(this,i) )
 
   store.stage.addChild(store.mapCell[i]);
   store.mapCell[i].play(store.state[i].type);  
@@ -104,6 +111,20 @@ function clickCell(i){
     setAnimation(i)
     repaintBoard();
   }
+}
+
+function showStats(i){
+  //display the current state of cell i in a text box.
+
+  var text = 'Current State of cell ' + i +':<br>';
+
+  text += 'Type: ' + store.state[i].type + '<br>';
+
+  text += 'Bee Populations: ' + store.state[i].beePop + '<br>';
+
+  text += 'Bee Growth Rates: ' + store.state[i].beeGrowth
+
+  document.getElementById('cellStats').innerHTML = text;
 }
 
 function updateCash(income){
@@ -144,41 +165,13 @@ function updateBeePop(i){
 function updateBeeGrowth(i, neighbours){
   //update the growth rate for the bee populations in cell i based on effects from the cell's nearest neighbours
 
+  baseBeeSpawning(i);
+  forestEdgeEffect(i, neighbours)
+
 }
 
 function updateProfits(i, neighbours){
   //collect profits from cell i, modified by its nearest neghbours
-}
 
-function adjacentCells(i){
-  //return a list of cell objects corresponding to the neighbours of cell i
-
-  var neighbours = [],
-  j, neighbourIndex;
-
-  //three above:
-  for(j=-1; j<2; j++){
-    neighbourIndex = i-store.width + j
-    if(neighbourIndex >= 0 && Math.floor(neighbourIndex/store.width) == Math.floor((i-store.width)/store.width) ){
-      neighbours.push(store.state[neighbourIndex]);
-    }
-  }
-
-  //two beside
-  if(i-1 > Math.floor(i/store.width)*store.width){
-    neighbours.push(store.state[i-1]);
-  }
-  if(i+1 < Math.floor(i/store.width)*store.width + store.width){
-    neighbours.push(store.state[i+1]);
-  }
-
-  //three below
-  for(j=-1; j<2; j++){
-    neighbourIndex = i+store.width + j
-    if(neighbourIndex < store.width*store.height && Math.floor(neighbourIndex/store.width) == Math.floor((i+store.width)/store.width) ){
-      neighbours.push(store.state[neighbourIndex]);
-    }
-  }
-
-  return neighbours
+  updateCash(basicProfits(neighbours))
 }

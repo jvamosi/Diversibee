@@ -18,6 +18,8 @@ Diversibee needs all kinds of different contributors - have a look at these majo
 
 Diversibee strives to reflect authentic ecological modeling in its bee populations. Every turn, bee populations in the forests are updated based on the health of the local forest region, and on bee migrations between areas of forest. Ecologists, we need your help to identify what real-world effects we can try to model in game; algorithm designers, we'll need your help to implement those models.
 
+The main wiki has a digest of the current set of rules governing [bee dynamics](https://github.com/jvamosi/Diversibee/wiki/Bee-Dynamics), and another for the current state of [profit dynamics](https://github.com/jvamosi/Diversibee/wiki/Profit-Dynamics); start here to get an understanding of the model so far, and expand from there! There are a number of [proposed enhancements](https://github.com/jvamosi/Diversibee/labels/enhancement) in the issue tracker, too, if you're looking for a place to start.
+
 #### Artists & Designers
 
 If you're looking at the demo and wondering 'why are there all these horrible flickering colors', it's because the spritesheet for animating the playing area currently looks like this:
@@ -26,18 +28,21 @@ If you're looking at the demo and wondering 'why are there all these horrible fl
 
 The first row are the animation cells for grassland tiles; the second row, for forest tiles; and the thrid row, for blueberry crop tiles. We need your artistic skills to replace these blocks of flat color with attractive animation frames.
 
+Please, discuss stylesheet ideas and questions [here](https://github.com/jvamosi/Diversibee/issues/23), and feel free to open further issues regarding art & design.
+
 #### JavaScript Enthusiasts
 
 We're trying to keep the implementation of Diversibee simple, and accessible to JavaScript newcomers - but, we could always use expert advice on better implementations & testing. 
 
 ## Contributing Guidelines
 
-We're trying to keep contributing to Diversibee friendly for beginners, so please follow these three rules when sending a pull request:
+We're trying to keep contributing to Diversibee friendly for beginners, so please follow these rules when sending a pull request:
 
  - Start by reading 'Understanding Diversibee in 10 Minutes' below.
  - Functions should be no longer than 50 lines, and should do exactly one thing.
  - A pull request should be at most 400 lines; please send lots of small contributions rather than one enormous one.
  - All new code must be commented clearly, and any changes that impact the high-level design below must be reflected in updates to this document.
+ - Open issues early (like first thing) in the development process to let everyone know what you're working on.
 
 ## Understanding Diversibee in 10 Minutes
 
@@ -56,7 +61,7 @@ Here is a quick, high-level orientation of how Diversibee is designed:
  - Diversibee consists of only a few series of functions:
   - **On load**: `init()` establishes the data stores, sets up the initial game state using `setUpBoardState()`, and draws the initial map using `setAnimation()` and `repaintBoard()`.
   - **On click**: When a user clicks a tile on the map to turn it into blueberry crop, `clickCell()` rewrites the appropriate entry in `store.state`, and updates the map image.
-  - **On turn advancement**: `advanceTurn()` is triggered when the 'Next Turn' button is clicked; it uses `updateBeePop()`, `updateBeeGrowth()` and `updateProfits()` to modify the game state.
+  - **On turn advancement**: `advanceTurn()` is triggered when the 'Next Turn' button is clicked; it uses `updateBeePop()`, `updateBeeGrowth()` and `updateProfits()` to modify the game state. In turn, `profits.js` contains all the functions used to update profits each turn, and `beeDynamics.js` contains the functions that govern bee population dynamics.
 
 #### Data Handling
 
