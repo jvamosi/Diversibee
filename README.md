@@ -18,7 +18,7 @@ Diversibee needs all kinds of different contributors - have a look at these majo
 
 Diversibee strives to reflect authentic ecological modeling in its bee populations. Every turn, bee populations in the forests are updated based on the health of the local forest region, and on bee migrations between areas of forest. Ecologists, we need your help to identify what real-world effects we can try to model in game; algorithm designers, we'll need your help to implement those models.
 
-The main wiki has a digest of the current set of rules governing [bee dynamics](https://github.com/jvamosi/Diversibee/wiki/Bee-Dynamics), and another for the current state of [profit dynamics](https://github.com/jvamosi/Diversibee/wiki/Profit-Dynamics); start here to get an understanding of the model so far, and expand from there!
+The main wiki has a digest of the current set of rules governing [bee dynamics](https://github.com/jvamosi/Diversibee/wiki/Bee-Dynamics), and another for the current state of [profit dynamics](https://github.com/jvamosi/Diversibee/wiki/Profit-Dynamics); start here to get an understanding of the model so far, and expand from there! There are a number of [proposed enhancements](https://github.com/jvamosi/Diversibee/labels/enhancement) in the issue tracker, too, if you're looking for a place to start.
 
 #### Artists & Designers
 
