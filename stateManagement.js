@@ -50,9 +50,18 @@ function setUpBoardState(cellsWide, cellsHigh){
   var cells = [],
     isForest,
     i;
+    var distanceFromSeedCell;
+  
+  //The likelihood a cell contains a "seed"; probability bound 0 <= seedRate <= 1
+  var seedRate = 0.02;
+  //Cells containing an initial "seed". Seeds are used to determine the inital forest growth
+  var seededCells = generateUniqueRandomCells(cellsHigh, cellsWide, (cellsHigh*cellsWide*seedRate));
 
   for(i=0; i<cellsWide*cellsHigh; i++){
-    isForest = Math.random() > 0.5
+    
+  distanceFromSeedCell = distancefromSeed(i, cellsWide, seededCells);
+  //Does this cell initially become a forest based on the cell's seed proximity
+  isForest = shouldGrowForest(distanceFromSeedCell);
 
     if(isForest){
       cells[i] = {
@@ -175,3 +184,49 @@ function updateProfits(i, neighbours){
 
   updateCash(basicProfits(neighbours))
 }
+
+function distancefromSeed(cell, width, seededCells) {
+  //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
+  var distance = Number.MAX_SAFE_INTEGER;
+  var i;
+  var temp_dist;
+
+  for(i=0; i<seededCells.length; i++){
+      temp_dist = distanceBetweenCells(seededCells[i], cell, width);
+      distance = Math.min(distance, temp_dist);
+  }
+  return distance;
+}
+
+function distanceBetweenCells(cellA, cellB, boardWidth) {
+  //returns the distance between cell A and cell B
+
+  var xDiff = (cellA % boardWidth) - (cellB % boardWidth);
+  var yDiff = (Math.floor(cellA / boardWidth)) - (Math.floor(cellB / boardWidth));
+  return Math.abs(xDiff) + Math.abs(yDiff);
+
+}
+
+function shouldGrowForest(distanceFromSeed) {
+  //A simple forest growth algorithm which clusters around seed locations
+
+  return distanceFromSeed + distanceFromSeed * Math.random() < 5;
+}
+
+function generateUniqueRandomCells(height, width, numberOfCells) {
+  //Returns an array of unique random cells
+
+   var uniqueRandomCells = [];
+   var i;
+   //we can safely choose the first unique random cell number
+   var cellNumber = Math.floor(Math.random() * (height * width));
+   
+   for(i=0; i<numberOfCells; i++) {
+    while ( inArray(cellNumber, uniqueRandomCells) ) {
+      cellNumber = Math.floor(Math.random() * (height * width));
+    }
+    uniqueRandomCells.push(cellNumber);
+   }
+   return uniqueRandomCells;
+}
+
