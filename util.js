@@ -32,3 +32,16 @@ function adjacentCells(i){
 
   return neighbours
 }
+
+function inArray(needle, haystack) {
+  //Determine if item is in array
+  //Borrowed from: http://stackoverflow.com/questions/784012/javascript-equivalent-of-phps-in-array
+    var length = haystack.length;
+    var i;
+    for(i = 0; i < length; i++) {
+        if(haystack[i] === needle) {
+          return true;
+        }
+    }
+    return false;
+}
