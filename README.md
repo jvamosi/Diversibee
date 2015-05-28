@@ -22,13 +22,11 @@ The main wiki has a digest of the current set of rules governing [bee dynamics](
 
 #### Artists & Designers
 
-If you're looking at the demo and wondering 'why are there all these horrible flickering colors', it's because the spritesheet for animating the playing area currently looks like this:
+The spritesheet for animating the playing area currently looks like this:
 
 ![stylesheet](https://raw.githubusercontent.com/BillMills/Diversibee/master/img/spriteSheet.png)
 
-The first row are the animation cells for grassland tiles; the second row, for forest tiles; and the thrid row, for blueberry crop tiles. We need your artistic skills to replace these blocks of flat color with attractive animation frames.
-
-Please, discuss stylesheet ideas and questions [here](https://github.com/jvamosi/Diversibee/issues/23), and feel free to open further issues regarding art & design.
+The first row are the animation cells for grassland tiles; the second row, for forest tiles; and the thrid row, for blueberry crop tiles. We'd love suggestions on how to expand this spritesheet, or any other ideas you have on how to make the visual experience of Diversibee as elegant as possible.
 
 #### JavaScript Enthusiasts
 
