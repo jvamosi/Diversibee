@@ -38,8 +38,7 @@
     return cells;
   }
 
-  function setCellType(i, cells, typeName)
-  {
+  function setCellType(i, cells, typeName) {
     var currentTypeName = cells[ i ];
 
     addToTypeCount(Diversibee.store.typeCount[ currentTypeName ], -1);
@@ -50,8 +49,7 @@
 
   // Add quantity to counter to typeName in store
   // Maintains bounds on type quantities
-  function addToTypeCount(typeName, quantity)
-  {
+  function addToTypeCount(typeName, quantity) {
     var currentQuantity = Diversibee.store.typeCount[ typeName ];
 
     if (!currentQuantity) {
@@ -130,16 +128,14 @@
     addToProfits(Profits.basicProfits(neighbours));
   }
 
-  function calculateLevelOneProfit()
-  {
+  function calculateLevelOneProfit() {
     var blueberryCount = Diversibee.store.typeCount.blueberries;
     var treeCount = Diversibee.store.typeCount.forest;
 
     return blueberryCount * treeCount;
   }
 
-  function updateProfitLv1()
-  {
+  function updateProfitLv1() {
     var profits = calculateLevelOneProfit();
 
     Diversibee.store.profit = profits;
