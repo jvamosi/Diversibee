@@ -34,7 +34,7 @@
         }
 
         return neighbours;
-    }
+    };
 
     Utils.inArray = function(needle, haystack) {
         //Determine if item is in array
@@ -48,8 +48,7 @@
             }
         }
         return false;
-    }
-
+    };
 
     window.Utils = Utils;
 })();
