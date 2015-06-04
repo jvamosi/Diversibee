@@ -8,7 +8,7 @@
     function _equalsObject(val, expected) {
         //Naive, quick and dirty but working object comparison
 
-        return JSON.stringify(val) === JSON.stringify(expected) ;
+        return JSON.stringify(val) === JSON.stringify(expected);
     }
 
     function _dumpResult(val, linkWord, expected, equals) {
