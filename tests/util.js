@@ -11,7 +11,7 @@ tests.addSuite([
         tests.isA(Utils.inArray, 'function');
     },
     function() {
-        //Test inArray
+        //Test Utils.inArray
 
         //Test if an element is in an empty array
         tests.equals(Utils.inArray(1, []), false);
