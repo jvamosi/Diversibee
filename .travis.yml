@@ -1,0 +1,9 @@
+language:  node_js
+install:
+  - "npm install -g jshint"
+script:
+  - "jshint ."
+notifications:
+  irc:
+    channels:
+      - "irc.mozilla.org#diversibee"
