@@ -79,14 +79,13 @@
 
     function clickCell(i) {
         //handle when a player clicks on the ith cell
-
     }
 
     function addToProfits(income) {
         //update the farmer's bank account
 
         Diversibee.store.profit += income;
-        document.getElementById('profitText').innerHTML = '$'+Diversibee.store.cash;
+        document.getElementById('profit-value').innerHTML = '$'+Diversibee.store.cash;
     }
 
     function addCellProfitsToProfits(i, neighbours) {
