@@ -1,8 +1,9 @@
 language:  node_js
 install:
-  - "npm install -g jshint"
+  - "npm install -g jshint jscs"
 script:
-  - "jshint ."
+  - "jshint js"
+  - "jscs js"
 notifications:
   irc:
     channels:
