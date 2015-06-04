@@ -186,12 +186,64 @@
 		return uniqueRandomCells;
 	}
 
+	/**
+	 * Public methods
+	 */
 	Diversibee.init = function () {
+		// Initialize the play area on load
 
+		var i;
+
+		//declare global store with default values
+		store = {}
+		store.width = 20
+		store.height = 20
+		store.state = setUpBoardState(store.width, store.height);
+		store.animationData = {
+			images: ["img/spriteSheet.png"],
+			frames: {width:20, height:20},
+			animations: {
+				grass: [0,3],
+				forest: [4,7],
+				blueberries: [8,11]
+			}
+		};
+		store.stage = new createjs.Stage("board");
+		store.stage.enableMouseOver(10);
+		store.mapCell = []
+		store.spriteSheet = new createjs.SpriteSheet(store.animationData);
+		store.w = store.stage.canvas.width;
+		store.h = store.stage.canvas.height;
+		store.cash = 1000
+		store.blueberryBuildPrice = 100
+
+		//set up initial cell animationsL
+		for(i=0; i<store.width*store.height; i++) {
+			setAnimation(i);
+		}
+		//paint the initial state of the board
+		repaintBoard()
+
+		//set up turn advancement
+		document.getElementById("nextTurn").onclick = advanceTurn
+		//trigger a turn to finish configuring the board
+		Diversibee.advanceTurn();
 	};
 
 	Diversibee.advanceTurn = function () {
+		//trigger to advance to next turn
 
+		var i;
+
+		//update bee populations in forests & gather profits from blueberries
+		for(i=0; i<store.width*store.height; i++) {
+			if(store.state[i].type === "forest") {
+				updateBeePop(i);
+				updateBeeGrowth(i, adjacentCells(i));
+			} else if (store.state[i].type === "blueberries") {
+				supdateProfits(i, adjacentCells(i));
+			}
+		}
 	};
 
 	window.Diversibee = Diversibee;
