@@ -53,7 +53,6 @@ var Diversibee = (function() {
 
   function distanceFromSeed(coords, seeds) {
     //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
-
     return seeds.reduce(function(prevDistance, seed) {
       return Math.min(prevDistance, coords.distanceFrom(seed));
     }, Number.MAX_SAFE_INTEGER);
