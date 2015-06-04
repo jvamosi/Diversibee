@@ -181,7 +181,7 @@
         var cellNumber = Math.floor(Math.random() * (height * width));
 
         for(i=0; i<numberOfCells; i++) {
-            while ( inArray(cellNumber, uniqueRandomCells) ) {
+            while ( Utils.inArray(cellNumber, uniqueRandomCells) ) {
                 cellNumber = Math.floor(Math.random() * (height * width));
             }
             uniqueRandomCells.push(cellNumber);
@@ -242,9 +242,9 @@
         for(i=0; i<store.width*store.height; i++) {
             if(store.state[i].type === "forest") {
                 updateBeePop(i);
-                updateBeeGrowth(i, adjacentCells(i));
+                updateBeeGrowth(i, Utils.adjacentCells(i));
             } else if (store.state[i].type === "blueberries") {
-                supdateProfits(i, adjacentCells(i));
+                supdateProfits(i, Utils.adjacentCells(i));
             }
         }
     };
