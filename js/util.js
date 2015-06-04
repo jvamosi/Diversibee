@@ -1,17 +1,17 @@
-(function () {
+(function() {
     //helper functions and general utilities
 
     var Utils = {};
 
-    Utils.adjacentCells = function (i){
+    Utils.adjacentCells = function(i) {
         //return a list of cell objects corresponding to the neighbours of cell i
 
         var neighbours = [],
-        j, neighbourIndex;
+            j, neighbourIndex;
 
         //three above:
         for(j=-1; j<2; j++) {
-            neighbourIndex = i-store.width + j
+            neighbourIndex = i-store.width + j;
             if(neighbourIndex >= 0 && Math.floor(neighbourIndex/store.width) === Math.floor((i-store.width)/store.width)) {
                 neighbours.push(store.state[neighbourIndex]);
             }
@@ -26,7 +26,7 @@
         }
 
         //three below
-        for(j=-1; j<2; j++){
+        for(j=-1; j<2; j++) {
             neighbourIndex = i+store.width + j
             if(neighbourIndex < store.width*store.height && Math.floor(neighbourIndex/store.width) === Math.floor((i+store.width)/store.width)) {
                 neighbours.push(store.state[neighbourIndex]);

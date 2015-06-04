@@ -1,4 +1,4 @@
-(function () {
+(function() {
     //functions managing & updating the game state data, consisting of the `store` object and
     //visualization in the browser.
 
@@ -20,23 +20,23 @@
             seededCells = generateUniqueRandomCells(cellsHigh, cellsWide, (cellsHigh*cellsWide*seedRate));
 
 
-        for(i=0; i<cellsWide*cellsHigh; i++){
+        for(i=0; i<cellsWide*cellsHigh; i++) {
             distanceFromSeedCell = distancefromSeed(i, cellsWide, seededCells);
             //Does this cell initially become a forest based on the cell"s seed proximity
             isForest = shouldGrowForest(distanceFromSeedCell);
 
-            if(isForest){
+            if(isForest) {
                 cells[i] = {
                     type: "forest",
                     beePop: [Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), Math.floor(Math.random()*1000)],
                     beeGrowth: [0,0,0,0]
-                }
+                };
             } else {
                 cells[i] = {
                     type: "grass",
                     beePop: [0,0,0,0],
                     beeGrowth: [0,0,0,0]
-                }
+                };
             }
         }
 
@@ -65,7 +65,7 @@
         }
 
         store.stage.update();
-        store.animationLoop = setInterval(function(){store.stage.update();}, 300);
+        store.animationLoop = setInterval(function() {store.stage.update();}, 300);
     }
 
     function clickCell(i) {
@@ -77,9 +77,9 @@
                 type: "blueberries",
                 beePop: [0,0,0,0],
                 beeGrowth: [0,0,0,0]
-            }
+            };
             updateCash(-1*store.blueberryBuildPrice);
-            setAnimation(i)
+            setAnimation(i);
             repaintBoard();
         }
     }
@@ -105,7 +105,7 @@
         document.getElementById("bank").innerHTML = "$"+store.cash;
     }
 
-    function advanceTurn(){
+    function advanceTurn() {
         //trigger to advance to next turn
 
         var i;
@@ -115,7 +115,7 @@
             if(store.state[i].type === "forest") {
                 updateBeePop(i);
                 updateBeeGrowth(i, Utils.adjacentCells(i));
-            } else if (store.state[i].type === "blueberries") {
+            } else if(store.state[i].type === "blueberries") {
                 updateProfits(i, Utils.adjacentCells(i));
             }
         }
@@ -151,7 +151,7 @@
             i,
             temp_dist;
 
-        for(i=0; i<seededCells.length; i++){
+        for(i=0; i<seededCells.length; i++) {
             temp_dist = distanceBetweenCells(seededCells[i], cell, width);
             distance = Math.min(distance, temp_dist);
         }
@@ -192,15 +192,15 @@
     /**
      * Public methods
      */
-    Diversibee.init = function () {
+    Diversibee.init = function() {
         // Initialize the play area on load
 
         var i;
 
         //declare global store with default values
-        store = {}
-        store.width = 20
-        store.height = 20
+        store = {};
+        store.width = 20;
+        store.height = 20;
         store.state = setUpBoardState(store.width, store.height);
         store.animationData = {
             images: ["img/spriteSheet.png"],
@@ -213,27 +213,27 @@
         };
         store.stage = new createjs.Stage("board");
         store.stage.enableMouseOver(10);
-        store.mapCell = []
+        store.mapCell = [];
         store.spriteSheet = new createjs.SpriteSheet(store.animationData);
         store.w = store.stage.canvas.width;
         store.h = store.stage.canvas.height;
-        store.cash = 1000
-        store.blueberryBuildPrice = 100
+        store.cash = 1000;
+        store.blueberryBuildPrice = 100;
 
         //set up initial cell animationsL
         for(i=0; i<store.width*store.height; i++) {
             setAnimation(i);
         }
         //paint the initial state of the board
-        repaintBoard()
+        repaintBoard();
 
         //set up turn advancement
-        document.getElementById("nextTurn").onclick = advanceTurn
+        document.getElementById("nextTurn").onclick = advanceTurn;
         //trigger a turn to finish configuring the board
         Diversibee.advanceTurn();
     };
 
-    Diversibee.advanceTurn = function () {
+    Diversibee.advanceTurn = function() {
         //trigger to advance to next turn
 
         var i;
@@ -243,7 +243,7 @@
             if(store.state[i].type === "forest") {
                 updateBeePop(i);
                 updateBeeGrowth(i, Utils.adjacentCells(i));
-            } else if (store.state[i].type === "blueberries") {
+            } else if(store.state[i].type === "blueberries") {
                 supdateProfits(i, Utils.adjacentCells(i));
             }
         }
