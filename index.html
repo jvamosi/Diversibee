@@ -8,15 +8,15 @@
     <script src='beeDynamics.js'></script>
   </head>
 
-  <body onload='init()'>
-    <h2>Play area</h2>  
+  <body onload='Diversibee.init()'>
+    <h2>Play area</h2>
     <div style='display: inline-block;'>
       <canvas id='board' width=400 height=400></canvas>
       <p id='cellStats'></p>
     </div>
     <h4>Click to plant some blueberries!</h4>
     <h4 id='bank'>$1000</h4>
-    <input id='nextTurn' click="advanceTurn()" type='button' value='Next Turn'></input>
+    <input id='nextTurn' click="Diversibee.advanceTurn()" type='button' value='Next Turn'></input>
 
 
   </body>
