@@ -114,9 +114,9 @@
         for(i=0; i<store.width*store.height; i++) {
             if(store.state[i].type === "forest") {
                 updateBeePop(i);
-                updateBeeGrowth(i, adjacentCells(i));
+                updateBeeGrowth(i, Utils.adjacentCells(i));
             } else if (store.state[i].type === "blueberries") {
-                updateProfits(i, adjacentCells(i));
+                updateProfits(i, Utils.adjacentCells(i));
             }
         }
     }
