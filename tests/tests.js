@@ -84,7 +84,7 @@
 
         for(s = 0; s < suites.length; s++) {
             displayElement.innerHTML += '<h2>Tests for ' + suites[s][0] + '</h2>';
-            for (t = 0; t < suites[s].length; t++) {
+            for (t = 0; t < suites[s][1].length; t++) {
                 suites[s][1][t]();
             }
         }
