@@ -42,6 +42,7 @@ We're trying to keep contributing to Diversibee friendly for beginners, so pleas
  - A pull request should be at most 400 lines; please send lots of small contributions rather than one enormous one.
  - All new code must be commented clearly, and any changes that impact the high-level design below must be reflected in updates to this document.
  - Open issues early (like first thing) in the development process to let everyone know what you're working on.
+ - Code is checked with [JSHint](http://jshint.com/), so you may wish to run it on your code locally before submitting.
 
 ## Understanding Diversibee in 10 Minutes
 
