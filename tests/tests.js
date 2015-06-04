@@ -53,9 +53,9 @@
         }
 
         _dumpResult(
-            val.toString && val.toString() || val,
+            val && val.toString && val.toString() || val,
             ' equals ',
-            expected.toString && expected.toString() || expected,
+            expected && expected.toString && expected.toString() || expected,
             equals
         );
         return equals;
