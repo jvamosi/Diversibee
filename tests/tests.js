@@ -61,6 +61,10 @@
         return equals;
     };
 
+    tests.isA = function(val, type) {
+        return typeof(val) === type;
+    };
+
     tests.addSuite = function(suite) {
         suites.push(suite);
     };
