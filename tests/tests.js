@@ -62,7 +62,15 @@
     };
 
     tests.isA = function(val, type) {
-        return typeof(val) === type;
+        var equals = typeof(val) === type;
+
+        _dumpResult(
+            (val.toString && val.toString() || val).substring(0, 20) + ' (' + typeof(val) + ')',
+            ' is a ',
+            type,
+            equals
+        );
+        return equals;
     };
 
     tests.addSuite = function(suite) {
