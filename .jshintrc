@@ -1,0 +1,10 @@
+{
+  // Documentation: http://www.jshint.com/docs/options/
+  "browser": true,
+  "esnext": true,
+  "globals": {},
+  "globalstrict": false,
+  "quotmark": true,
+  "undef": true,
+  "unused": true
+}
