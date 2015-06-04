@@ -104,6 +104,7 @@
 
   function clickCell(i) {
     //handle when a player clicks on the ith cell
+   
   }
 
   function addToProfits(income) {
@@ -125,6 +126,14 @@
     var treeCount = Diversibee.store.typeCount.forest;
 
     return blueberryCount * treeCount;
+  }
+  
+  function updateProfitLv1()
+  {
+    var profits = calculateLevelOneProfit();
+     
+    Diversibee.store.profit = profits;
+    document.getElementById('profit-value').innerHTML = '$' + profits;
   }
 
   function distancefromSeed(cell, width, seededCells) {
