@@ -26,23 +26,47 @@
             isForest = shouldGrowForest(distanceFromSeedCell);
 
             if(isForest) {
-                cells[i] = {
-                    type: 'forest',
-                    beePop: [Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), Math.floor(Math.random()*1000)],
-                    beeGrowth: [0,0,0,0]
-                };
+		addToCell( i, cells, 'forest' );
             } else {
-                cells[i] = {
-                    type: 'grass',
-                    beePop: [0,0,0,0],
-                    beeGrowth: [0,0,0,0]
-                };
+		addToCell( i, cells, 'grass' );
             }
         }
 
         return cells;
     }
 
+    function addToCell( i, cells, typeName )
+    {
+	var currentTypeName = cells[ i ];
+
+	addToTypeCount( Diversibee.store.typeCount[ currentTypeName ], -1 );
+	addToTypeCount( Diversibee.store.typeCount[ typeName ], 1 );
+
+    	cells[ i ] = { type: typeName };
+    }
+
+    // Add quantity to counter to typeName in store 
+    // Maintains bounds on type quantities
+    function addToTypeCount( typeName, quantity )
+    {
+	var currentQuantity = Diversibee.store.typeCount[ typeName ];
+
+	if( !currentQuantity ){
+		console.log( 
+				'addToTypeCount(): ' +
+			       	typeName +
+				' not recognized' );
+		return;
+	}
+
+	currentQuantity += quantity;
+	if( currentQuantity < 0 )
+	{
+		currentQuantity = 0;	
+	}
+
+	Diversibee.store.typeCount[ typeName ] = currentQuantity;
+    }
 
     function setAnimation(i) {
         //set up the animation for cell i
@@ -92,6 +116,14 @@
         //collect profits from cell i, modified by its nearest neghbours
 
        	addToProfits(Profits.basicProfits(neighbours));
+    }
+
+    function calculateLevelOneProfit()
+    {
+	    var blueberryCount = Diversibee.store.typeCount.blueberries;
+	    var treeCount = Diversibee.store.typeCount.forest;
+
+	    return blueberryCount * treeCount;
     }
 
     function distancefromSeed(cell, width, seededCells) {
@@ -159,6 +191,13 @@
                 blueberries: [8,11]
             }
         };
+
+	// Stores current total number of each type, updated by addTypeToCell()
+	Diversibee.store.typeCount = { 
+		grass: 0,
+		forest: 0,
+		blueberries: 0
+	};
         Diversibee.store.stage = new createjs.Stage('board');
         Diversibee.store.stage.enableMouseOver(10);
         Diversibee.store.mapCell = [];
