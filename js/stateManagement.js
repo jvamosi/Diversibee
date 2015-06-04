@@ -47,38 +47,38 @@
     function setAnimation(i) {
         //set up the animation for cell i
 
-        store.mapCell[i] = new createjs.Sprite(store.spriteSheet, store.state[i].type);
-        store.mapCell[i].x = 20*(i%store.width);
-        store.mapCell[i].y = 20*Math.floor(i/store.width);
-        store.mapCell[i].addEventListener("click", clickCell.bind(this, i));
-        store.mapCell[i].addEventListener("mouseover", showStats.bind(this, i));
+        Diversibee.store.mapCell[i] = new createjs.Sprite(Diversibee.store.spriteSheet, Diversibee.store.state[i].type);
+        Diversibee.store.mapCell[i].x = 20*(i%Diversibee.store.width);
+        Diversibee.store.mapCell[i].y = 20*Math.floor(i/Diversibee.store.width);
+        Diversibee.store.mapCell[i].addEventListener("click", clickCell.bind(this, i));
+        Diversibee.store.mapCell[i].addEventListener("mouseover", showStats.bind(this, i));
 
-        store.stage.addChild(store.mapCell[i]);
-        store.mapCell[i].play(store.state[i].type);
+        Diversibee.store.stage.addChild(Diversibee.store.mapCell[i]);
+        Diversibee.store.mapCell[i].play(Diversibee.store.state[i].type);
     }
 
     function repaintBoard() {
         //re-paints the board state
 
-        if(store.animationLoop) {
-            clearInterval(store.animationLoop);
+        if(Diversibee.store.animationLoop) {
+            clearInterval(Diversibee.store.animationLoop);
         }
 
-        store.stage.update();
-        store.animationLoop = setInterval(function() {store.stage.update();}, 300);
+        Diversibee.store.stage.update();
+        Diversibee.store.animationLoop = setInterval(function() {Diversibee.store.stage.update();}, 300);
     }
 
     function clickCell(i) {
         //handle when a player clicks on the ith cell
 
         //change the clicked cell to a blueberry patch
-        if(store.cash >=100 && store.state[i].type !== "blueberries") {
-            store.state[i] = {
+        if(Diversibee.store.cash >=100 && Diversibee.store.state[i].type !== "blueberries") {
+            Diversibee.store.state[i] = {
                 type: "blueberries",
                 beePop: [0,0,0,0],
                 beeGrowth: [0,0,0,0]
             };
-            updateCash(-1*store.blueberryBuildPrice);
+            updateCash(-1*Diversibee.store.blueberryBuildPrice);
             setAnimation(i);
             repaintBoard();
         }
@@ -89,11 +89,11 @@
 
         var text = "Current State of cell " + i +":<br>";
 
-        text += "Type: " + store.state[i].type + "<br>";
+        text += "Type: " + Diversibee.store.state[i].type + "<br>";
 
-        text += "Bee Populations: " + store.state[i].beePop + "<br>";
+        text += "Bee Populations: " + Diversibee.store.state[i].beePop + "<br>";
 
-        text += "Bee Growth Rates: " + store.state[i].beeGrowth;
+        text += "Bee Growth Rates: " + Diversibee.store.state[i].beeGrowth;
 
         document.getElementById("cellStats").innerHTML = text;
     }
@@ -101,8 +101,8 @@
     function updateCash(income) {
         //update the farmer"s bank account
 
-        store.cash += income;
-        document.getElementById("bank").innerHTML = "$"+store.cash;
+        Diversibee.store.cash += income;
+        document.getElementById("bank").innerHTML = "$"+Diversibee.store.cash;
     }
 
     function advanceTurn() {
@@ -111,11 +111,11 @@
         var i;
 
         //update bee populations in forests & gather profits from blueberries
-        for(i=0; i<store.width*store.height; i++) {
-            if(store.state[i].type === "forest") {
+        for(i=0; i<Diversibee.store.width*Diversibee.store.height; i++) {
+            if(Diversibee.store.state[i].type === "forest") {
                 updateBeePop(i);
                 updateBeeGrowth(i, Utils.adjacentCells(i));
-            } else if(store.state[i].type === "blueberries") {
+            } else if(Diversibee.store.state[i].type === "blueberries") {
                 updateProfits(i, Utils.adjacentCells(i));
             }
         }
@@ -126,9 +126,9 @@
 
         var j;
 
-        for(j=0; j<store.state[i].beePop.length; j++) {
-            store.state[i].beePop[j] += store.state[i].beeGrowth[j];
-            store.state[i].beePop[j] = Math.max(0, store.state[i].beePop[j]);
+        for(j=0; j<Diversibee.store.state[i].beePop.length; j++) {
+            Diversibee.store.state[i].beePop[j] += Diversibee.store.state[i].beeGrowth[j];
+            Diversibee.store.state[i].beePop[j] = Math.max(0, Diversibee.store.state[i].beePop[j]);
         }
     }
 
@@ -198,11 +198,10 @@
         var i;
 
         //declare global store with default values
-        store = {};
-        store.width = width;
-        store.height = height;
-        store.state = setUpBoardState(store.width, store.height);
-        store.animationData = {
+        Diversibee.store.width = width;
+        Diversibee.store.height = height;
+        Diversibee.store.state = setUpBoardState(Diversibee.store.width, Diversibee.store.height);
+        Diversibee.store.animationData = {
             images: ["img/spriteSheet.png"],
             frames: {width:20, height:20},
             animations: {
@@ -211,17 +210,17 @@
                 blueberries: [8,11]
             }
         };
-        store.stage = new createjs.Stage("board");
-        store.stage.enableMouseOver(10);
-        store.mapCell = [];
-        store.spriteSheet = new createjs.SpriteSheet(store.animationData);
-        store.w = store.stage.canvas.width;
-        store.h = store.stage.canvas.height;
-        store.cash = 1000;
-        store.blueberryBuildPrice = 100;
+        Diversibee.store.stage = new createjs.Stage("board");
+        Diversibee.store.stage.enableMouseOver(10);
+        Diversibee.store.mapCell = [];
+        Diversibee.store.spriteSheet = new createjs.SpriteSheet(Diversibee.store.animationData);
+        Diversibee.store.w = Diversibee.store.stage.canvas.width;
+        Diversibee.store.h = Diversibee.store.stage.canvas.height;
+        Diversibee.store.cash = 1000;
+        Diversibee.store.blueberryBuildPrice = 100;
 
         //set up initial cell animationsL
-        for(i=0; i<store.width*store.height; i++) {
+        for(i=0; i<Diversibee.store.width*Diversibee.store.height; i++) {
             setAnimation(i);
         }
         //paint the initial state of the board
@@ -239,15 +238,17 @@
         var i;
 
         //update bee populations in forests & gather profits from blueberries
-        for(i=0; i<store.width*store.height; i++) {
-            if(store.state[i].type === "forest") {
+        for(i=0; i<Diversibee.store.width*Diversibee.store.height; i++) {
+            if(Diversibee.store.state[i].type === "forest") {
                 updateBeePop(i);
                 updateBeeGrowth(i, Utils.adjacentCells(i));
-            } else if(store.state[i].type === "blueberries") {
-                supdateProfits(i, Utils.adjacentCells(i));
+            } else if(Diversibee.store.state[i].type === "blueberries") {
+                updateProfits(i, Utils.adjacentCells(i));
             }
         }
     };
+
+    Diversibee.store = {};
 
     window.Diversibee = Diversibee;
 })();
