@@ -50,8 +50,8 @@
         Diversibee.store.mapCell[i] = new createjs.Sprite(Diversibee.store.spriteSheet, Diversibee.store.state[i].type);
         Diversibee.store.mapCell[i].x = 20*(i%Diversibee.store.width);
         Diversibee.store.mapCell[i].y = 20*Math.floor(i/Diversibee.store.width);
-        Diversibee.store.mapCell[i].addEventListener("click", clickCell.bind(this, i));
-        Diversibee.store.mapCell[i].addEventListener("mouseover", showStats.bind(this, i));
+        Diversibee.store.mapCell[i].addEventListener('mousedown', clickCell.bind(this, i));
+        Diversibee.store.mapCell[i].addEventListener('mouseover', handleMouseOver(i));
 
         Diversibee.store.stage.addChild(Diversibee.store.mapCell[i]);
         Diversibee.store.mapCell[i].play(Diversibee.store.state[i].type);
@@ -66,6 +66,15 @@
 
         Diversibee.store.stage.update();
         Diversibee.store.animationLoop = setInterval(function() {Diversibee.store.stage.update();}, 300);
+    }
+
+    function handleMouseOver(i) {
+        return function(e) {
+            if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
+                clickCell(i);
+            }
+            showStats(i);
+        }
     }
 
     function clickCell(i) {
