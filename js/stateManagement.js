@@ -74,7 +74,6 @@
             if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
                 clickCell(i);
             }
-            showStats(i);
         };
     }
 
