@@ -14,26 +14,26 @@
             distanceFromSeedCell,
             isForest,
             i,
-            //The likelihood a cell contains a "seed"; probability bound 0 <= seedRate <= 1
+            //The likelihood a cell contains a 'seed'; probability bound 0 <= seedRate <= 1
             seedRate = 0.02,
-            //Cells containing an initial "seed". Seeds are used to determine the inital forest growth
+            //Cells containing an initial 'seed'. Seeds are used to determine the inital forest growth
             seededCells = generateUniqueRandomCells(cellsHigh, cellsWide, (cellsHigh*cellsWide*seedRate));
 
 
         for(i=0; i<cellsWide*cellsHigh; i++) {
             distanceFromSeedCell = distancefromSeed(i, cellsWide, seededCells);
-            //Does this cell initially become a forest based on the cell"s seed proximity
+            //Does this cell initially become a forest based on the cell's seed proximity
             isForest = shouldGrowForest(distanceFromSeedCell);
 
             if(isForest) {
                 cells[i] = {
-                    type: "forest",
+                    type: 'forest',
                     beePop: [Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), Math.floor(Math.random()*1000), Math.floor(Math.random()*1000)],
                     beeGrowth: [0,0,0,0]
                 };
             } else {
                 cells[i] = {
-                    type: "grass",
+                    type: 'grass',
                     beePop: [0,0,0,0],
                     beeGrowth: [0,0,0,0]
                 };
@@ -50,8 +50,8 @@
         Diversibee.store.mapCell[i] = new createjs.Sprite(Diversibee.store.spriteSheet, Diversibee.store.state[i].type);
         Diversibee.store.mapCell[i].x = 20*(i%Diversibee.store.width);
         Diversibee.store.mapCell[i].y = 20*Math.floor(i/Diversibee.store.width);
-        Diversibee.store.mapCell[i].addEventListener("click", clickCell.bind(this, i));
-        Diversibee.store.mapCell[i].addEventListener("mouseover", showStats.bind(this, i));
+        Diversibee.store.mapCell[i].addEventListener('mousedown', clickCell.bind(this, i));
+        Diversibee.store.mapCell[i].addEventListener('mouseover', handleMouseOver(i));
 
         Diversibee.store.stage.addChild(Diversibee.store.mapCell[i]);
         Diversibee.store.mapCell[i].play(Diversibee.store.state[i].type);
@@ -68,13 +68,22 @@
         Diversibee.store.animationLoop = setInterval(function() {Diversibee.store.stage.update();}, 300);
     }
 
+    function handleMouseOver(i) {
+        return function(e) {
+            if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
+                clickCell(i);
+            }
+            showStats(i);
+        };
+    }
+
     function clickCell(i) {
         //handle when a player clicks on the ith cell
 
         //change the clicked cell to a blueberry patch
-        if(Diversibee.store.cash >=100 && Diversibee.store.state[i].type !== "blueberries") {
+        if(Diversibee.store.cash >=100 && Diversibee.store.state[i].type !== 'blueberries') {
             Diversibee.store.state[i] = {
-                type: "blueberries",
+                type: 'blueberries',
                 beePop: [0,0,0,0],
                 beeGrowth: [0,0,0,0]
             };
@@ -87,22 +96,22 @@
     function showStats(i) {
         //display the current state of cell i in a text box.
 
-        var text = "Current State of cell " + i +":<br>";
+        var text = 'Current State of cell ' + i +':<br>';
 
-        text += "Type: " + Diversibee.store.state[i].type + "<br>";
+        text += 'Type: ' + Diversibee.store.state[i].type + '<br>';
 
-        text += "Bee Populations: " + Diversibee.store.state[i].beePop + "<br>";
+        text += 'Bee Populations: ' + Diversibee.store.state[i].beePop + '<br>';
 
-        text += "Bee Growth Rates: " + Diversibee.store.state[i].beeGrowth;
+        text += 'Bee Growth Rates: ' + Diversibee.store.state[i].beeGrowth;
 
-        document.getElementById("cellStats").innerHTML = text;
+        document.getElementById('cellStats').innerHTML = text;
     }
 
     function updateCash(income) {
-        //update the farmer"s bank account
+        //update the farmer's bank account
 
         Diversibee.store.cash += income;
-        document.getElementById("bank").innerHTML = "$"+Diversibee.store.cash;
+        document.getElementById('bank').innerHTML = '$'+Diversibee.store.cash;
     }
 
     function advanceTurn() {
@@ -112,10 +121,10 @@
 
         //update bee populations in forests & gather profits from blueberries
         for(i=0; i<Diversibee.store.width*Diversibee.store.height; i++) {
-            if(Diversibee.store.state[i].type === "forest") {
+            if(Diversibee.store.state[i].type === 'forest') {
                 updateBeePop(i);
                 updateBeeGrowth(i, Utils.adjacentCells(i));
-            } else if(Diversibee.store.state[i].type === "blueberries") {
+            } else if(Diversibee.store.state[i].type === 'blueberries') {
                 updateProfits(i, Utils.adjacentCells(i));
             }
         }
@@ -133,7 +142,7 @@
     }
 
     function updateBeeGrowth(i, neighbours) {
-        //update the growth rate for the bee populations in cell i based on effects from the cell"s nearest neighbours
+        //update the growth rate for the bee populations in cell i based on effects from the cell's nearest neighbours
 
         BeeDynamics.baseBeeSpawning(i);
         BeeDynamics.forestEdgeEffect(i, neighbours);
@@ -202,7 +211,7 @@
         Diversibee.store.height = height;
         Diversibee.store.state = setUpBoardState(Diversibee.store.width, Diversibee.store.height);
         Diversibee.store.animationData = {
-            images: ["img/spriteSheet.png"],
+            images: ['img/spriteSheet.png'],
             frames: {width:20, height:20},
             animations: {
                 grass: [0,3],
@@ -210,7 +219,7 @@
                 blueberries: [8,11]
             }
         };
-        Diversibee.store.stage = new createjs.Stage("board");
+        Diversibee.store.stage = new createjs.Stage('board');
         Diversibee.store.stage.enableMouseOver(10);
         Diversibee.store.mapCell = [];
         Diversibee.store.spriteSheet = new createjs.SpriteSheet(Diversibee.store.animationData);
@@ -227,7 +236,7 @@
         repaintBoard();
 
         //set up turn advancement
-        document.getElementById("nextTurn").onclick = advanceTurn;
+        document.getElementById('nextTurn').onclick = advanceTurn;
         //trigger a turn to finish configuring the board
         Diversibee.advanceTurn();
     };
@@ -239,10 +248,10 @@
 
         //update bee populations in forests & gather profits from blueberries
         for(i=0; i<Diversibee.store.width*Diversibee.store.height; i++) {
-            if(Diversibee.store.state[i].type === "forest") {
+            if(Diversibee.store.state[i].type === 'forest') {
                 updateBeePop(i);
                 updateBeeGrowth(i, Utils.adjacentCells(i));
-            } else if(Diversibee.store.state[i].type === "blueberries") {
+            } else if(Diversibee.store.state[i].type === 'blueberries') {
                 updateProfits(i, Utils.adjacentCells(i));
             }
         }
