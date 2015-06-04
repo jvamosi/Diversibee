@@ -3,6 +3,7 @@
   //visualization in the browser.
 
   var Diversibee = {};
+  var paintCellType;
 
   /**
    * Private methods
@@ -28,21 +29,22 @@
       isForest = shouldGrowForest(distanceFromSeedCell);
 
       if (isForest) {
-        addToCell(i, cells, 'forest');
+        setCellType(i, cells, 'forest');
       } else {
-        addToCell(i, cells, 'grass');
+        setCellType(i, cells, 'grass');
       }
     }
 
     return cells;
   }
 
-  function addToCell(i, cells, typeName)
+  function setCellType(i, cells, typeName)
   {
     var currentTypeName = cells[ i ];
 
     addToTypeCount(Diversibee.store.typeCount[ currentTypeName ], -1);
     addToTypeCount(Diversibee.store.typeCount[ typeName ], 1);
+
     cells[ i ] = { type: typeName };
   }
 
@@ -76,11 +78,32 @@
     Diversibee.store.mapCell[i].x = 20 * (i % Diversibee.store.width);
     Diversibee.store.mapCell[i].y = 20 * Math.floor(i / Diversibee.store.width);
 
-    Diversibee.store.mapCell[i].addEventListener('mousedown', clickCell.bind(this, i));
-    Diversibee.store.mapCell[i].addEventListener('mouseover', handleMouseOver(i));
+    Diversibee.store.mapCell[i].addEventListener('mousedown', handleCellClick(i));
+    Diversibee.store.mapCell[i].addEventListener('mouseover', handleCellMouseOver(i));
 
     Diversibee.store.stage.addChild(Diversibee.store.mapCell[i]);
     Diversibee.store.mapCell[i].play(Diversibee.store.state[i].type);
+  }
+
+  function handleCellClick(i) {
+    return function(e) {
+      paintCellType = Diversibee.store.state[i].type === 'blueberries' ? 'forest' : 'blueberries';
+      paintCell(i);
+    };
+  }
+
+  function handleCellMouseOver(i) {
+    return function(e) {
+      if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
+        paintCell(i);
+      }
+    };
+  }
+
+  function paintCell(i) {
+    setCellType(i, Diversibee.store.state, paintCellType);
+    setAnimation(i);
+    repaintBoard();
   }
 
   function repaintBoard() {
@@ -92,18 +115,6 @@
 
     Diversibee.store.stage.update();
     Diversibee.store.animationLoop = setInterval(function() {Diversibee.store.stage.update();}, 300);
-  }
-
-  function handleMouseOver(i) {
-    return function(e) {
-      if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
-        clickCell(i);
-      }
-    };
-  }
-
-  function clickCell(i) {
-    //handle when a player clicks on the ith cell
   }
 
   function addToProfits(income) {
