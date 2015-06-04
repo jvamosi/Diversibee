@@ -37,6 +37,18 @@
 
     return cells;
   }
+  
+  function setUpBoardStateLv1(cellsWide, cellsHigh) {
+    //Initializes board state for level one
+    
+    var cells = [];
+    
+    for (i = 0; i < cellsWide * cellsHigh; i++) {
+      addToCell(i, cells, 'forest');
+    }
+    
+    return cells;
+  }
 
   function setCellType(i, cells, typeName)
   {
