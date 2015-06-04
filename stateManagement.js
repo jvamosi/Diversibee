@@ -1,4 +1,7 @@
 (function () {
+	//functions managing & updating the game state data, consisting of the `store` object and
+	//visualization in the browser.
+
 	var Diversibee = {};
 
 	/**
