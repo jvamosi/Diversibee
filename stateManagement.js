@@ -147,9 +147,9 @@
 
     function distancefromSeed(cell, width, seededCells) {
         //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
-        var distance = Number.MAX_SAFE_INTEGER;
-        var i;
-        var temp_dist;
+        var distance = Number.MAX_SAFE_INTEGER,
+            i,
+            temp_dist;
 
         for(i=0; i<seededCells.length; i++){
             temp_dist = distanceBetweenCells(seededCells[i], cell, width);
@@ -161,8 +161,8 @@
     function distanceBetweenCells(cellA, cellB, boardWidth) {
         //returns the distance between cell A and cell B
 
-        var xDiff = (cellA % boardWidth) - (cellB % boardWidth);
-        var yDiff = (Math.floor(cellA / boardWidth)) - (Math.floor(cellB / boardWidth));
+        var xDiff = (cellA % boardWidth) - (cellB % boardWidth),
+            yDiff = (Math.floor(cellA / boardWidth)) - (Math.floor(cellB / boardWidth));
         return Math.abs(xDiff) + Math.abs(yDiff);
     }
 
@@ -176,9 +176,9 @@
         //Returns an array of unique random cells
 
         var uniqueRandomCells = [],
-            i;
-        //we can safely choose the first unique random cell number
-        var cellNumber = Math.floor(Math.random() * (height * width));
+            i,
+            //we can safely choose the first unique random cell number
+            cellNumber = Math.floor(Math.random() * (height * width));
 
         for(i=0; i<numberOfCells; i++) {
             while ( Utils.inArray(cellNumber, uniqueRandomCells) ) {
