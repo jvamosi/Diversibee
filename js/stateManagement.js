@@ -50,6 +50,7 @@
         Diversibee.store.mapCell[i] = new createjs.Sprite(Diversibee.store.spriteSheet, Diversibee.store.state[i].type);
         Diversibee.store.mapCell[i].x = 20*(i%Diversibee.store.width);
         Diversibee.store.mapCell[i].y = 20*Math.floor(i/Diversibee.store.width);
+
         Diversibee.store.mapCell[i].addEventListener('mousedown', clickCell.bind(this, i));
         Diversibee.store.mapCell[i].addEventListener('mouseover', handleMouseOver(i));
 
@@ -93,25 +94,11 @@
         }
     }
 
-    function showStats(i) {
-        //display the current state of cell i in a text box.
-
-        var text = 'Current State of cell ' + i +':<br>';
-
-        text += 'Type: ' + Diversibee.store.state[i].type + '<br>';
-
-        text += 'Bee Populations: ' + Diversibee.store.state[i].beePop + '<br>';
-
-        text += 'Bee Growth Rates: ' + Diversibee.store.state[i].beeGrowth;
-
-        document.getElementById('cellStats').innerHTML = text;
-    }
-
     function updateCash(income) {
         //update the farmer's bank account
 
         Diversibee.store.cash += income;
-        document.getElementById('bank').innerHTML = '$'+Diversibee.store.cash;
+        document.getElementById('profitText').innerHTML = '$'+Diversibee.store.cash;
     }
 
     function advanceTurn() {
@@ -235,8 +222,6 @@
         //paint the initial state of the board
         repaintBoard();
 
-        //set up turn advancement
-        document.getElementById('nextTurn').onclick = advanceTurn;
         //trigger a turn to finish configuring the board
         Diversibee.advanceTurn();
     };
