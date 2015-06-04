@@ -1,0 +1,10 @@
+{
+  // Documentation: http://www.jshint.com/docs/options/
+  "browser": true,
+  "esnext": true,
+  "globals": {"Utils": true, "Diversibee": true, "BeeDynamics": true, "createjs": false, "Profits": true},
+  "globalstrict": false,
+  "quotmark": true,
+  "undef": true,
+  "unused": true
+}
