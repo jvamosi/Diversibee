@@ -27,13 +27,13 @@
 
         //three below
         for(j=-1; j<2; j++) {
-            neighbourIndex = i+store.width + j
+            neighbourIndex = i+store.width + j;
             if(neighbourIndex < store.width*store.height && Math.floor(neighbourIndex/store.width) === Math.floor((i+store.width)/store.width)) {
                 neighbours.push(store.state[neighbourIndex]);
             }
         }
 
-        return neighbours
+        return neighbours;
     }
 
     Utils.inArray = function(needle, haystack) {
