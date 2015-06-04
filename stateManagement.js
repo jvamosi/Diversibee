@@ -135,8 +135,8 @@
     function updateBeeGrowth(i, neighbours) {
         //update the growth rate for the bee populations in cell i based on effects from the cell"s nearest neighbours
 
-        baseBeeSpawning(i);
-        forestEdgeEffect(i, neighbours);
+        BeeDynamics.baseBeeSpawning(i);
+        BeeDynamics.forestEdgeEffect(i, neighbours);
     }
 
     function updateProfits(i, neighbours) {
