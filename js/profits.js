@@ -16,8 +16,7 @@
             }
         }
         return bees;
-
-    }
+    };
 
     window.Profits = Profits;
 })();
