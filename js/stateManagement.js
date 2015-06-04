@@ -192,15 +192,15 @@
     /**
      * Public methods
      */
-    Diversibee.init = function() {
+    Diversibee.init = function(width, height) {
         // Initialize the play area on load
 
         var i;
 
         //declare global store with default values
         store = {};
-        store.width = 20;
-        store.height = 20;
+        store.width = width;
+        store.height = height;
         store.state = setUpBoardState(store.width, store.height);
         store.animationData = {
             images: ["img/spriteSheet.png"],
