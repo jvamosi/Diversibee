@@ -1,5 +1,6 @@
 /* global tests */
-tests.addSuite([
+tests.addSuite('util', [
+    function() {
         //Test if the method Utils.inArray exists
 
         tests.isA(Utils.inArray, 'function');

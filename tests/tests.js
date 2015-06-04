@@ -73,8 +73,8 @@
         return equals;
     };
 
-    tests.addSuite = function(suite) {
-        suites.push(suite);
+    tests.addSuite = function(name, suite) {
+        suites.push([name, suite]);
     };
 
     tests.runTests = function(d) {
@@ -83,8 +83,9 @@
         displayElement = d;
 
         for(s = 0; s < suites.length; s++) {
+            displayElement.innerHTML += '<h2>Tests for ' + suites[s][0] + '</h2>';
             for (t = 0; t < suites[s].length; t++) {
-                suites[s][t]();
+                suites[s][1][t]();
             }
         }
     };

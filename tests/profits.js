@@ -1,4 +1,5 @@
-tests.addSuite([
+/* global tests */
+tests.addSuite('profits', [
     function() {
         //Test if the method Profits.basicProfits exists
 
@@ -19,7 +20,7 @@ tests.addSuite([
             {beePop: [0, 0, 0, 0]}
         ];
         tests.equals(Profits.basicProfits(neighbours), 0);
-        var neighbours = [
+        neighbours = [
             {beePop: [1, 1, 1, 1]},
             {beePop: [1, 1, 1, 1]},
             {beePop: [1, 1, 1, 1]},
@@ -27,7 +28,7 @@ tests.addSuite([
             {beePop: [1, 1, 1, 1]}
         ];
         tests.equals(Profits.basicProfits(neighbours), 20);
-        var neighbours = [
+        neighbours = [
             {beePop: [3,5,7,3]},
             {beePop: [7,3,2,7]},
             {beePop: [9,4,60,3]},
