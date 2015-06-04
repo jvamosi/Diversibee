@@ -43,6 +43,7 @@ We're trying to keep contributing to Diversibee friendly for beginners, so pleas
  - All new code must be commented clearly, and any changes that impact the high-level design below must be reflected in updates to this document.
  - Open issues early (like first thing) in the development process to let everyone know what you're working on.
  - Code is checked with [JSHint](http://jshint.com/), so you may wish to run it on your code locally before submitting.
+ - The IRC channel for this project is irc.mozilla.org#diversibee and will likely be populated throughout the Mozilla Science Lab Global Sprint. It's a good place to hang out.
 
 ## Understanding Diversibee in 10 Minutes
 
