@@ -138,6 +138,14 @@
     return blueberryCount * treeCount;
   }
 
+  function updateProfitLv1()
+  {
+    var profits = calculateLevelOneProfit();
+
+    Diversibee.store.profit = profits;
+    document.getElementById('profit-value').innerHTML = '$' + profits;
+  }
+
   function distancefromSeed(cell, width, seededCells) {
     //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
     var distance = Number.MAX_SAFE_INTEGER,
