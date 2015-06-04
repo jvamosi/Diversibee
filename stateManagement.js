@@ -142,7 +142,7 @@
     function updateProfits(i, neighbours) {
         //collect profits from cell i, modified by its nearest neghbours
 
-        updateCash(basicProfits(neighbours));
+        updateCash(Profits.basicProfits(neighbours));
     }
 
     function distancefromSeed(cell, width, seededCells) {
