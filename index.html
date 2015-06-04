@@ -4,19 +4,55 @@
     <meta charset='UTF-8'>
     <title>Diversibee</title>
 
-    <script src='http://code.createjs.com/easeljs-0.8.0.min.js'></script>
+    <!-- jQuery -->
+    <script src='//code.jquery.com/jquery-2.1.4.min.js'></script>
+
+    <!-- Bootstrap -->
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css'>
+    <link rel='stylesheet' href='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css'>
+    <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
+
+    <script src='//code.createjs.com/easeljs-0.8.0.min.js'></script>
+    <script src='//code.createjs.com/easeljs-0.8.0.min.js'></script>
     <script src='js/stateManagement.js'></script>
     <script src='js/util.js'></script>
     <script src='js/profits.js'></script>
     <script src='js/beeDynamics.js'></script>
+
+    <!-- Custom style -->
+    <link rel='stylesheet' href='css/style.css'>
+
   </head>
 
   <body onload='Diversibee.init(20, 20)'>
-    <div style='display: inline-block;'>
-      <canvas id='board' width=400 height=400></canvas>
+
+    <div class='row'>
+      <div class='col-md-12'>
+        <header class='page-title'>
+          <h1>Diversibee</h1>
+        </header>
+      </div>
     </div>
-    <h4>Click to plant some blueberries!</h4>
-    <h4 id='profitText'>$1000</h4>
+
+    <div class='container'>
+
+      <div class='row'>
+        <div class='col-md-6'>
+          <div class='game-area'>
+            <h4 id='profit' class='profit'>Profit: <span id='profit-value'>$1000</span></h4>
+            <canvas id='board' width=400 height=400 class='board'></canvas>
+          </div>
+        </div>
+        <div class='col-md-6'>
+          <ol>
+            <dt>Level 1</dt>
+            <dd>Imagine you are a farmer wanting to plant blueberries for profit. While it would seem like a good strategy to cut down your forest and plant as many blueberry bushes as possible, the blueberry bushes need bees to pollinate them. No bees, no blueberries to sell! And the bees live in the forest.</dd>
+          </ol>
+        </div>
+      </div>
+
+    </div>
+
   </body>
 </html>
 
