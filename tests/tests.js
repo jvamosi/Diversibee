@@ -5,6 +5,7 @@ var Tests = (function() {
     var tests = {},
         suites = [],
         displayElement,
+        result = 0,
         output;
 
     function _equalsObject(val, expected) {
@@ -60,6 +61,11 @@ var Tests = (function() {
             expected && expected.toString && expected.toString() || expected,
             equals
         );
+
+        if (!equals) {
+            result = 1;
+        }
+
         return equals;
     };
 
@@ -72,6 +78,11 @@ var Tests = (function() {
             type,
             equals
         );
+
+        if (!equals) {
+            result = 1;
+        }
+
         return equals;
     };
 
@@ -82,6 +93,7 @@ var Tests = (function() {
     tests.runTests = function(d) {
         var s, t;
 
+        result = 0;
         displayElement = d;
         if (typeof (displayElement) == 'function') {
             output = function(text) {
@@ -100,6 +112,8 @@ var Tests = (function() {
                 suites[s][1][t]();
             }
         }
+
+        return result;
     };
 
     return tests;
