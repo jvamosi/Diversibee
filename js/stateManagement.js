@@ -11,11 +11,13 @@ var Diversibee = (function() {
     levels = [
       {
         name: '1',
-        hash: 'level1'
+        hash: 'level1',
+        buttonId: '#tab-level1 a'
       },
       {
         name: '2',
-        hash: 'level2'
+        hash: 'level2',
+        buttonId: '#tab-level2 a'
       }
     ];
 
@@ -117,21 +119,30 @@ var Diversibee = (function() {
     };
   }
 
-  function changeLevel(hash) {
-    // Change level based on URL hash.
-
+  function getLevelFromHash(hash) {
     for (var index in levels) {
       var level = levels[index];
       if (level.hash === hash) {
-        Game.level = level.name;
+        return level;
       }
     }
+
+    return levels[0];
+  }
+
+  function changeLevel(hash) {
+    // Change level based on URL hash.
+
+    Game.level = getLevelFromHash(hash);
 
     //
     //
     // Insert other logic that happens when the level changes.
     //
     //
+
+    // Switch info panels
+    $(Game.level.buttonId).click();
   }
 
   function paintCell(cell) {
@@ -162,24 +173,11 @@ var Diversibee = (function() {
     document.getElementById('profit-value').innerHTML = '$' + profits;
   }
 
-  function initLevel() {
-
-    var currentLevel = levels[0];
-
-    levels.forEach(function(level) {
-      if (window.location.hash === level.hash) {
-        currentLevel = level;
-      }
-    });
-
-    return currentLevel;
-  }
-
   Game.init = function(width, height) {
     // Initialize the play area on load
 
     var seedRate = 0.02;
-    Game.level = initLevel();
+    changeLevel(location.hash.substring(1));
 
     //declare global store with default values
     Game.width = width;
