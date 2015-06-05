@@ -1,23 +1,27 @@
-(function() {
+/* global exports */
+var Profits = (function() {
   //functions describing how profits are caluclated for a given blueberry crop tile
 
   var Profits = {};
 
-  Profits.basicProfits = function(neighbours) {
-    //award $1 for every bee in a tile adjacent to tile i
-    var j, k,
-        neighbour,
-        bees = 0;
-
-    for (j = 0; j < neighbours.length; j++) {
-      neighbour = neighbours[j];
-      for (k = 0; k < neighbour.beePop.length; k++) {
-        bees += neighbour.beePop[k];
+  Profits.calculateLv1Profit = function(board) {
+    var blueberryCount = 0,
+        treeCount = 0;
+    for (var index in board) {
+      if (board[index].type === 'blueberries') {
+        blueberryCount++;
+      }
+      else if (board[index].type === 'forest') {
+        treeCount++;
       }
     }
 
-    return bees;
+    return blueberryCount * treeCount;
   };
 
-  window.Profits = Profits;
+  return Profits;
 })();
+
+if (typeof (exports) != 'undefined') {
+  exports.Profits = Profits;
+}

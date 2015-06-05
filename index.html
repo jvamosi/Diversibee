@@ -13,10 +13,10 @@
     <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
 
     <script src='//code.createjs.com/easeljs-0.8.0.min.js'></script>
-    <script src='//code.createjs.com/easeljs-0.8.0.min.js'></script>
+    <script src='js/world.js'></script>
     <script src='js/stateManagement.js'></script>
-    <script src='js/util.js'></script>
     <script src='js/profits.js'></script>
+    <script src='js/tabBehavior.js' async></script>
 
     <!-- Custom style -->
     <link rel='stylesheet' href='css/style.css'>
@@ -36,18 +36,51 @@
     <div class='container'>
 
       <div class='row'>
+
         <div class='col-md-6'>
           <div class='game-area'>
+            <button class='game-toolbar-button' id='tree-button' onClick='Diversibee.setPaintType("forest")'></button>
+            <button class='game-toolbar-button' id='blueberry-button' onClick='Diversibee.setPaintType("blueberries")'></button>
             <h4 id='profit' class='profit'>Profit: <span id='profit-value'>$0</span></h4>
             <canvas id='board' width=400 height=400 class='board'></canvas>
           </div>
         </div>
+
         <div class='col-md-6'>
-          <ol>
-            <dt>Level 1</dt>
-            <dd>Imagine you are a farmer wanting to plant blueberries for profit. While it would seem like a good strategy to cut down your forest and plant as many blueberry bushes as possible, the blueberry bushes need bees to pollinate them. No bees, no blueberries to sell! And the bees live in the forest.</dd>
-          </ol>
+
+          <div role='tabpanel'>
+
+            <!-- Nav tabs -->
+            <ul class='nav nav-pills' role='tablist'>
+              <li role='presentation' id='tab-level1' class='active'>
+                <a href='#tabpanel-level1' aria-controls='tabpanel-level1' role='tab' data-toggle='tab'>Level 1</a>
+              </li>
+              <li role='presentation' id='tab-level2'>
+                <a href='#tabpanel-level2' aria-controls='tabpanel-level2' role='tab' data-toggle='tab'>Level 2</a>
+              </li>
+              <li role='presentation' id='tab-level3'>
+                <a href='#tabpanel-level3' aria-controls='tabpanel-level3' role='tab' data-toggle='tab'>Level 3</a>
+              </li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class='tab-content'>
+              <div role='tabpanel' class='tab-pane active' id='tabpanel-level1'>
+                <h2>Level 1</h2>
+                <p>Imagine you are a farmer wanting to plant blueberries for profit. While it would seem like a good strategy to cut down your forest and plant as many blueberry bushes as possible, the blueberry bushes need bees to pollinate them. No bees, no blueberries to sell! And the bees live in the forest.</p>
+              </div>
+              <div role='tabpanel' class='tab-pane' id='tabpanel-level2'>
+                <h2>Level 2</h2>
+                <p>Level 2 text</p>
+              </div>
+              <div role='tabpanel' class='tab-pane' id='tabpanel-level3'>
+                <h2>Level 3</h2>
+                <p>Level 3 text</p>
+            </div>
+
+          </div>
         </div>
+
       </div>
 
     </div>

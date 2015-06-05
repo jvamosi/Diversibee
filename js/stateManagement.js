@@ -1,94 +1,53 @@
-(function() {
+/* global exports, Profits, World */
+var Diversibee = (function() {
 
   var Game = {},
-      paintCellType,
-      cellTypes = {
-        grass: 'grass',
-        forest: 'forest',
-        blueberries: 'blueberries'
-      },
-      levels = [{
+    paintCellType,
+    cellTypes = {
+      grass: 'grass',
+      forest: 'forest',
+      blueberries: 'blueberries'
+    },
+    levels = [
+      {
         name: '1',
-        hash: 'level1'
-      }],
-      Coord = function(x, y) {
-        this.x = x;
-        this.y = y;
-      };
+        hash: 'level1',
+        buttonId: '#tab-level1 a'
+      },
+      {
+        name: '2',
+        hash: 'level2',
+        buttonId: '#tab-level2 a'
+      }
+    ];
 
-  Coord.prototype.distanceFrom = function(coord) {
-    // Returns the distance between this coord and another (pythagoras)
-
-    var xDiff = Math.abs(this.x - coord.x),
-        yDiff = Math.abs(this.y - coord.y);
-
-    // c^2 = a^2 + b^2
-    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-  };
-
-  function generateType(coord, seeds) {
-    // Generate the cell type based on the distance from seeds (close to seed = forest)
-
-    var distanceFromSeedCell = distanceFromSeed(coord, seeds);
-    return shouldGrowForest(distanceFromSeedCell) ? cellTypes.forest : cellTypes.grass;
-  }
-
-  function generateCell(coord, seeds) {
+  function generateCell(coord) {
     // Generate a cell with a type and coordinates.
 
     return {
-      type: generateType(coord, seeds),
+      type: cellTypes.grass,
       coords: coord
     };
   }
 
-  function generateCells(width, height, seeds) {
+  function generateCells(width, height) {
     // Generate cells for the game board.
 
     var cells = [];
 
-    for (var x = 0; x < width; x++) {
-      for (var y = 0; y < height; y++) {
-        cells.push(generateCell(new Coord(x, y), seeds));
+    for (var y = 0; y < height; y++) {
+      for (var x = 0; x < width; x++) {
+        cells.push(generateCell(new World.Coord(x, y)));
       }
     }
 
     return cells;
   }
-
-  function distanceFromSeed(coords, seeds) {
-    //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
-
-    return seeds.reduce(function(prevDistance, seed) {
-      return Math.min(prevDistance, coords.distanceFrom(seed));
-    }, Number.MAX_SAFE_INTEGER);
-  }
-
-  function shouldGrowForest(distanceFromSeedCell) {
-    // A simple forest growth algorithm which clusters around seed locations
-
-    return (distanceFromSeedCell * 1.25) + (distanceFromSeedCell * Math.random()) < 5;
-  }
-
-  function generateRandomSeeds(height, width, numberOfCells) {
-    // Generate a set of random seed coords to determine where trees are placed.
-
-    var randomCoords = [];
-
-    for (var i = 0; i < numberOfCells; i++) {
-      var x = Math.floor(Math.random() * width),
-          y = Math.floor(Math.random() * height);
-      randomCoords.push(new Coord(x, y));
-    }
-
-    return randomCoords;
-  }
-
+  
   function seedBoard(seedRate, width, height) {
     // Seed the board with tree/grass cells
 
-    var seed = generateRandomSeeds(height, width, (height * width * seedRate));
-    return generateCells(width, height, seed);
+    return generateCells(width, height);
   }
 
   function setAnimation(cell) {
@@ -108,8 +67,8 @@
 
   function handleCellClick(cell) {
     return function() {
-      paintCellType = (cell.type === cellTypes.blueberries) ? cellTypes.forest : cellTypes.blueberries;
       paintCell(cell);
+      
       updateProfitLv1();
     };
   }
@@ -122,6 +81,32 @@
 
       updateProfitLv1();
     };
+  }
+
+  function getLevelFromHash(hash) {
+    for (var index in levels) {
+      var level = levels[index];
+      if (level.hash === hash) {
+        return level;
+      }
+    }
+
+    return levels[0];
+  }
+
+  function changeLevel(hash) {
+    // Change level based on URL hash.
+
+    Game.level = getLevelFromHash(hash);
+
+    //
+    //
+    // Insert other logic that happens when the level changes.
+    //
+    //
+
+    // Switch info panels
+    $(Game.level.buttonId).click();
   }
 
   function paintCell(cell) {
@@ -146,7 +131,7 @@
     }, 300);
   }
 
-  function calculateLv1Profit() {
+  function calculateProfitLv1() {
     var blueberryCount = 0;
     var treeCount = 0;
     for (var index in Game.board) {
@@ -162,29 +147,49 @@
   }
 
   function updateProfitLv1() {
-    var profits = calculateLv1Profit();
+    var profits = Profits.calculateLv1Profit(Game.board);
     Game.store.profit = profits;
     document.getElementById('profit-value').innerHTML = '$' + profits;
   }
 
-  function initLevel() {
+  function calculateProfitLv2()
+  {
+    var totalProfit = 0;
 
-    var currentLevel = levels[0];
+    // Iterate over all blueberry cells
+    Game.board.forEach(function(cell, index) {
+      if (cell.type === cellTypes.blueberries) {
+        var neighbours = Utils.adjacentCells(index);
+        var treeCount = 0;
+        var cellProfit = 0;
 
-    levels.forEach(function(level) {
-      if (window.location.hash === level.hash) {
-        currentLevel = level;
+        // Get number of trees in surrounding cells
+        for (var neighIndex in neighbours) {
+          if (neighbours[neighIndex].type === cellTypes.forest) {
+            treeCount++;
+          }
+        }
+
+        // Calculate Profit for cell
+        if (treeCount < 6) {
+          cellProfit = 0.1 + (0.9 / 6.0) * treeCount;          
+        } else {
+          cellProfit = 1;
+        }
+
+        // Add to total
+        totalProfit += cellProfit;
       }
     });
 
-    return currentLevel;
+    return totalProfit;
   }
 
   Game.init = function(width, height) {
     // Initialize the play area on load
 
     var seedRate = 0.02;
-    Game.level = initLevel();
+    changeLevel(location.hash.substring(1));
 
     //declare global store with default values
     Game.width = width;
@@ -211,9 +216,22 @@
       setAnimation(Game.board[index]);
     }
 
-    //draw the initial state of the board
+    // draw the initial state of the board
     redrawBoard();
+
+    // allow level change by adding hash to url
+    window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
   };
 
-  window.Diversibee = Game;
+  Game.setPaintType = function(paintType) {
+    paintCellType = paintType;
+  };
+
+  Game.setPaintType('blueberries');
+
+  return Game;
 })();
+
+if (typeof (exports) != 'undefined') {
+  exports.Diversibee = Diversibee;
+}
