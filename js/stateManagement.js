@@ -37,48 +37,21 @@
 
     return cells;
   }
-  
+
   function setUpBoardStateLv1(cellsWide, cellsHigh) {
     //Initializes board state for level one
-    
+
     var cells = [];
-    
+
     for (i = 0; i < cellsWide * cellsHigh; i++) {
       addToCell(i, cells, 'forest');
     }
-    
+
     return cells;
   }
 
   function setCellType(i, cells, typeName) {
-    var currentTypeName = cells[ i ];
-
-    addToTypeCount(Diversibee.store.typeCount[ currentTypeName ], -1);
-    addToTypeCount(Diversibee.store.typeCount[ typeName ], 1);
-
     cells[ i ] = { type: typeName };
-  }
-
-  // Add quantity to counter to typeName in store
-  // Maintains bounds on type quantities
-  function addToTypeCount(typeName, quantity) {
-    var currentQuantity = Diversibee.store.typeCount[ typeName ];
-
-    if (!currentQuantity) {
-      console.log(
-              'addToTypeCount(): ' +
-                  typeName +
-              ' not recognized');
-      return;
-    }
-
-    currentQuantity += quantity;
-    if (currentQuantity < 0)
-    {
-      currentQuantity = 0;
-    }
-
-    Diversibee.store.typeCount[ typeName ] = currentQuantity;
   }
 
   function setAnimation(i) {
@@ -108,6 +81,7 @@
       if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
         paintCell(i);
       }
+
       updateProfitLv1();
     };
   }
@@ -143,8 +117,16 @@
   }
 
   function calculateLevelOneProfit() {
-    var blueberryCount = Diversibee.store.typeCount.blueberries;
-    var treeCount = Diversibee.store.typeCount.forest;
+    var blueberryCount = 0;
+    var treeCount = 0;
+    for (var index in Diversibee.store.state) {
+      if (Diversibee.store.state[index].type === 'blueberries') {
+        blueberryCount++;
+      }
+      else if (Diversibee.store.state[index].type === 'forest') {
+        treeCount++;
+      }
+    }
 
     return blueberryCount * treeCount;
   }
