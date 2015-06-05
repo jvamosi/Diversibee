@@ -90,5 +90,5 @@
         }
     };
 
-    window.tests = tests;
+    window.Tests = tests;
 })();
