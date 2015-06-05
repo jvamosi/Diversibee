@@ -43,7 +43,7 @@ var Diversibee = (function() {
 
     return cells;
   }
-  
+
   function seedBoard(seedRate, width, height) {
     // Seed the board with tree/grass cells
 
@@ -73,7 +73,7 @@ var Diversibee = (function() {
   function handleCellClick(cell) {
     return function() {
       paintCell(cell);
-      
+
       updateProfitLv1();
     };
   }
@@ -177,7 +177,7 @@ var Diversibee = (function() {
 
         // Calculate Profit for cell
         if (treeCount < 6) {
-          cellProfit = 0.1 + (0.9 / 6.0) * treeCount;          
+          cellProfit = 0.1 + (0.9 / 6.0) * treeCount;
         } else {
           cellProfit = 1;
         }
