@@ -17,7 +17,7 @@ var Profits = (function() {
     }
 
     return blueberryCount * treeCount;
-  }
+  };
 
   return Profits;
 })();
