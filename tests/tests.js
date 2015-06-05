@@ -1,4 +1,8 @@
-/* global exports */
+/* global exports, require */
+if (typeof (require) != 'undefined') {
+  var color = require('colors/safe');
+}
+
 var Tests = (function() {
   //Micro tests service
 
@@ -30,10 +34,10 @@ var Tests = (function() {
         displayElement(text);
         break;
       case 'success':
-        displayElement('success - ' + text);
+        displayElement(color.green('success - ' + text));
         break;
       case 'error':
-        displayElement('error - ' + text);
+        displayElement(color.red('error - ' + text));
         break;
     }
   }
