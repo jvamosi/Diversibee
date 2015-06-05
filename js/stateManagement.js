@@ -21,68 +21,33 @@ var Diversibee = (function() {
       }
     ];
 
-  function generateType(coord, seeds) {
-    // Generate the cell type based on the distance from seeds (close to seed = forest)
-
-    var distanceFromSeedCell = distanceFromSeed(coord, seeds);
-    return shouldGrowForest(distanceFromSeedCell) ? cellTypes.forest : cellTypes.grass;
-  }
-
-  function generateCell(coord, seeds) {
+  function generateCell(coord) {
     // Generate a cell with a type and coordinates.
 
     return {
-      type: generateType(coord, seeds),
+      type: cellTypes.grass,
       coords: coord
     };
   }
 
-  function generateCells(width, height, seeds) {
+  function generateCells(width, height) {
     // Generate cells for the game board.
 
     var cells = [];
 
     for (var y = 0; y < height; y++) {
       for (var x = 0; x < width; x++) {
-        cells.push(generateCell(new World.Coord(x, y), seeds));
+        cells.push(generateCell(new World.Coord(x, y)));
       }
     }
 
     return cells;
   }
-
-  function distanceFromSeed(coords, seeds) {
-    //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
-    return seeds.reduce(function(prevDistance, seed) {
-      return Math.min(prevDistance, coords.distanceFrom(seed));
-    }, Number.MAX_SAFE_INTEGER);
-  }
-
-  function shouldGrowForest(distanceFromSeedCell) {
-    // A simple forest growth algorithm which clusters around seed locations
-
-    return (distanceFromSeedCell * 1.25) + (distanceFromSeedCell * Math.random()) < 5;
-  }
-
-  function generateRandomSeeds(height, width, numberOfCells) {
-    // Generate a set of random seed coords to determine where trees are placed.
-
-    var randomCoords = [];
-
-    for (var i = 0; i < numberOfCells; i++) {
-      var x = Math.floor(Math.random() * width),
-        y = Math.floor(Math.random() * height);
-      randomCoords.push(new World.Coord(x, y));
-    }
-
-    return randomCoords;
-  }
-
+  
   function seedBoard(seedRate, width, height) {
     // Seed the board with tree/grass cells
 
-    var seed = generateRandomSeeds(height, width, (height * width * seedRate));
-    return generateCells(width, height, seed);
+    return generateCells(width, height);
   }
 
   function setAnimation(cell) {
@@ -177,6 +142,7 @@ var Diversibee = (function() {
         treeCount++;
       }
     }
+
     return blueberryCount * treeCount;
   }
 
@@ -191,22 +157,22 @@ var Diversibee = (function() {
     var totalProfit = 0;
 
     // Iterate over all blueberry cells
-    Game.board.forEach( function( cell, index){
+    Game.board.forEach(function(cell, index) {
       if (cell.type === cellTypes.blueberries) {
         var neighbours = Utils.adjacentCells(index);
         var treeCount = 0;
         var cellProfit = 0;
 
         // Get number of trees in surrounding cells
-        for(var neighIndex in neighbours){
-          if(neighbours[neighIndex].type === cellTypes.forest){
+        for (var neighIndex in neighbours) {
+          if (neighbours[neighIndex].type === cellTypes.forest) {
             treeCount++;
           }
         }
 
         // Calculate Profit for cell
-        if(treeCount < 6){
-          cellProfit = 0.1 + (0.9/6.0) * treeCount;          
+        if (treeCount < 6) {
+          cellProfit = 0.1 + (0.9 / 6.0) * treeCount;          
         } else {
           cellProfit = 1;
         }
