@@ -103,7 +103,6 @@ var Diversibee = (function() {
 
   function handleCellClick(cell) {
     return function() {
-      paintCellType = (cell.type === cellTypes.blueberries) ? cellTypes.forest : cellTypes.blueberries;
       paintCell(cell);
       updateProfitLv1();
     };
@@ -210,6 +209,12 @@ var Diversibee = (function() {
     // allow level change by adding hash to url
     window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
   };
+
+  Game.setPaintType = function(paintType) {
+    paintCellType = paintType;
+  };
+
+  Game.setPaintType('blueberries');
 
   return Game;
 })();
