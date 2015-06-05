@@ -101,6 +101,7 @@
     return function(e) {
       paintCellType = Diversibee.store.state[i].type === 'blueberries' ? 'forest' : 'blueberries';
       paintCell(i);
+      UpdateProfitLv1();
     };
   }
 
@@ -109,6 +110,7 @@
       if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
         paintCell(i);
       }
+      UpdateProfitLv1();
     };
   }
 
