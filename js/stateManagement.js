@@ -38,37 +38,20 @@
     return cells;
   }
 
-  function setCellType(i, cells, typeName)
-  {
-    var currentTypeName = cells[ i ];
+  function setUpBoardStateLv1(cellsWide, cellsHigh) {
+    //Initializes board state for level one
 
-    addToTypeCount(Diversibee.store.typeCount[ currentTypeName ], -1);
-    addToTypeCount(Diversibee.store.typeCount[ typeName ], 1);
+    var cells = [];
 
-    cells[ i ] = { type: typeName };
+    for (i = 0; i < cellsWide * cellsHigh; i++) {
+      addToCell(i, cells, 'forest');
+    }
+
+    return cells;
   }
 
-  // Add quantity to counter to typeName in store
-  // Maintains bounds on type quantities
-  function addToTypeCount(typeName, quantity)
-  {
-    var currentQuantity = Diversibee.store.typeCount[ typeName ];
-
-    if (!currentQuantity) {
-      console.log(
-              'addToTypeCount(): ' +
-                  typeName +
-              ' not recognized');
-      return;
-    }
-
-    currentQuantity += quantity;
-    if (currentQuantity < 0)
-    {
-      currentQuantity = 0;
-    }
-
-    Diversibee.store.typeCount[ typeName ] = currentQuantity;
+  function setCellType(i, cells, typeName) {
+    cells[ i ] = { type: typeName };
   }
 
   function setAnimation(i) {
@@ -89,6 +72,7 @@
     return function(e) {
       paintCellType = Diversibee.store.state[i].type === 'blueberries' ? 'forest' : 'blueberries';
       paintCell(i);
+      updateProfitLv1();
     };
   }
 
@@ -97,6 +81,8 @@
       if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
         paintCell(i);
       }
+
+      updateProfitLv1();
     };
   }
 
@@ -130,16 +116,22 @@
     addToProfits(Profits.basicProfits(neighbours));
   }
 
-  function calculateLevelOneProfit()
-  {
-    var blueberryCount = Diversibee.store.typeCount.blueberries;
-    var treeCount = Diversibee.store.typeCount.forest;
+  function calculateLevelOneProfit() {
+    var blueberryCount = 0;
+    var treeCount = 0;
+    for (var index in Diversibee.store.state) {
+      if (Diversibee.store.state[index].type === 'blueberries') {
+        blueberryCount++;
+      }
+      else if (Diversibee.store.state[index].type === 'forest') {
+        treeCount++;
+      }
+    }
 
     return blueberryCount * treeCount;
   }
 
-  function updateProfitLv1()
-  {
+  function updateProfitLv1() {
     var profits = calculateLevelOneProfit();
 
     Diversibee.store.profit = profits;
