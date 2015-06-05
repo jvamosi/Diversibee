@@ -1,129 +1,159 @@
 (function() {
-  //functions managing & updating the game state data, consisting of the `store` object and
-  //visualization in the browser.
 
-  var Diversibee = {};
-  var paintCellType;
+  var Game = {},
+      paintCellType,
+      cellTypes = {
+        grass: 'grass',
+        forest: 'forest',
+        blueberries: 'blueberries'
+      },
+      levels = [{
+        name: '1',
+        hash: 'level1'
+      }],
+      Coord = function(x, y) {
+        this.x = x;
+        this.y = y;
+      };
 
-  /**
-   * Private methods
-   */
-  function setUpBoardState(cellsWide, cellsHigh) {
-    // initializes board state
+  Coord.prototype.distanceFrom = function(coord) {
+    // Returns the distance between this coord and another (pythagoras)
 
-    var cells = [],
-        distanceFromSeedCell,
-        isForest,
-        i,
+    var xDiff = Math.abs(this.x - coord.x),
+        yDiff = Math.abs(this.y - coord.y);
 
-        //The likelihood a cell contains a 'seed'; probability bound 0 <= seedRate <= 1
-        seedRate = 0.02,
+    // c^2 = a^2 + b^2
+    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+  };
 
-        //Cells containing an initial 'seed'. Seeds are used to determine the inital forest growth
-        seededCells = generateUniqueRandomCells(cellsHigh, cellsWide, (cellsHigh * cellsWide * seedRate));
+  function generateType(coord, seeds) {
+    // Generate the cell type based on the distance from seeds (close to seed = forest)
 
-    for (i = 0; i < cellsWide * cellsHigh; i++) {
-      distanceFromSeedCell = distancefromSeed(i, cellsWide, seededCells);
-
-      //Does this cell initially become a forest based on the cell's seed proximity
-      isForest = shouldGrowForest(distanceFromSeedCell);
-
-      if (isForest) {
-        setCellType(i, cells, 'forest');
-      } else {
-        setCellType(i, cells, 'grass');
-      }
-    }
-
-    return cells;
+    var distanceFromSeedCell = distanceFromSeed(coord, seeds);
+    return shouldGrowForest(distanceFromSeedCell) ? cellTypes.forest : cellTypes.grass;
   }
 
-  function setUpBoardStateLv1(cellsWide, cellsHigh) {
-    //Initializes board state for level one
+  function generateCell(coord, seeds) {
+    // Generate a cell with a type and coordinates.
+
+    return {
+      type: generateType(coord, seeds),
+      coords: coord
+    };
+  }
+
+  function generateCells(width, height, seeds) {
+    // Generate cells for the game board.
 
     var cells = [];
 
-    for (i = 0; i < cellsWide * cellsHigh; i++) {
-      addToCell(i, cells, 'forest');
+    for (var x = 0; x < width; x++) {
+      for (var y = 0; y < height; y++) {
+        cells.push(generateCell(new Coord(x, y), seeds));
+      }
     }
 
     return cells;
   }
 
-  function setCellType(i, cells, typeName) {
-    cells[ i ] = { type: typeName };
+  function distanceFromSeed(coords, seeds) {
+    //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
+
+    return seeds.reduce(function(prevDistance, seed) {
+      return Math.min(prevDistance, coords.distanceFrom(seed));
+    }, Number.MAX_SAFE_INTEGER);
   }
 
-  function setAnimation(i) {
-    //set up the animation for cell i
+  function shouldGrowForest(distanceFromSeedCell) {
+    // A simple forest growth algorithm which clusters around seed locations
 
-    Diversibee.store.mapCell[i] = new createjs.Sprite(Diversibee.store.spriteSheet, Diversibee.store.state[i].type);
-    Diversibee.store.mapCell[i].x = 20 * (i % Diversibee.store.width);
-    Diversibee.store.mapCell[i].y = 20 * Math.floor(i / Diversibee.store.width);
-
-    Diversibee.store.mapCell[i].addEventListener('mousedown', handleCellClick(i));
-    Diversibee.store.mapCell[i].addEventListener('mouseover', handleCellMouseOver(i));
-
-    Diversibee.store.stage.addChild(Diversibee.store.mapCell[i]);
-    Diversibee.store.mapCell[i].play(Diversibee.store.state[i].type);
+    return (distanceFromSeedCell * 1.25) + (distanceFromSeedCell * Math.random()) < 5;
   }
 
-  function handleCellClick(i) {
-    return function(e) {
-      paintCellType = Diversibee.store.state[i].type === 'blueberries' ? 'forest' : 'blueberries';
-      paintCell(i);
+  function generateRandomSeeds(height, width, numberOfCells) {
+    // Generate a set of random seed coords to determine where trees are placed.
+
+    var randomCoords = [];
+
+    for (var i = 0; i < numberOfCells; i++) {
+      var x = Math.floor(Math.random() * width),
+          y = Math.floor(Math.random() * height);
+      randomCoords.push(new Coord(x, y));
+    }
+
+    return randomCoords;
+  }
+
+  function seedBoard(seedRate, width, height) {
+    // Seed the board with tree/grass cells
+
+    var seed = generateRandomSeeds(height, width, (height * width * seedRate));
+    return generateCells(width, height, seed);
+  }
+
+  function setAnimation(cell) {
+    //set up the animation for cell
+
+    var sprite = new createjs.Sprite(Game.store.spriteSheet, cell.type);
+
+    sprite.x = cell.coords.x * Game.width;
+    sprite.y = cell.coords.y * Game.height;
+
+    sprite.addEventListener('mousedown', handleCellClick(cell));
+    sprite.addEventListener('mouseover', handleCellMouseOver(cell));
+
+    Game.stage.addChild(sprite); // possible memory leak?
+    sprite.play(cell.type);
+  }
+
+  function handleCellClick(cell) {
+    return function() {
+      paintCellType = (cell.type === cellTypes.blueberries) ? cellTypes.forest : cellTypes.blueberries;
+      paintCell(cell);
       updateProfitLv1();
     };
   }
 
-  function handleCellMouseOver(i) {
+  function handleCellMouseOver(cell) {
     return function(e) {
       if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
-        paintCell(i);
+        paintCell(cell);
       }
 
       updateProfitLv1();
     };
   }
 
-  function paintCell(i) {
-    setCellType(i, Diversibee.store.state, paintCellType);
-    setAnimation(i);
-    repaintBoard();
+  function paintCell(cell) {
+    // Use the current painting cell type (registered on mousedown) to update the cell type.
+
+    cell.type = paintCellType;
+    setAnimation(cell);
+    Game.stage.update();
   }
 
   function repaintBoard() {
-    //re-paints the board state
+    // Re-paints the board state
 
-    if (Diversibee.store.animationLoop) {
-      clearInterval(Diversibee.store.animationLoop);
+    if (Game.store.animationLoop) {
+      clearInterval(Game.store.animationLoop);
     }
 
-    Diversibee.store.stage.update();
-    Diversibee.store.animationLoop = setInterval(function() {Diversibee.store.stage.update();}, 300);
-  }
-
-  function addToProfits(income) {
-    //update the farmer's bank account
-
-    Diversibee.store.profit += income;
-    document.getElementById('profit-value').innerHTML = '$' + Diversibee.store.cash;
-  }
-
-  function addCellProfitsToProfits(i, neighbours) {
-    //collect profits from cell i, modified by its nearest neghbours
-
-    addToProfits(Profits.basicProfits(neighbours));
+    Game.stage.update();
+    Game.store.animationLoop = setInterval(function() {
+      Game.stage.update();
+      Game.stage.tick();
+    }, 300);
   }
 
   function calculateLevelOneProfit() {
     var blueberryCount = 0;
     var treeCount = 0;
-    for (var index in Diversibee.store.state) {
-      if (Diversibee.store.state[index].type === 'blueberries') {
+    for (var index in Game.board) {
+      if (Game.board[index].type === 'blueberries') {
         blueberryCount++;
       }
-      else if (Diversibee.store.state[index].type === 'forest') {
+      else if (Game.board[index].type === 'forest') {
         treeCount++;
       }
     }
@@ -134,78 +164,35 @@
   function updateProfitLv1() {
     var profits = calculateLevelOneProfit();
 
-    Diversibee.store.profit = profits;
+    Game.store.profit = profits;
     document.getElementById('profit-value').innerHTML = '$' + profits;
   }
 
-  function distancefromSeed(cell, width, seededCells) {
-    //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
-    var distance = Number.MAX_SAFE_INTEGER,
-        i,
-        temp_dist;
+  function initLevel() {
 
-    for (i = 0; i < seededCells.length; i++) {
-      temp_dist = distanceBetweenCells(seededCells[i], cell, width);
-      distance = Math.min(distance, temp_dist);
-    }
+    var currentLevel = levels[0];
 
-    return distance;
-  }
-
-  function distanceBetweenCells(cellA, cellB, boardWidth) {
-    //returns the distance between cell A and cell B
-
-    var xDiff = (cellA % boardWidth) - (cellB % boardWidth),
-        yDiff = (Math.floor(cellA / boardWidth)) - (Math.floor(cellB / boardWidth));
-    return Math.abs(xDiff) + Math.abs(yDiff);
-  }
-
-  function shouldGrowForest(distanceFromSeed) {
-    //A simple forest growth algorithm which clusters around seed locations
-
-    return distanceFromSeed + distanceFromSeed * Math.random() < 5;
-  }
-
-  function generateUniqueRandomCells(height, width, numberOfCells) {
-    //Returns an array of unique random cells
-
-    var uniqueRandomCells = [],
-        i,
-
-        //we can safely choose the first unique random cell number
-        cellNumber = Math.floor(Math.random() * (height * width));
-
-    for (i = 0; i < numberOfCells; i++) {
-      while (Utils.inArray(cellNumber, uniqueRandomCells)) {
-        cellNumber = Math.floor(Math.random() * (height * width));
+    levels.forEach(function(level) {
+      if (window.location.hash === level.hash) {
+        currentLevel = level;
       }
+    });
 
-      uniqueRandomCells.push(cellNumber);
-    }
-
-    return uniqueRandomCells;
+    return currentLevel;
   }
 
-  /**
-   * Public methods
-   */
-  Diversibee.init = function(width, height) {
+  Game.init = function(width, height) {
     // Initialize the play area on load
 
-    var i;
+    var seedRate = 0.02;
+    Game.level = initLevel();
 
     //declare global store with default values
-    Diversibee.store.width = width;
-    Diversibee.store.height = height;
-
-    // Stores current total number of each type, updated by addTypeToCell()
-    Diversibee.store.typeCount = {
-      grass: 0,
-      forest: 0,
-      blueberries: 0
-    };
-    Diversibee.store.state = setUpBoardState(Diversibee.store.width, Diversibee.store.height);
-    Diversibee.store.animationData = {
+    Game.width = width;
+    Game.height = height;
+    Game.board = seedBoard(seedRate, Game.width, Game.height);
+    Game.store = {};
+    Game.store.animationData = {
       images: ['img/spriteSheet.png'],
       frames: {width:20, height:20},
       animations: {
@@ -215,25 +202,19 @@
       }
     };
 
-    Diversibee.store.stage = new createjs.Stage('board');
-    Diversibee.store.stage.enableMouseOver(10);
-    Diversibee.store.mapCell = [];
-    Diversibee.store.spriteSheet = new createjs.SpriteSheet(Diversibee.store.animationData);
-    Diversibee.store.w = Diversibee.store.stage.canvas.width;
-    Diversibee.store.h = Diversibee.store.stage.canvas.height;
-    Diversibee.store.profit = 1000;
-    Diversibee.store.blueberryBuildPrice = 100;
+    Game.stage = new createjs.Stage('board');
+    Game.stage.tickOnUpdate = false;
+    Game.stage.enableMouseOver(10);
+    Game.store.spriteSheet = new createjs.SpriteSheet(Game.store.animationData);
 
-    //set up initial cell animationsL
-    for (i = 0; i < Diversibee.store.width * Diversibee.store.height; i++) {
-      setAnimation(i);
+    //set up initial cell animations
+    for (var index in Game.board) {
+      setAnimation(Game.board[index]);
     }
 
     //paint the initial state of the board
     repaintBoard();
   };
 
-  Diversibee.store = {};
-
-  window.Diversibee = Diversibee;
+  window.Diversibee = Game;
 })();
