@@ -1,0 +1,13 @@
+{
+  "name": "Diversibee-tests",
+  "version": "0.0.0",
+  "description": "Tests of the Diversibee project",
+  "main": "tests-cli.js",
+  "scripts": {
+    "test": "node tests-cli.js"
+  },
+  "author": "Ghislain Rodrigues",
+  "devDependencies": {
+    "colors": "^1.1.0"
+  }
+}
