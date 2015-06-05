@@ -42,8 +42,8 @@ var Diversibee = (function() {
 
     var cells = [];
 
-    for (var x = 0; x < width; x++) {
-      for (var y = 0; y < height; y++) {
+    for (var y = 0; y < height; y++) {
+      for (var x = 0; x < width; x++) {
         cells.push(generateCell(new World.Coord(x, y), seeds));
       }
     }
@@ -53,7 +53,6 @@ var Diversibee = (function() {
 
   function distanceFromSeed(coords, seeds) {
     //Returns the distance from a cell to the closest seed (seeds are given as an array of cell locations)
-
     return seeds.reduce(function(prevDistance, seed) {
       return Math.min(prevDistance, coords.distanceFrom(seed));
     }, Number.MAX_SAFE_INTEGER);
@@ -104,6 +103,7 @@ var Diversibee = (function() {
   function handleCellClick(cell) {
     return function() {
       paintCell(cell);
+      
       updateProfitLv1();
     };
   }
@@ -166,10 +166,57 @@ var Diversibee = (function() {
     }, 300);
   }
 
+  function calculateProfitLv1() {
+    var blueberryCount = 0;
+    var treeCount = 0;
+    for (var index in Game.board) {
+      if (Game.board[index].type === 'blueberries') {
+        blueberryCount++;
+      }
+      else if (Game.board[index].type === 'forest') {
+        treeCount++;
+      }
+    }
+    return blueberryCount * treeCount;
+  }
+
   function updateProfitLv1() {
     var profits = Profits.calculateLv1Profit(Game.board);
     Game.store.profit = profits;
     document.getElementById('profit-value').innerHTML = '$' + profits;
+  }
+
+  function calculateProfitLv2()
+  {
+    var totalProfit = 0;
+
+    // Iterate over all blueberry cells
+    Game.board.forEach( function( cell, index){
+      if (cell.type === cellTypes.blueberries) {
+        var neighbours = Utils.adjacentCells(index);
+        var treeCount = 0;
+        var cellProfit = 0;
+
+        // Get number of trees in surrounding cells
+        for(var neighIndex in neighbours){
+          if(neighbours[neighIndex].type === cellTypes.forest){
+            treeCount++;
+          }
+        }
+
+        // Calculate Profit for cell
+        if(treeCount < 6){
+          cellProfit = 0.1 + (0.9/6.0) * treeCount;          
+        } else {
+          cellProfit = 1;
+        }
+
+        // Add to total
+        totalProfit += cellProfit;
+      }
+    });
+
+    return totalProfit;
   }
 
   Game.init = function(width, height) {
