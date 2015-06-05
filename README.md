@@ -9,7 +9,7 @@ In this project, we'd like to build a simple browser-based game that illustrates
 
 ## Getting Started
 
-Clone the project to your local machine, and open `index.html` in your browser to see what we've got so far.
+You can see the working version at http://jvamosi.github.io/Diversibee. Alternatively, clone the project to your local machine, and open `index.html` in your browser to see what we've got so far.
 
 ## Get Involved
 
