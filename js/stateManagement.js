@@ -133,23 +133,8 @@ var Diversibee = (function() {
     }, 300);
   }
 
-  function calculateLv1Profit() {
-    var blueberryCount = 0,
-        treeCount = 0;
-    for (var index in Game.board) {
-      if (Game.board[index].type === 'blueberries') {
-        blueberryCount++;
-      }
-      else if (Game.board[index].type === 'forest') {
-        treeCount++;
-      }
-    }
-
-    return blueberryCount * treeCount;
-  }
-
   function updateProfitLv1() {
-    var profits = calculateLv1Profit();
+    var profits = Profits.calculateLv1Profit(Game.board);
     Game.store.profit = profits;
     document.getElementById('profit-value').innerHTML = '$' + profits;
   }
