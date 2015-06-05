@@ -8,7 +8,7 @@ var Utils = (function() {
     //return a list of cell objects corresponding to the neighbours of cell i
 
     var neighbours = [],
-        j, neighbourIndex;
+      j, neighbourIndex;
 
     //three above:
     for (j = -1; j < 2; j++) {
@@ -42,7 +42,7 @@ var Utils = (function() {
     //Determine if item is in array
     //Borrowed from: http://stackoverflow.com/questions/784012/javascript-equivalent-of-phps-in-array
     var length = haystack.length,
-        i;
+      i;
 
     for (i = 0; i < length; i++) {
       if (haystack[i] === needle) {

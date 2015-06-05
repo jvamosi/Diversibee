@@ -7,8 +7,8 @@ var Profits = (function() {
   Profits.basicProfits = function(neighbours) {
     //award $1 for every bee in a tile adjacent to tile i
     var j, k,
-        neighbour,
-        bees = 0;
+      neighbour,
+      bees = 0;
 
     for (j = 0; j < neighbours.length; j++) {
       neighbour = neighbours[j];
