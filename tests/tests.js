@@ -17,10 +17,38 @@ var Tests = (function() {
   function _dumpResult(val, linkWord, expected, equals) {
     var result = 'Expected that ' + val + linkWord + expected;
     if (equals) {
-      output('<div class="success">' + result + '</div>');
+      output(result, 'success');
     }
     else {
-      output('<div class="error">' + result + '</div>');
+      output(result, 'error');
+    }
+  }
+
+  function _outputCLI(text, type) {
+    switch (type) {
+      case 'title':
+        displayElement(text);
+        break;
+      case 'success':
+        displayElement('success - ' + text);
+        break;
+      case 'error':
+        displayElement('error - ' + text);
+        break;
+    }
+  }
+
+  function _outputHTML(text, type) {
+    switch (type) {
+      case 'title':
+        displayElement.innerHTML += '<h2>' + text + '</h2>';
+        break;
+      case 'success':
+        displayElement.innerHTML += '<div class="success">' + text + '</div>';
+        break;
+      case 'error':
+        displayElement.innerHTML += '<div class="error">' + text + '</div>';
+        break;
     }
   }
 
@@ -96,18 +124,14 @@ var Tests = (function() {
     result = 0;
     displayElement = d;
     if (typeof (displayElement) == 'function') {
-      output = function(text) {
-        displayElement(text);
-      };
+      output = _outputCLI;
     }
     else {
-      output = function(text) {
-        displayElement.innerHTML += text;
-      };
+      output = _outputHTML;
     }
 
     for (s = 0; s < suites.length; s++) {
-      output('<h2>Tests for ' + suites[s][0] + '</h2>');
+      output('Tests for ' + suites[s][0], 'title');
       for (t = 0; t < suites[s][1].length; t++) {
         suites[s][1][t]();
       }
