@@ -1,30 +1,17 @@
-(function() {
+/* global exports, Profits, World */
+var Diversibee = (function() {
 
   var Game = {},
-      paintCellType,
-      cellTypes = {
-        grass: 'grass',
-        forest: 'forest',
-        blueberries: 'blueberries'
-      },
-      levels = [{
-        name: '1',
-        hash: 'level1'
-      }],
-      Coord = function(x, y) {
-        this.x = x;
-        this.y = y;
-      };
-
-  Coord.prototype.distanceFrom = function(coord) {
-    // Returns the distance between this coord and another (pythagoras)
-
-    var xDiff = Math.abs(this.x - coord.x),
-        yDiff = Math.abs(this.y - coord.y);
-
-    // c^2 = a^2 + b^2
-    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-  };
+    paintCellType,
+    cellTypes = {
+      grass: 'grass',
+      forest: 'forest',
+      blueberries: 'blueberries'
+    },
+    levels = [{
+      name: '1',
+      hash: 'level1'
+    }];
 
   function generateType(coord, seeds) {
     // Generate the cell type based on the distance from seeds (close to seed = forest)
@@ -49,7 +36,7 @@
 
     for (var x = 0; x < width; x++) {
       for (var y = 0; y < height; y++) {
-        cells.push(generateCell(new Coord(x, y), seeds));
+        cells.push(generateCell(new World.Coord(x, y), seeds));
       }
     }
 
@@ -77,8 +64,8 @@
 
     for (var i = 0; i < numberOfCells; i++) {
       var x = Math.floor(Math.random() * width),
-          y = Math.floor(Math.random() * height);
-      randomCoords.push(new Coord(x, y));
+        y = Math.floor(Math.random() * height);
+      randomCoords.push(new World.Coord(x, y));
     }
 
     return randomCoords;
@@ -146,23 +133,8 @@
     }, 300);
   }
 
-  function calculateLv1Profit() {
-    var blueberryCount = 0;
-    var treeCount = 0;
-    for (var index in Game.board) {
-      if (Game.board[index].type === 'blueberries') {
-        blueberryCount++;
-      }
-      else if (Game.board[index].type === 'forest') {
-        treeCount++;
-      }
-    }
-
-    return blueberryCount * treeCount;
-  }
-
   function updateProfitLv1() {
-    var profits = calculateLv1Profit();
+    var profits = Profits.calculateLv1Profit(Game.board);
     Game.store.profit = profits;
     document.getElementById('profit-value').innerHTML = '$' + profits;
   }
@@ -215,5 +187,9 @@
     redrawBoard();
   };
 
-  window.Diversibee = Game;
+  return Game;
 })();
+
+if (typeof (exports) != 'undefined') {
+  exports.Diversibee = Diversibee;
+}
