@@ -12,12 +12,16 @@ var Diversibee = (function() {
       {
         name: '1',
         hash: 'level1',
-        buttonId: '#tab-level1 a'
+        buttonId: '#tab-level1 a',
+        width: 10,
+        height: 10
       },
       {
         name: '2',
         hash: 'level2',
-        buttonId: '#tab-level2 a'
+        buttonId: '#tab-level2 a',
+        width: 20,
+        height: 20
       }
     ];
 
@@ -43,11 +47,9 @@ var Diversibee = (function() {
 
     return cells;
   }
-  
-  function seedBoard(seedRate, width, height) {
-    // Seed the board with tree/grass cells
 
-    return generateCells(width, height);
+  function updateAnimation(cell) {
+    cell.sprite.gotoAndPlay(cell.type);
   }
 
   function setAnimation(cell) {
@@ -55,20 +57,21 @@ var Diversibee = (function() {
 
     var sprite = new createjs.Sprite(Game.store.spriteSheet, cell.type);
 
-    sprite.x = cell.coords.x * Game.width;
-    sprite.y = cell.coords.y * Game.height;
+    sprite.x = cell.coords.x * Game.cellWidth;
+    sprite.y = cell.coords.y * Game.cellHeight;
 
     sprite.addEventListener('mousedown', handleCellClick(cell));
     sprite.addEventListener('mouseover', handleCellMouseOver(cell));
 
-    Game.stage.addChild(sprite); // possible memory leak?
+    cell.sprite = sprite;
+    Game.stage.addChild(sprite);
     sprite.play(cell.type);
   }
 
   function handleCellClick(cell) {
     return function() {
       paintCell(cell);
-      
+
       updateProfitLv1();
     };
   }
@@ -99,13 +102,31 @@ var Diversibee = (function() {
 
     Game.level = getLevelFromHash(hash);
 
-    //
-    //
-    // Insert other logic that happens when the level changes.
-    //
-    //
+    //Setup map
+    var seedRate = 0.02;
 
-    // Switch info panels
+    //declare global store with default values
+    Game.cellWidth = 20;
+    Game.cellHeight = 20;
+    Game.board = generateCells(Game.level.width, Game.level.height);
+
+    Game.stage.removeAllChildren();
+    Game.stage = new createjs.Stage('board');
+    Game.stage.tickOnUpdate = false;
+    Game.stage.enableMouseOver(10);
+    Game.store.spriteSheet = new createjs.SpriteSheet(Game.store.animationData);
+
+    //set up initial cell animations
+    for (var index in Game.board) {
+      setAnimation(Game.board[index]);
+    }
+
+    // draw the initial state of the board
+    redrawBoard();
+
+    // allow level change by adding hash to url
+    window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
+
     $(Game.level.buttonId).click();
   }
 
@@ -113,7 +134,7 @@ var Diversibee = (function() {
     // Use the current painting cell type (registered on mousedown) to update the cell type.
 
     cell.type = paintCellType;
-    setAnimation(cell);
+    updateAnimation(cell);
     Game.stage.update();
   }
 
@@ -128,7 +149,7 @@ var Diversibee = (function() {
     Game.store.animationLoop = setInterval(function() {
       Game.stage.update();
       Game.stage.tick();
-    }, 300);
+    }, 1000);
   }
 
   function calculateProfitLv1() {
@@ -172,7 +193,7 @@ var Diversibee = (function() {
 
         // Calculate Profit for cell
         if (treeCount < 6) {
-          cellProfit = 0.1 + (0.9 / 6.0) * treeCount;          
+          cellProfit = 0.1 + (0.9 / 6.0) * treeCount;
         } else {
           cellProfit = 1;
         }
@@ -185,16 +206,18 @@ var Diversibee = (function() {
     return totalProfit;
   }
 
-  Game.init = function(width, height) {
+  Game.init = function() {
+
     // Initialize the play area on load
 
     var seedRate = 0.02;
-    changeLevel(location.hash.substring(1));
+
+    Game.level = getLevelFromHash(location.hash.substring(1));
 
     //declare global store with default values
-    Game.width = width;
-    Game.height = height;
-    Game.board = seedBoard(seedRate, Game.width, Game.height);
+    Game.cellWidth = 20;//Game.level.width;
+    Game.cellHeight = 20;//Game.level.height;
+    Game.board = generateCells(Game.level.width, Game.level.height);
     Game.store = {};
     Game.store.animationData = {
       images: ['img/spriteSheet.png'],
@@ -215,6 +238,8 @@ var Diversibee = (function() {
     for (var index in Game.board) {
       setAnimation(Game.board[index]);
     }
+
+    changeLevel(location.hash.substring(1));
 
     // draw the initial state of the board
     redrawBoard();
