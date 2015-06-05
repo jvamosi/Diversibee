@@ -73,13 +73,14 @@ Here is a quick, high-level orientation of how Diversibee is designed:
  `width` | number of cells in one row of the map
  `height` | number of cells in one column of the map
  `state` | an array of objects describing the state of the board (specification below)
+ `typeCount` | an object holding the current total quantity of each type
  `animationData` | object encoding the animations for each cell
  `stage` | easel.js context for drawing the map
  `mapCell` | array containing the current visualization state of each cell
  `spriteSheet` | the easel.js spritesheet built from `img/spriteSheet.png`
  `w` | width in pixels of the map
  `h` | height in pixels of the map
- `cash` | current cash available to the player
+ `profit` | current cash available to the player
  `blueberryBuildPrice` | price to turn one tile into blueberry crop.
 
  - The `store.state` object mentioned above is an array of objects, where the ith array element describes the ith tile (where tiles are counted left to right across rows, then top to bottom over columns). Each element in this array is an object with the following structure:
@@ -87,5 +88,3 @@ Here is a quick, high-level orientation of how Diversibee is designed:
  key | value
  ----|------
  `type` | string, one of 'forest', 'grass' or 'blueberries' - indicates tile type.
- `beePop` | array of 4 integers, each representing the current population in that tile of each of 4 types of bees.
- `beeGrowth` | array of 4 integers, each representing the change that the corresponding value in `beePop` will undergo the next time the turn is advanced
