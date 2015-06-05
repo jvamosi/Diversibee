@@ -6,42 +6,48 @@ if (typeof (require) != 'undefined') {
 
 Tests.addSuite('profits', [
   function() {
-    //Test if the method Profits.basicProfits exists
+    //Test if the method Profits.calculateLv1Profit exists
 
-    Tests.isA(Profits.basicProfits, 'function');
+    Tests.isA(Profits.calculateLv1Profit, 'function');
   },
 
   function() {
-    //Tests of the Profits.basicProfits method
+    //Tests of the Profits.calculateLv1Profit method
 
-    //No neighbours
-    Tests.equals(Profits.basicProfits([]), 0);
+    //Empty board
+    Tests.equals(Profits.calculateLv1Profit([]), 0);
 
-    //some neighbours
-    var neighbours = [
-      {beePop: [0, 0, 0, 0]},
-      {beePop: [0, 0, 0, 0]},
-      {beePop: [0, 0, 0, 0]},
-      {beePop: [0, 0, 0, 0]},
-      {beePop: [0, 0, 0, 0]}
+    //intial board
+    var board = [
+      {type: 'forest'},
+      {type: 'forest'},
+      {type: 'forest'},
+      {type: 'forest'},
+      {type: 'grass'},
+      {type: 'grass'},
+      {type: 'forest'},
+      {type: 'grass'},
+      {type: 'grass'}
     ];
-    Tests.equals(Profits.basicProfits(neighbours), 0);
-    neighbours = [
-      {beePop: [1, 1, 1, 1]},
-      {beePop: [1, 1, 1, 1]},
-      {beePop: [1, 1, 1, 1]},
-      {beePop: [1, 1, 1, 1]},
-      {beePop: [1, 1, 1, 1]}
-    ];
-    Tests.equals(Profits.basicProfits(neighbours), 20);
-    neighbours = [
-      {beePop: [3, 5, 7, 3]},
-      {beePop: [7, 3, 2, 7]},
-      {beePop: [9, 4, 60, 3]},
-      {beePop: [64, 1, 0, 4]},
-      {beePop: [6, 4, 12, 3]}
-    ];
-    Tests.equals(Profits.basicProfits(neighbours), 207);
+    Tests.equals(Profits.calculateLv1Profit(board), 0);
+    board[0].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 4);
+    board[1].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 6);
+    board[2].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 6);
+    board[3].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 4);
+    board[4].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 5);
+    board[5].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 6);
+    board[6].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0);
+    board[7].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0);
+    board[8].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0);
   }
 
 ]);
