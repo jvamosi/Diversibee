@@ -50,6 +50,10 @@ var Diversibee = (function() {
     return generateCells(width, height);
   }
 
+  function updateAnimation(cell) {
+    cell.sprite.gotoAndPlay(cell.type);
+  }
+
   function setAnimation(cell) {
     //set up the animation for cell
 
@@ -61,7 +65,8 @@ var Diversibee = (function() {
     sprite.addEventListener('mousedown', handleCellClick(cell));
     sprite.addEventListener('mouseover', handleCellMouseOver(cell));
 
-    Game.stage.addChild(sprite); // possible memory leak?
+    cell.sprite = sprite;
+    Game.stage.addChild(sprite);
     sprite.play(cell.type);
   }
 
@@ -113,7 +118,7 @@ var Diversibee = (function() {
     // Use the current painting cell type (registered on mousedown) to update the cell type.
 
     cell.type = paintCellType;
-    setAnimation(cell);
+    updateAnimation(cell);
     Game.stage.update();
   }
 
