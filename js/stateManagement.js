@@ -149,7 +149,7 @@ var Diversibee = (function() {
     Game.store.animationLoop = setInterval(function() {
       Game.stage.update();
       Game.stage.tick();
-    }, 300);
+    }, 1000);
   }
 
   function calculateProfitLv1() {
