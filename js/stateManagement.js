@@ -12,12 +12,16 @@ var Diversibee = (function() {
       {
         name: '1',
         hash: 'level1',
-        buttonId: '#tab-level1 a'
+        buttonId: '#tab-level1 a',
+        width: 10,
+        height: 10
       },
       {
         name: '2',
         hash: 'level2',
-        buttonId: '#tab-level2 a'
+        buttonId: '#tab-level2 a',
+        width: 20,
+        height: 20
       }
     ];
 
@@ -44,19 +48,13 @@ var Diversibee = (function() {
     return cells;
   }
 
-  function seedBoard(seedRate, width, height) {
-    // Seed the board with tree/grass cells
-
-    return generateCells(width, height);
-  }
-
   function setAnimation(cell) {
     //set up the animation for cell
 
     var sprite = new createjs.Sprite(Game.store.spriteSheet, cell.type);
 
-    sprite.x = cell.coords.x * Game.width;
-    sprite.y = cell.coords.y * Game.height;
+    sprite.x = cell.coords.x * Game.cellWidth;
+    sprite.y = cell.coords.y * Game.cellHeight;
 
     sprite.addEventListener('mousedown', handleCellClick(cell));
     sprite.addEventListener('mouseover', handleCellMouseOver(cell));
@@ -99,13 +97,31 @@ var Diversibee = (function() {
 
     Game.level = getLevelFromHash(hash);
 
-    //
-    //
-    // Insert other logic that happens when the level changes.
-    //
-    //
+    //Setup map
+    var seedRate = 0.02;
 
-    // Switch info panels
+    //declare global store with default values
+    Game.cellWidth = 20;
+    Game.cellHeight = 20;
+    Game.board = generateCells(Game.level.width, Game.level.height);
+
+    Game.stage.removeAllChildren();
+    Game.stage = new createjs.Stage('board');
+    Game.stage.tickOnUpdate = false;
+    Game.stage.enableMouseOver(10);
+    Game.store.spriteSheet = new createjs.SpriteSheet(Game.store.animationData);
+
+    //set up initial cell animations
+    for (var index in Game.board) {
+      setAnimation(Game.board[index]);
+    }
+
+    // draw the initial state of the board
+    redrawBoard();
+
+    // allow level change by adding hash to url
+    window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
+
     $(Game.level.buttonId).click();
   }
 
@@ -185,16 +201,18 @@ var Diversibee = (function() {
     return totalProfit;
   }
 
-  Game.init = function(width, height) {
+  Game.init = function() {
+
     // Initialize the play area on load
 
     var seedRate = 0.02;
-    changeLevel(location.hash.substring(1));
+
+    Game.level = getLevelFromHash(location.hash.substring(1));
 
     //declare global store with default values
-    Game.width = width;
-    Game.height = height;
-    Game.board = seedBoard(seedRate, Game.width, Game.height);
+    Game.cellWidth = 20;//Game.level.width;
+    Game.cellHeight = 20;//Game.level.height;
+    Game.board = generateCells(Game.level.width, Game.level.height);
     Game.store = {};
     Game.store.animationData = {
       images: ['img/spriteSheet.png'],
@@ -215,6 +233,8 @@ var Diversibee = (function() {
     for (var index in Game.board) {
       setAnimation(Game.board[index]);
     }
+
+    changeLevel(location.hash.substring(1));
 
     // draw the initial state of the board
     redrawBoard();
