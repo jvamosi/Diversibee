@@ -132,8 +132,8 @@
     Game.stage.update();
   }
 
-  function repaintBoard() {
-    // Re-paints the board state
+  function redrawBoard() {
+    // Redraws the board state
 
     if (Game.store.animationLoop) {
       clearInterval(Game.store.animationLoop);
@@ -146,7 +146,7 @@
     }, 300);
   }
 
-  function calculateLevelOneProfit() {
+  function calculateLv1Profit() {
     var blueberryCount = 0;
     var treeCount = 0;
     for (var index in Game.board) {
@@ -162,8 +162,7 @@
   }
 
   function updateProfitLv1() {
-    var profits = calculateLevelOneProfit();
-
+    var profits = calculateLv1Profit();
     Game.store.profit = profits;
     document.getElementById('profit-value').innerHTML = '$' + profits;
   }
@@ -212,8 +211,8 @@
       setAnimation(Game.board[index]);
     }
 
-    //paint the initial state of the board
-    repaintBoard();
+    //draw the initial state of the board
+    redrawBoard();
   };
 
   window.Diversibee = Game;
