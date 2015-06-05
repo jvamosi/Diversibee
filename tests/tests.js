@@ -6,18 +6,16 @@ if (typeof (require) != 'undefined') {
 var Tests = (function() {
   //Micro tests service
 
-  // The tests library
-  var tests = {},
-    // the collection of test suites
-    suites = [],
-    // Where to display the results (at the moment can be console.log or
-    // a DOM node
-    displayElement,
-    // The result of a run of tests, 0 if ok, 1 if at least a test fails
-    // Used as exit code for cli run
-    result = 0,
-    // Function to call to print the output
-    output;
+  var tests = {}, // The tests library
+    suites = [], // the collection of test suites
+
+    displayElement, // Where to display the results (at the moment can be console.log or
+                    // a DOM node
+
+    result = 0, // The result of a run of tests, 0 if ok, 1 if at least a test fails
+                // Used as exit code for cli run
+
+    output; // Function to call to print the output
 
   function _equalsObject(val, expected) {
     // Naive, quick and dirty but working object comparison

@@ -1,4 +1,4 @@
-/* global exports */
+/* global exports, Profits, World */
 var Diversibee = (function() {
 
   var Game = {},

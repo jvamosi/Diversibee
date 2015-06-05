@@ -1,5 +1,5 @@
 /* global exports */
-var World = (function () {
+var World = (function() {
   // Collection of class to work on the world, geometry....
   // Calculate distance between cells,
   // Manipulate coordinates...
