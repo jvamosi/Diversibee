@@ -121,14 +121,25 @@ var Tests = (function() {
   tests.isA = function(val, type) {
     // Returns true if val is of type type.
 
-    var equals = typeof (val) === type;
+    var typeVal = typeof (val),
+      equals = typeVal === type;
 
-    _dumpResult(
-      (val.toString && val.toString() || val).substring(0, 20) + ' (' + typeof (val) + ')',
-      ' is a ',
-      type,
-      equals
-    );
+    if (typeVal == 'undefined') {
+      _dumpResult(
+        typeVal,
+        ' is a ',
+        type,
+        equals
+      );
+    }
+    else {
+      _dumpResult(
+        (val.toString && val.toString() || val).substring(0, 20) + ' (' + typeof (val) + ')',
+        ' is a ',
+        type,
+        equals
+      );
+    }
 
     if (!equals) {
       result = 1;
