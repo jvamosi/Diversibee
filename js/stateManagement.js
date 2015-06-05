@@ -8,10 +8,16 @@ var Diversibee = (function() {
       forest: 'forest',
       blueberries: 'blueberries'
     },
-    levels = [{
-      name: '1',
-      hash: 'level1'
-    }];
+    levels = [
+      {
+        name: '1',
+        hash: 'level1'
+      },
+      {
+        name: '2',
+        hash: 'level2'
+      }
+    ];
 
   function generateType(coord, seeds) {
     // Generate the cell type based on the distance from seeds (close to seed = forest)
@@ -111,6 +117,23 @@ var Diversibee = (function() {
     };
   }
 
+  function changeLevel(hash) {
+    // Change level based on URL hash.
+
+    for (var index in levels) {
+      var level = levels[index];
+      if (level.hash === hash) {
+        Game.level = level.name;
+      }
+    }
+
+    //
+    //
+    // Insert other logic that happens when the level changes.
+    //
+    //
+  }
+
   function paintCell(cell) {
     // Use the current painting cell type (registered on mousedown) to update the cell type.
 
@@ -183,8 +206,11 @@ var Diversibee = (function() {
       setAnimation(Game.board[index]);
     }
 
-    //draw the initial state of the board
+    // draw the initial state of the board
     redrawBoard();
+
+    // allow level change by adding hash to url
+    window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
   };
 
   return Game;
