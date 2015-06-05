@@ -12,7 +12,7 @@ Tests.addSuite('world', [
   },
 
   function() {
-    //Test of the method Utils.inArray exists
+    //Test of the object World.Coord
 
     /*
      * Will calculate the distance from c1 to all the others to cover
