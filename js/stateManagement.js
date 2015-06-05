@@ -110,6 +110,7 @@ var Diversibee = (function() {
     Game.cellHeight = 20;
     Game.board = generateCells(Game.level.width, Game.level.height);
 
+    Game.stage.removeAllChildren();
     Game.stage = new createjs.Stage('board');
     Game.stage.tickOnUpdate = false;
     Game.stage.enableMouseOver(10);
