@@ -37,6 +37,18 @@
 
     return cells;
   }
+  
+  function setUpBoardStateLv1(cellsWide, cellsHigh) {
+    //Initializes board state for level one
+    
+    var cells = [];
+    
+    for (i = 0; i < cellsWide * cellsHigh; i++) {
+      addToCell(i, cells, 'forest');
+    }
+    
+    return cells;
+  }
 
   function setCellType(i, cells, typeName) {
     var currentTypeName = cells[ i ];
@@ -87,6 +99,7 @@
     return function(e) {
       paintCellType = Diversibee.store.state[i].type === 'blueberries' ? 'forest' : 'blueberries';
       paintCell(i);
+      updateProfitLv1();
     };
   }
 
@@ -95,6 +108,7 @@
       if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
         paintCell(i);
       }
+      updateProfitLv1();
     };
   }
 
