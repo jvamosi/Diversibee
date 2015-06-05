@@ -4,7 +4,8 @@ var Tests = (function() {
 
     var tests = {},
         suites = [],
-        displayElement;
+        displayElement,
+        output;
 
     function _equalsObject(val, expected) {
         //Naive, quick and dirty but working object comparison
@@ -14,11 +15,11 @@ var Tests = (function() {
 
     function _dumpResult(val, linkWord, expected, equals) {
         var result = 'Expected that ' + val + linkWord + expected;
-        if(equals) {
-            displayElement.innerHTML += '<div class="success">' + result + '</div>';
+        if (equals) {
+            output('<div class="success">' + result + '</div>');
         }
         else {
-            displayElement.innerHTML += '<div class="error">' + result + '</div>';
+            output('<div class="error">' + result + '</div>');
         }
     }
 
@@ -82,9 +83,19 @@ var Tests = (function() {
         var s, t;
 
         displayElement = d;
+        if (typeof (displayElement) == 'function') {
+            output = function(text) {
+                displayElement(text);
+            };
+        }
+        else {
+            output = function(text) {
+                displayElement.innerHTML += text;
+            };
+        }
 
-        for(s = 0; s < suites.length; s++) {
-            displayElement.innerHTML += '<h2>Tests for ' + suites[s][0] + '</h2>';
+        for (s = 0; s < suites.length; s++) {
+            output('<h2>Tests for ' + suites[s][0] + '</h2>');
             for (t = 0; t < suites[s][1].length; t++) {
                 suites[s][1][t]();
             }
