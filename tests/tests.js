@@ -1,4 +1,5 @@
-(function() {
+/* global exports */
+var Tests = (function() {
     //Micro tests service
 
     var tests = {},
@@ -90,5 +91,9 @@
         }
     };
 
-    window.Tests = tests;
+    return tests;
 })();
+
+if (typeof (exports) != 'undefined') {
+    exports.Tests = Tests;
+}

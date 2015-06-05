@@ -1,4 +1,5 @@
-(function() {
+/* global exports */
+var Profits = (function() {
   //functions describing how profits are caluclated for a given blueberry crop tile
 
   var Profits = {};
@@ -19,5 +20,9 @@
     return bees;
   };
 
-  window.Profits = Profits;
+  return Profits;
 })();
+
+if (typeof (exports) != 'undefined') {
+  exports.Profits = Profits;
+}

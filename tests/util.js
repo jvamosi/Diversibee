@@ -1,4 +1,9 @@
-/* global Tests */
+/* global require */
+if (typeof (require) != 'undefined') {
+    var Tests = require('./tests.js').Tests,
+        Utils = require('../js/util.js').Utils;
+}
+
 Tests.addSuite('util', [
     function() {
         //Test if the method Utils.inArray exists

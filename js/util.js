@@ -1,4 +1,5 @@
-(function() {
+/* global exports */
+var Utils = (function() {
   //helper functions and general utilities
 
   var Utils = {};
@@ -52,6 +53,9 @@
     return false;
   };
 
-  window.Utils = Utils;
-
+  return Utils;
 })();
+
+if (typeof (exports) != 'undefined') {
+  exports.Utils = Utils;
+}

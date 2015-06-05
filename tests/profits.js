@@ -1,4 +1,9 @@
-/* global Tests */
+/* global require */
+if (typeof (require) != 'undefined') {
+    var Tests = require('./tests.js').Tests,
+        Profits = require('../js/profits.js').Profits;
+}
+
 Tests.addSuite('profits', [
     function() {
         //Test if the method Profits.basicProfits exists

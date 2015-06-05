@@ -1,4 +1,5 @@
-(function() {
+/* global exports */
+var Diversibee = (function() {
 
   var Game = {},
       paintCellType,
@@ -215,5 +216,9 @@
     redrawBoard();
   };
 
-  window.Diversibee = Game;
+  return Game;
 })();
+
+if (typeof (exports) != 'undefined') {
+  exports.Diversibee = Diversibee;
+}
