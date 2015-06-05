@@ -16,7 +16,8 @@ h1 {
   color: white;
 }
 .profit {
-  text-align: center;
+  text-align: right;
+  margin-right: 1rem;
 }
 .page-title {
   background: #809680;
@@ -27,4 +28,18 @@ h1 {
   margin-top: 0;
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+.game-toolbar-button {
+  margin: 2px;
+  background-image: url("../img/spriteSheet.png");
+  background-repeat: no-repeat;
+  width: 24px;
+  height: 24px;
+  float: left;
+}
+.game-toolbar-button#tree-button {
+  background-position: 0px -20px;
+}
+.game-toolbar-button#blueberry-button {
+  background-position: 0px -40px;
 }
