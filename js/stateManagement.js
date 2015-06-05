@@ -11,11 +11,13 @@ var Diversibee = (function() {
     levels = [
       {
         name: '1',
-        hash: 'level1'
+        hash: 'level1',
+        buttonId: '#tab-level1 a'
       },
       {
         name: '2',
-        hash: 'level2'
+        hash: 'level2',
+        buttonId: '#tab-level2 a'
       }
     ];
 
@@ -138,6 +140,9 @@ var Diversibee = (function() {
     // Insert other logic that happens when the level changes.
     //
     //
+
+    // Switch info panels
+    $(Game.level.buttonId).click();
   }
 
   function paintCell(cell) {
