@@ -11,21 +11,7 @@ var Diversibee = (function() {
     levels = [{
       name: '1',
       hash: 'level1'
-    }],
-    Coord = function(x, y) {
-      this.x = x;
-      this.y = y;
-    };
-
-  Coord.prototype.distanceFrom = function(coord) {
-    // Returns the distance between this coord and another (pythagoras)
-
-    var xDiff = Math.abs(this.x - coord.x),
-      yDiff = Math.abs(this.y - coord.y);
-
-    // c^2 = a^2 + b^2
-    return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
-  };
+    }];
 
   function generateType(coord, seeds) {
     // Generate the cell type based on the distance from seeds (close to seed = forest)
@@ -50,7 +36,7 @@ var Diversibee = (function() {
 
     for (var x = 0; x < width; x++) {
       for (var y = 0; y < height; y++) {
-        cells.push(generateCell(new Coord(x, y), seeds));
+        cells.push(generateCell(new World.Coord(x, y), seeds));
       }
     }
 
@@ -79,7 +65,7 @@ var Diversibee = (function() {
     for (var i = 0; i < numberOfCells; i++) {
       var x = Math.floor(Math.random() * width),
         y = Math.floor(Math.random() * height);
-      randomCoords.push(new Coord(x, y));
+      randomCoords.push(new World.Coord(x, y));
     }
 
     return randomCoords;
