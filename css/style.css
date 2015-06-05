@@ -43,3 +43,6 @@ h1 {
 .game-toolbar-button#blueberry-button {
   background-position: 0px -40px;
 }
+.game-toolbar-button#grass-button {
+  background-position: 0px 0px;
+}
