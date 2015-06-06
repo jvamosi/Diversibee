@@ -173,8 +173,7 @@ var Diversibee = (function() {
     document.getElementById('profit-value').innerHTML = '$' + profits;
   }
 
-  function calculateProfitLv2()
-  {
+  function calculateProfitLv2() {
     var totalProfit = 0;
 
     // Iterate over all blueberry cells
@@ -206,8 +205,62 @@ var Diversibee = (function() {
     return totalProfit;
   }
 
-  Game.init = function() {
+  function calculateProfitLv3() {
+    var totalProfit = 0;
+   
+   // Initialize bee count array 
+    var beesInCell = [];
+    Game.board.forEach( function() {
+      beesInCell.push( 0 );
+    });
+   
+    Game.board.forEach( function( cell, index ) {
+      if( cell.type === cellTypes.forest ){
+        var neighbours = Utils.adjacentCells(index);
+        var forestCount = 1; // include self 
+        neighbours.forEach( function( neighbourCell ) {
+          if( neighbourCell.type === cellTypes.forest ){
+            forestCount++;
+          }
+       });
+       beesInCell[index] = forestCount; 
+      } 
+    });
 
+    // Iterate over all blueberry cells
+    Game.board.forEach( function( cell, index){
+      if (cell.type === cellTypes.blueberries) {
+        var neighbours = Utils.adjacentCells(index);
+        var cellProfit = 0;
+        var contribution = 0;
+
+        // Calculate number of bee in surrounding cells
+        neighbours.forEach( function( neighbourCell ) {
+          if(neighbourCell.type === cellTypes.forest) {
+            contribution += (1.0/7.0) * beesInCell[ boardIndex(neighbourCell.coords) ];
+          }
+        });
+
+        // Calculate Profit for cell
+        if( contribution <= 1 ){
+          cellProfit = 0.1 + (0.9/6.0) * contribution;          
+        } else {
+          cellProfit = 1;
+        }
+
+        // Add to total
+        totalProfit += cellProfit;
+      }
+    });
+
+    return totalProfit;
+  }
+
+  function boardIndex(coord){
+    return Game.width * coord.y + coord.x;
+  }
+
+  Game.init = function(width, height) {
     // Initialize the play area on load
 
     var seedRate = 0.02;
