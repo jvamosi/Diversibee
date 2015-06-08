@@ -206,22 +206,23 @@ var Diversibee = (function() {
   }
 
   function calculateProfitLv3() {
-    var totalProfit = 0; 
+    var totalProfit = 0;
     var beesInCell = [];
     Game.board.forEach(function() {
       beesInCell.push(0);
     });
 
     Game.board.forEach(function(cell, index) {
-      if(cell.type === cellTypes.forest) {
+      if (cell.type === cellTypes.forest) {
         var neighbours = Utils.adjacentCells(index);
-        var forestCount = 1; // include self 
+        var forestCount = 1; // include self
         neighbours.forEach(function(neighbourCell) {
-          if(neighbourCell.type === cellTypes.forest) {
+          if (neighbourCell.type === cellTypes.forest) {
             forestCount++;
           }
-       });
-       beesInCell[index] = forestCount;
+        });
+
+        beesInCell[index] = forestCount;
       }
     });
 
@@ -241,7 +242,7 @@ var Diversibee = (function() {
 
         // Calculate Profit for cell
         if (contribution <= 1) {
-          cellProfit = 0.1 + (0.9 / 6.0) * contribution; 
+          cellProfit = 0.1 + (0.9 / 6.0) * contribution;
         } else {
           cellProfit = 1;
         }
