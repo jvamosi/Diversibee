@@ -102,9 +102,6 @@ var Diversibee = (function() {
 
     Game.level = getLevelFromHash(hash);
 
-    //Setup map
-    var seedRate = 0.02;
-
     //declare global store with default values
     Game.cellWidth = 20;
     Game.cellHeight = 20;
@@ -259,16 +256,14 @@ var Diversibee = (function() {
     return Game.width * coord.y + coord.x;
   }
 
-  Game.init = function(width, height) {
+  Game.init = function() {
     // Initialize the play area on load
-
-    var seedRate = 0.02;
 
     Game.level = getLevelFromHash(location.hash.substring(1));
 
     //declare global store with default values
-    Game.cellWidth = 20;//Game.level.width;
-    Game.cellHeight = 20;//Game.level.height;
+    Game.cellWidth = 20;
+    Game.cellHeight = 20;
     Game.board = generateCells(Game.level.width, Game.level.height);
     Game.store = {};
     Game.store.animationData = {
