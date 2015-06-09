@@ -2,6 +2,8 @@
 var Profits = (function() {
   //functions describing how profits are caluclated for a given blueberry crop tile
 
+  // TODO: Move profit functions into here from stateManagement
+
   var Profits = {};
 
   Profits.calculateLv1Profit = function(board) {
