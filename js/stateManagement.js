@@ -116,6 +116,15 @@ var Diversibee = (function() {
     Game.cellHeight = 20;
     Game.board = generateCells(Game.level.width, Game.level.height);
 
+    var canvasWidth = Game.level.width *  Game.cellWidth;
+    var canvasHeight = Game.level.height *  Game.cellHeight;
+    var gameArea = document.getElementById('game-area');
+    gameArea.style.width = canvasWidth + 'px';
+    gameArea.style.height = canvasHeight + 'px';
+    var gameBoard = document.getElementById('board');
+    gameBoard.width = canvasWidth;
+    gameBoard.height = canvasHeight;
+
     Game.stage.removeAllChildren();
     Game.stage = new createjs.Stage('board');
     Game.stage.tickOnUpdate = false;
