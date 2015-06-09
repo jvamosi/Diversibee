@@ -11,25 +11,25 @@
 
     //three above:
     for (j = -1; j < 2; j++) {
-      neighbourIndex = i - Diversibee.width + j;
-      if (neighbourIndex >= 0 && Math.floor(neighbourIndex / Diversibee.width) === Math.floor((i - Diversibee.width) / Diversibee.width)) {
+      neighbourIndex = i - Diversibee.level.width + j;
+      if (neighbourIndex >= 0 && Math.floor(neighbourIndex / Diversibee.level.width) === Math.floor((i - Diversibee.level.width) / Diversibee.level.width)) {
         neighbours.push(Diversibee.board[neighbourIndex]);
       }
     }
 
     //two beside
-    if (i - 1 >= Math.floor(i / Diversibee.width) * Diversibee.width) {
+    if (i - 1 >= Math.floor(i / Diversibee.level.width) * Diversibee.level.width) {
       neighbours.push(Diversibee.board[i - 1]);
     }
 
-    if (i + 1 < Math.floor(i / Diversibee.width) * Diversibee.width + Diversibee.width) {
+    if (i + 1 < Math.floor(i / Diversibee.level.width) * Diversibee.level.width + Diversibee.level.width) {
       neighbours.push(Diversibee.board[i + 1]);
     }
 
     //three below
     for (j = -1; j < 2; j++) {
-      neighbourIndex = i + Diversibee.width + j;
-      if (neighbourIndex < Diversibee.width * Diversibee.height && Math.floor(neighbourIndex / Diversibee.width) === Math.floor((i + Diversibee.width) / Diversibee.width)) {
+      neighbourIndex = i + Diversibee.level.width + j;
+      if (neighbourIndex < Diversibee.level.width * Diversibee.level.height && Math.floor(neighbourIndex / Diversibee.level.width) === Math.floor((i + Diversibee.level.width) / Diversibee.level.width)) {
         neighbours.push(Diversibee.board[neighbourIndex]);
       }
     }

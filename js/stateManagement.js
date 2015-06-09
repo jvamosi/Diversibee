@@ -181,7 +181,7 @@ var Diversibee = (function() {
   }
 
   function displayProfit() {
-    document.getElementById('profit-value').innerHTML = '$' + Game.store.profit;
+    document.getElementById('profit-value').innerHTML = '$' + Game.store.profit.toFixed(2);
   }
 
   function calculateProfitLv2() {
@@ -267,7 +267,7 @@ var Diversibee = (function() {
   }
 
   function boardIndex(coord) {
-    return Game.width * coord.y + coord.x;
+    return Game.level.width * coord.y + coord.x;
   }
 
   Game.init = function() {
