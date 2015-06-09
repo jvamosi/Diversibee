@@ -116,6 +116,15 @@ var Diversibee = (function() {
     Game.cellHeight = 20;
     Game.board = generateCells(Game.level.width, Game.level.height);
 
+    var canvasWidth = Game.level.width *  Game.cellWidth;
+    var canvasHeight = Game.level.height *  Game.cellHeight;
+    var gameArea = document.getElementById('game-area');
+    gameArea.style.width = canvasWidth + 'px';
+    gameArea.style.height = canvasHeight + 'px';
+    var gameBoard = document.getElementById('board');
+    gameBoard.width = canvasWidth;
+    gameBoard.height = canvasHeight;
+
     Game.stage.removeAllChildren();
     Game.stage = new createjs.Stage('board');
     Game.stage.tickOnUpdate = false;
@@ -157,7 +166,7 @@ var Diversibee = (function() {
     Game.store.animationLoop = setInterval(function() {
       Game.stage.update();
       Game.stage.tick();
-    }, 1000);
+    }, 500);
   }
 
   function calculateProfitLv1() {
@@ -181,7 +190,7 @@ var Diversibee = (function() {
   }
 
   function displayProfit() {
-    document.getElementById('profit-value').innerHTML = '$' + Game.store.profit;
+    document.getElementById('profit-value').innerHTML = '$' + Game.store.profit.toFixed(2);
   }
 
   function calculateProfitLv2() {
@@ -267,7 +276,7 @@ var Diversibee = (function() {
   }
 
   function boardIndex(coord) {
-    return Game.width * coord.y + coord.x;
+    return Game.level.width * coord.y + coord.x;
   }
 
   Game.init = function() {
@@ -284,7 +293,7 @@ var Diversibee = (function() {
       images: ['img/spriteSheet.png'],
       frames: {width:20, height:20},
       animations: {
-        grass: [0, 3],
+        grass: [3, 3],
         forest: [4, 7],
         blueberries: [8, 11]
       }
