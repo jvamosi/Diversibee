@@ -14,7 +14,7 @@ h1 {
   border: 1px solid #333;
   background: #004e00;
   color: white;
-  min-width: 210px;
+  display: inline-block;
 }
 .profit {
   text-align: right;
