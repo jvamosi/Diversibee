@@ -157,7 +157,7 @@ var Diversibee = (function() {
     Game.store.animationLoop = setInterval(function() {
       Game.stage.update();
       Game.stage.tick();
-    }, 1000);
+    }, 500);
   }
 
   function calculateProfitLv1() {
@@ -284,7 +284,7 @@ var Diversibee = (function() {
       images: ['img/spriteSheet.png'],
       frames: {width:20, height:20},
       animations: {
-        grass: [0, 3],
+        grass: [3, 3],
         forest: [4, 7],
         blueberries: [8, 11]
       }
