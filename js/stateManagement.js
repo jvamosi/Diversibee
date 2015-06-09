@@ -14,14 +14,24 @@ var Diversibee = (function() {
         hash: 'level1',
         buttonId: '#tab-level1 a',
         width: 10,
-        height: 10
+        height: 10,
+        calculateProfit: calculateProfitLv1
       },
       {
         name: '2',
         hash: 'level2',
         buttonId: '#tab-level2 a',
         width: 20,
-        height: 20
+        height: 20,
+        calculateProfit: calculateProfitLv2
+      },
+      {
+        name: '3',
+        hash: 'level3',
+        buttonId: '#tab-level3 a',
+        width: 20,
+        height: 20,
+        calculateProfit: calculateProfitLv3
       }
     ];
 
@@ -71,8 +81,7 @@ var Diversibee = (function() {
   function handleCellClick(cell) {
     return function() {
       paintCell(cell);
-
-      updateProfitLv1();
+      updateProfit();
     };
   }
 
@@ -82,7 +91,7 @@ var Diversibee = (function() {
         paintCell(cell);
       }
 
-      updateProfitLv1();
+      updateProfit();
     };
   }
 
@@ -102,9 +111,6 @@ var Diversibee = (function() {
 
     Game.level = getLevelFromHash(hash);
 
-    //Setup map
-    var seedRate = 0.02;
-
     //declare global store with default values
     Game.cellWidth = 20;
     Game.cellHeight = 20;
@@ -120,6 +126,8 @@ var Diversibee = (function() {
     for (var index in Game.board) {
       setAnimation(Game.board[index]);
     }
+
+    updateProfit();
 
     // draw the initial state of the board
     redrawBoard();
@@ -167,14 +175,16 @@ var Diversibee = (function() {
     return blueberryCount * treeCount;
   }
 
-  function updateProfitLv1() {
-    var profits = Profits.calculateLv1Profit(Game.board);
-    Game.store.profit = profits;
-    document.getElementById('profit-value').innerHTML = '$' + profits;
+  function updateProfit() {
+    Game.store.profit = Game.level.calculateProfit();
+    displayProfit();
   }
 
-  function calculateProfitLv2()
-  {
+  function displayProfit() {
+    document.getElementById('profit-value').innerHTML = '$' + Game.store.profit;
+  }
+
+  function calculateProfitLv2() {
     var totalProfit = 0;
 
     // Iterate over all blueberry cells
@@ -206,17 +216,68 @@ var Diversibee = (function() {
     return totalProfit;
   }
 
+  function calculateProfitLv3() {
+    var totalProfit = 0;
+    var beesInCell = [];
+    Game.board.forEach(function() {
+      beesInCell.push(0);
+    });
+
+    Game.board.forEach(function(cell, index) {
+      if (cell.type === cellTypes.forest) {
+        var neighbours = Utils.adjacentCells(index);
+        var forestCount = 1; // include self
+        neighbours.forEach(function(neighbourCell) {
+          if (neighbourCell.type === cellTypes.forest) {
+            forestCount++;
+          }
+        });
+
+        beesInCell[index] = forestCount;
+      }
+    });
+
+    // Iterate over all blueberry cells
+    Game.board.forEach(function(cell, index) {
+      if (cell.type === cellTypes.blueberries) {
+        var neighbours = Utils.adjacentCells(index);
+        var cellProfit = 0;
+        var contribution = 0;
+
+        // Calculate number of bee in surrounding cells
+        neighbours.forEach(function(neighbourCell) {
+          if (neighbourCell.type === cellTypes.forest) {
+            contribution += (1.0 / 7.0) * beesInCell[boardIndex(neighbourCell.coords)];
+          }
+        });
+
+        // Calculate Profit for cell
+        if (contribution <= 1) {
+          cellProfit = 0.1 + (0.9 / 6.0) * contribution;
+        } else {
+          cellProfit = 1;
+        }
+
+        // Add to total
+        totalProfit += cellProfit;
+      }
+    });
+
+    return totalProfit;
+  }
+
+  function boardIndex(coord) {
+    return Game.width * coord.y + coord.x;
+  }
+
   Game.init = function() {
-
     // Initialize the play area on load
-
-    var seedRate = 0.02;
 
     Game.level = getLevelFromHash(location.hash.substring(1));
 
     //declare global store with default values
-    Game.cellWidth = 20;//Game.level.width;
-    Game.cellHeight = 20;//Game.level.height;
+    Game.cellWidth = 20;
+    Game.cellHeight = 20;
     Game.board = generateCells(Game.level.width, Game.level.height);
     Game.store = {};
     Game.store.animationData = {

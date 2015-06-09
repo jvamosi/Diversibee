@@ -13,10 +13,12 @@
     <script src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js'></script>
 
     <script src='//code.createjs.com/easeljs-0.8.0.min.js'></script>
+    <script src='js/util.js'></script>
     <script src='js/world.js'></script>
     <script src='js/stateManagement.js'></script>
     <script src='js/profits.js'></script>
     <script src='js/tabBehavior.js' async></script>
+   
 
     <!-- Custom style -->
     <link rel='stylesheet' href='css/style.css'>
@@ -39,8 +41,9 @@
 
         <div class='col-md-6'>
           <div class='game-area'>
-            <button class='game-toolbar-button' id='tree-button' onClick='Diversibee.setPaintType("forest")'></button>
             <button class='game-toolbar-button' id='blueberry-button' onClick='Diversibee.setPaintType("blueberries")'></button>
+            <button class='game-toolbar-button' id='tree-button' onClick='Diversibee.setPaintType("forest")'></button>
+            <button class='game-toolbar-button' id='grass-button' onClick='Diversibee.setPaintType("grass")'></button>
             <h4 id='profit' class='profit'>Profit: <span id='profit-value'>$0</span></h4>
             <canvas id='board' width=400 height=400 class='board'></canvas>
           </div>
@@ -67,15 +70,19 @@
             <div class='tab-content'>
               <div role='tabpanel' class='tab-pane active' id='tabpanel-level1'>
                 <h2>Level 1</h2>
-                <p>Imagine you are a farmer wanting to plant blueberries for profit. While it would seem like a good strategy to cut down your forest and plant as many blueberry bushes as possible, the blueberry bushes need bees to pollinate them. No bees, no blueberries to sell! And the bees live in the forest.</p>
+                <p>You have bought a waste area, containing mostly degraded land and weeds, with the dream of turning it into a profitable blueberry farm. But blueberry bushes need bees to pollinate them. No bees, few blueberries to sell! And the bees live in the forest. What should you plant to maximize your profit?
+
+
+
+</p>
               </div>
               <div role='tabpanel' class='tab-pane' id='tabpanel-level2'>
                 <h2>Level 2</h2>
-                <p>Level 2 text</p>
+                <p>If you managed to maximize your profits, making $40000 a year, good job! You planted enough trees to have your blueberries pollinated well. The story is more complicated, though, because bees can only fly so far. A blueberry patch is best pollinated when it is surrounded by forest. Two plots are better than one; three plots are better than two, and so forth up to six (seven or eight make no further difference). Now not only what you plant counts, but where you plant it counts as well. Try to make the most profit now!</p>
               </div>
               <div role='tabpanel' class='tab-pane' id='tabpanel-level3'>
                 <h2>Level 3</h2>
-                <p>Level 3 text</p>
+                <p>In the real world, you also gain from maintaining many bee species. So if you have five pollinator species, your blueberry bushes will do even better than if there was only one. But bees are sensitive critters that thrive in large forests. Consider that the number of bee species in each forest patch depends on how many forest patches surround it. Go to it, farmer, optimize your harvest now!</p>
             </div>
 
           </div>
