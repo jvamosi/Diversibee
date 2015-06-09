@@ -14,14 +14,24 @@ var Diversibee = (function() {
         hash: 'level1',
         buttonId: '#tab-level1 a',
         width: 10,
-        height: 10
+        height: 10,
+        calculateProfit: calculateProfitLv1
       },
       {
         name: '2',
         hash: 'level2',
         buttonId: '#tab-level2 a',
         width: 20,
-        height: 20
+        height: 20,
+        calculateProfit: calculateProfitLv2
+      },
+      {
+        name: '3',
+        hash: 'level3',
+        buttonId: '#tab-level3 a',
+        width: 20,
+        height: 20,
+        calculateProfit: calculateProfitLv3
       }
     ];
 
@@ -71,8 +81,7 @@ var Diversibee = (function() {
   function handleCellClick(cell) {
     return function() {
       paintCell(cell);
-
-      updateProfitLv1();
+      updateProfit();
     };
   }
 
@@ -82,7 +91,7 @@ var Diversibee = (function() {
         paintCell(cell);
       }
 
-      updateProfitLv1();
+      updateProfit();
     };
   }
 
@@ -117,6 +126,8 @@ var Diversibee = (function() {
     for (var index in Game.board) {
       setAnimation(Game.board[index]);
     }
+
+    updateProfit();
 
     // draw the initial state of the board
     redrawBoard();
@@ -164,10 +175,13 @@ var Diversibee = (function() {
     return blueberryCount * treeCount;
   }
 
-  function updateProfitLv1() {
-    var profits = Profits.calculateLv1Profit(Game.board);
-    Game.store.profit = profits;
-    document.getElementById('profit-value').innerHTML = '$' + profits;
+  function updateProfit() {
+    Game.store.profit = Game.level.calculateProfit();
+    displayProfit();
+  }
+
+  function displayProfit() {
+    document.getElementById('profit-value').innerHTML = '$' + Game.store.profit;
   }
 
   function calculateProfitLv2() {
