@@ -21,16 +21,16 @@ var Diversibee = (function() {
         name: '2',
         hash: 'level2',
         buttonId: '#tab-level2 a',
-        width: 20,
-        height: 20,
+        width: 10,
+        height: 10,
         calculateProfit: calculateProfitLv2
       },
       {
         name: '3',
         hash: 'level3',
         buttonId: '#tab-level3 a',
-        width: 20,
-        height: 20,
+        width: 10,
+        height: 10,
         calculateProfit: calculateProfitLv3
       }
     ];
@@ -58,8 +58,21 @@ var Diversibee = (function() {
     return cells;
   }
 
+  // Returns a random integer between min (included) and max (excluded)
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  // Select random value from an array
+  function getRandomArrayValue(arr) {
+    return arr[getRandomInt(0, arr.length)];
+  }
+
   function updateAnimation(cell) {
-    cell.sprite.gotoAndPlay(cell.type);
+    cell.sprite.gotoAndStop(cell.type);
+    var animation = Game.store.spriteSheet.getAnimation(cell.type);
+    cell.sprite.gotoAndStop(getRandomArrayValue(animation.frames));
   }
 
   function setAnimation(cell) {
@@ -75,7 +88,6 @@ var Diversibee = (function() {
 
     cell.sprite = sprite;
     Game.stage.addChild(sprite);
-    sprite.play(cell.type);
   }
 
   function handleCellClick(cell) {
