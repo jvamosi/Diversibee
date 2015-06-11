@@ -190,7 +190,7 @@ var Diversibee = (function() {
       }
     }
 
-    return blueberryCount * treeCount;
+    return blueberryCount * treeCount / 10.0;
   }
 
   function updateProfit() {
@@ -231,7 +231,7 @@ var Diversibee = (function() {
       }
     });
 
-    return totalProfit;
+    return totalProfit * 10;
   }
 
   function calculateProfitLv3() {
@@ -281,7 +281,7 @@ var Diversibee = (function() {
       }
     });
 
-    return totalProfit;
+    return totalProfit * 10;
   }
 
   function boardIndex(coord) {
