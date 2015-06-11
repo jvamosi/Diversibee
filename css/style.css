@@ -38,20 +38,49 @@ h1 {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
-.game-toolbar-button {
+.radio-toolbar-label {
   margin: 2px;
+  width: 42px;
+  height: 42px;
+  float: left;
   background-image: url("../img/spriteSheet.png");
   background-repeat: no-repeat;
-  width: 24px;
-  height: 24px;
-  float: left;
+  background-size: 160px 120px;
+  box-shadow: inset 0 -1px 1px rgba(0,0,0,0.75),
+              inset 0 1px 1px rgba(200,200,200,0.5);
+  border: 1px solid rgba(0,0,0,0.5);
 }
-.game-toolbar-button#tree-button {
-  background-position: 0px -20px;
-}
-.game-toolbar-button#blueberry-button {
+.radio-toolbar-label#tree-button {
   background-position: 0px -40px;
 }
-.game-toolbar-button#grass-button {
-  background-position: 0px 0px;
+.radio-toolbar-label#blueberry-button {
+  background-position: 0px -80px;
+}
+.radio-toolbar-label#grass-button {
+  background-position: -122px 0px;
+}
+.radio-toolbar input[type="radio"] {
+  display: none;
+}
+.radio-toolbar input[type="radio"]:checked + label {
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.25),
+      rgba(0, 0, 0, 0.25)
+    ),
+    url(../img/spriteSheet.png);
+  background-size: 160px 120px;
+  box-shadow: inset 0 -1px 1px rgba(200,200,200,0.5),
+              inset 0 1px 1px rgba(0,0,0,0.75);
+}
+.radio-toolbar input[type="radio"]:active + label {
+  background:
+    linear-gradient(
+      rgba(0, 0, 0, 0.25),
+      rgba(0, 0, 0, 0.25)
+    ),
+    url(../img/spriteSheet.png);
+  background-size: 160px 120px;
+  box-shadow: inset 0 -1px 1px rgba(200,200,200,0.5),
+              inset 0 1px 1px rgba(0,0,0,0.75);
 }
