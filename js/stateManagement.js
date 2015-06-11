@@ -21,16 +21,16 @@ var Diversibee = (function() {
         name: '2',
         hash: 'level2',
         buttonId: '#tab-level2 a',
-        width: 20,
-        height: 20,
+        width: 10,
+        height: 10,
         calculateProfit: calculateProfitLv2
       },
       {
         name: '3',
         hash: 'level3',
         buttonId: '#tab-level3 a',
-        width: 20,
-        height: 20,
+        width: 10,
+        height: 10,
         calculateProfit: calculateProfitLv3
       }
     ];
