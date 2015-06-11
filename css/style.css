@@ -30,6 +30,13 @@ h1 {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+.logo {
+  float: left;
+  margin-left: 3rem;
+  margin-right: auto;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+}
 .game-toolbar-button {
   margin: 2px;
   background-image: url("../img/spriteSheet.png");
