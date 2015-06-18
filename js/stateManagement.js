@@ -1,4 +1,5 @@
 /* global exports, Profits, World */
+
 var Diversibee = (function() {
 
   var Game = {},
@@ -102,7 +103,7 @@ var Diversibee = (function() {
       if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
         paintCell(cell);
         updateProfit();
-      }      
+      }
     };
   }
 
@@ -193,20 +194,19 @@ var Diversibee = (function() {
   }
 
   function updateProfit() {
-    
     Game.store.previousProfit = Game.store.profit;
     Game.store.profit = Game.level.calculateProfit();
-  
+
     displayProfit();
   }
 
   function displayProfit() {
     var indicatorClass = 'fa fa-minus-circle';
 
-    if(Game.store.previousProfit > Game.store.profit){
+    if (Game.store.previousProfit > Game.store.profit) {
       indicatorClass = 'fa fa-chevron-circle-down';
     }
-    else if(Game.store.previousProfit < Game.store.profit){
+    else if (Game.store.previousProfit < Game.store.profit) {
       indicatorClass = 'fa fa-chevron-circle-up';
     }
 
