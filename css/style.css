@@ -11,6 +11,10 @@ h1 {
   height: 400px;
   margin: 0 auto;
 }
+.fa{
+  margin-left: 0.5rem;
+  color: rgba(255,255,255,.9);
+}
 .game-area {
   border: 1px solid #333;
   background: #004e00;
@@ -20,6 +24,8 @@ h1 {
 .profit {
   text-align: right;
   margin-right: 1rem;
+  color: rgba(255,255,255,.9);
+  font-family: sans-serif;
 }
 .page-title {
   background: #809680;
