@@ -282,13 +282,13 @@ var Diversibee = (function() {
         // Calculate number of bee in surrounding cells
         neighbours.forEach(function(neighbourCell) {
           if (neighbourCell.type === cellTypes.forest) {
-            contribution += (1.0 / 7.0) * beesInCell[boardIndex(neighbourCell.coords)];
+            contribution += beesInCell[boardIndex(neighbourCell.coords)];
           }
         });
 
         // Calculate Profit for cell
-        if (contribution <= 1) {
-          cellProfit = 0.1 + (0.9 / 6.0) * contribution;
+        if (contribution < 7) {
+          cellProfit = 0.1 + (0.9 / 7.0) * contribution;
         } else {
           cellProfit = 1;
         }
