@@ -4,7 +4,7 @@
 
 /* global exports, Profits, World */
 
-var Diversibee = (function() {
+var Game = (function() {
 
   var Game = {},
     paintCellType,
@@ -88,27 +88,27 @@ var Diversibee = (function() {
     sprite.x = cell.coords.x * Game.cellWidth;
     sprite.y = cell.coords.y * Game.cellHeight;
 
-    sprite.addEventListener('mousedown', handleCellClick(cell));
-    sprite.addEventListener('mouseover', handleCellMouseOver(cell));
-
     cell.sprite = sprite;
     Game.stage.addChild(sprite);
   }
 
-  function handleCellClick(cell) {
-    return function() {
-      paintCell(cell);
-      updateProfit();
-    };
+  function cellAtPos(x, y) {
+    var xIndex = Math.floor(x / Game.cellWidth);
+    var yIndex = Math.floor(y / Game.cellHeight);
+    return Game.board.at(new World.Coord(xIndex, yIndex));
   }
 
-  function handleCellMouseOver(cell) {
-    return function(e) {
-      if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
-        paintCell(cell);
-        updateProfit();
-      }
-    };
+  function handleStageMouseDown(e) {
+    handleCellPaint(cellAtPos(e.stageX, e.stageY));
+  }
+
+  function handleStagePressMove(e) {
+    handleCellPaint(cellAtPos(e.stageX, e.stageY));
+  }
+
+  function handleCellPaint(cell) {
+    paintCell(cell);
+    updateProfit();
   }
 
   function getLevelFromHash(hash) {
@@ -127,10 +127,18 @@ var Diversibee = (function() {
 
     Game.level = getLevelFromHash(hash);
 
-    //declare global store with default values
-    Game.cellWidth = 20;
-    Game.cellHeight = 20;
-    Game.board = generateCells(Game.level.width, Game.level.height);
+    Game.board = {
+      cells: generateCells(Game.level.width, Game.level.height),
+      width: Game.level.width,
+      height: Game.level.height,
+      boardIndex: function(coord) {
+        return this.width * coord.y + coord.x;
+      },
+
+      at: function(coord) {
+        return this.cells[this.boardIndex(coord)];
+      }
+    };
 
     var canvasWidth = Game.level.width *  Game.cellWidth;
     var canvasHeight = Game.level.height *  Game.cellHeight;
@@ -138,26 +146,22 @@ var Diversibee = (function() {
     gameBoard.width = canvasWidth;
     gameBoard.height = canvasHeight;
 
-    Game.stage.removeAllChildren();
     Game.stage = new createjs.Stage('board');
     Game.stage.tickOnUpdate = false;
-    Game.stage.enableMouseOver(10);
+    Game.stage.addEventListener('mousedown', handleStageMouseDown);
+    Game.stage.addEventListener('pressmove', handleStagePressMove);
+
     Game.store.spriteSheet = new createjs.SpriteSheet(Game.store.animationData);
 
     //set up initial cell animations
-    for (var index in Game.board) {
-      setAnimation(Game.board[index]);
-    }
+    Game.board.cells.forEach(function(cell) {
+      setAnimation(cell);
+    });
 
     updateProfit();
 
-    // draw the initial state of the board
-    redrawBoard();
-
-    // allow level change by adding hash to url
-    window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
-
-    $(Game.level.buttonId).click();
+    // draw the new state of the board
+    Game.stage.update();
   }
 
   function paintCell(cell) {
@@ -168,33 +172,8 @@ var Diversibee = (function() {
     Game.stage.update();
   }
 
-  function redrawBoard() {
-    // Redraws the board state
-
-    if (Game.store.animationLoop) {
-      clearInterval(Game.store.animationLoop);
-    }
-
-    Game.stage.update();
-    Game.store.animationLoop = setInterval(function() {
-      Game.stage.update();
-      Game.stage.tick();
-    }, 500);
-  }
-
   function calculateProfitLv1() {
-    var blueberryCount = 0;
-    var treeCount = 0;
-    for (var index in Game.board) {
-      if (Game.board[index].type === 'blueberries') {
-        blueberryCount++;
-      }
-      else if (Game.board[index].type === 'forest') {
-        treeCount++;
-      }
-    }
-
-    return blueberryCount * treeCount / 10.0;
+    return Profits.calculateLv1Profit(Game.board);
   }
 
   function updateProfit() {
@@ -202,6 +181,14 @@ var Diversibee = (function() {
     Game.store.profit = Game.level.calculateProfit();
 
     displayProfit();
+  }
+
+  function calculateProfitLv2() {
+    return Profits.calculateLv2Profit(Game.board);
+  }
+
+  function calculateProfitLv3() {
+    return Profits.calculateLv3Profit(Game.board);
   }
 
   function displayProfit() {
@@ -216,104 +203,18 @@ var Diversibee = (function() {
 
     $('#profit-indicator').attr('class', indicatorClass);
     $('#profit-value').html('$' + Game.store.profit.toFixed(2));
-
-  }
-
-  function calculateProfitLv2() {
-    var totalProfit = 0;
-
-    // Iterate over all blueberry cells
-    Game.board.forEach(function(cell, index) {
-      if (cell.type === cellTypes.blueberries) {
-        var neighbours = Utils.adjacentCells(index);
-        var treeCount = 0;
-        var cellProfit = 0;
-
-        // Get number of trees in surrounding cells
-        for (var neighIndex in neighbours) {
-          if (neighbours[neighIndex].type === cellTypes.forest) {
-            treeCount++;
-          }
-        }
-
-        // Calculate Profit for cell
-        if (treeCount < 6) {
-          cellProfit = 0.1 + (0.9 / 6.0) * treeCount;
-        } else {
-          cellProfit = 1;
-        }
-
-        // Add to total
-        totalProfit += cellProfit;
-      }
-    });
-
-    return totalProfit * 10;
-  }
-
-  function calculateProfitLv3() {
-    var totalProfit = 0;
-    var beesInCell = [];
-    Game.board.forEach(function() {
-      beesInCell.push(0);
-    });
-
-    Game.board.forEach(function(cell, index) {
-      if (cell.type === cellTypes.forest) {
-        var neighbours = Utils.adjacentCells(index);
-        var forestCount = 1; // include self
-        neighbours.forEach(function(neighbourCell) {
-          if (neighbourCell.type === cellTypes.forest) {
-            forestCount++;
-          }
-        });
-
-        beesInCell[index] = forestCount;
-      }
-    });
-
-    // Iterate over all blueberry cells
-    Game.board.forEach(function(cell, index) {
-      if (cell.type === cellTypes.blueberries) {
-        var neighbours = Utils.adjacentCells(index);
-        var cellProfit = 0;
-        var contribution = 0;
-
-        // Calculate number of bee in surrounding cells
-        neighbours.forEach(function(neighbourCell) {
-          if (neighbourCell.type === cellTypes.forest) {
-            contribution += beesInCell[boardIndex(neighbourCell.coords)];
-          }
-        });
-
-        // Calculate Profit for cell
-        if (contribution < 7) {
-          cellProfit = 0.1 + (0.9 / 7.0) * contribution;
-        } else {
-          cellProfit = 1;
-        }
-
-        // Add to total
-        totalProfit += cellProfit;
-      }
-    });
-
-    return totalProfit * 10;
-  }
-
-  function boardIndex(coord) {
-    return Game.level.width * coord.y + coord.x;
   }
 
   Game.init = function() {
     // Initialize the play area on load
 
-    Game.level = getLevelFromHash(location.hash.substring(1));
+    var hash = location.hash.substring(1);
+    Game.level = getLevelFromHash(hash);
 
-    //declare global store with default values
     Game.cellWidth = 20;
     Game.cellHeight = 20;
-    Game.board = generateCells(Game.level.width, Game.level.height);
+
+    //declare global store with default values
     Game.store = {};
     Game.store.animationData = {
       images: ['img/spriteSheet.png'],
@@ -325,23 +226,12 @@ var Diversibee = (function() {
       }
     };
 
-    Game.stage = new createjs.Stage('board');
-    Game.stage.tickOnUpdate = false;
-    Game.stage.enableMouseOver(10);
-    Game.store.spriteSheet = new createjs.SpriteSheet(Game.store.animationData);
-
-    //set up initial cell animations
-    for (var index in Game.board) {
-      setAnimation(Game.board[index]);
-    }
-
-    changeLevel(location.hash.substring(1));
-
-    // draw the initial state of the board
-    redrawBoard();
+    changeLevel(hash);
 
     // allow level change by adding hash to url
     window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
+
+    $(Game.level.buttonId).click();
   };
 
   Game.setPaintType = function(paintType) {
@@ -354,5 +244,5 @@ var Diversibee = (function() {
 })();
 
 if (typeof (exports) != 'undefined') {
-  exports.Diversibee = Diversibee;
+  exports.Game = Game;
 }
