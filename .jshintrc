@@ -6,7 +6,7 @@
     "$": false,
     "console": false,
     "createjs": false,
-    "Diversibee": true,
+    "Game": true,
     "Profits": true,
     "Utils": true
   },

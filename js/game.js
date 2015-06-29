@@ -4,7 +4,7 @@
 
 /* global exports, Profits, World */
 
-var Diversibee = (function() {
+var Game = (function() {
 
   var Game = {},
     paintCellType,
@@ -252,5 +252,5 @@ var Diversibee = (function() {
 })();
 
 if (typeof (exports) != 'undefined') {
-  exports.Diversibee = Diversibee;
+  exports.Game = Game;
 }
