@@ -88,27 +88,27 @@ var Game = (function() {
     sprite.x = cell.coords.x * Game.cellWidth;
     sprite.y = cell.coords.y * Game.cellHeight;
 
-    sprite.addEventListener('mousedown', handleCellClick(cell));
-    sprite.addEventListener('mouseover', handleCellMouseOver(cell));
-
     cell.sprite = sprite;
     Game.stage.addChild(sprite);
   }
 
-  function handleCellClick(cell) {
-    return function() {
-      paintCell(cell);
-      updateProfit();
-    };
+  function cellAtPos(x, y) {
+    var xIndex = Math.floor(x / Game.cellWidth);
+    var yIndex = Math.floor(y / Game.cellHeight);
+    return Game.board.at(new World.Coord(xIndex, yIndex));
   }
 
-  function handleCellMouseOver(cell) {
-    return function(e) {
-      if (e.nativeEvent.buttons === 1 || e.nativeEvent.buttons === 3) {
-        paintCell(cell);
-        updateProfit();
-      }
-    };
+  function handleStageMouseDown(e) {
+    handleCellPaint(cellAtPos(e.stageX, e.stageY));
+  }
+
+  function handleStagePressMove(e) {
+    handleCellPaint(cellAtPos(e.stageX, e.stageY));
+  }
+
+  function handleCellPaint(cell) {
+    paintCell(cell);
+    updateProfit();
   }
 
   function getLevelFromHash(hash) {
@@ -133,6 +133,10 @@ var Game = (function() {
       height: Game.level.height,
       boardIndex: function(coord) {
         return this.width * coord.y + coord.x;
+      },
+
+      at: function(coord) {
+        return this.cells[this.boardIndex(coord)];
       }
     };
 
@@ -144,7 +148,9 @@ var Game = (function() {
 
     Game.stage = new createjs.Stage('board');
     Game.stage.tickOnUpdate = false;
-    Game.stage.enableMouseOver(10);
+    Game.stage.addEventListener('mousedown', handleStageMouseDown);
+    Game.stage.addEventListener('pressmove', handleStagePressMove);
+
     Game.store.spriteSheet = new createjs.SpriteSheet(Game.store.animationData);
 
     //set up initial cell animations
