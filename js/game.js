@@ -155,7 +155,7 @@ var Game = (function() {
     updateProfit();
 
     // draw the new state of the board
-    redrawBoard();
+    Game.stage.update();
   }
 
   function paintCell(cell) {
@@ -164,20 +164,6 @@ var Game = (function() {
     cell.type = paintCellType;
     updateAnimation(cell);
     Game.stage.update();
-  }
-
-  function redrawBoard() {
-    // Redraws the board state
-
-    if (Game.store.animationLoop) {
-      clearInterval(Game.store.animationLoop);
-    }
-
-    Game.stage.update();
-    Game.store.animationLoop = setInterval(function() {
-      Game.stage.update();
-      Game.stage.tick();
-    }, 500);
   }
 
   function calculateProfitLv1() {
