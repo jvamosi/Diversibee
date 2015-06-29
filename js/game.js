@@ -146,10 +146,15 @@ var Game = (function() {
     gameBoard.width = canvasWidth;
     gameBoard.height = canvasHeight;
 
+    if (Game.stage) {
+      createjs.Touch.disable(Game.stage);
+    }
+
     Game.stage = new createjs.Stage('board');
     Game.stage.tickOnUpdate = false;
     Game.stage.addEventListener('mousedown', handleStageMouseDown);
     Game.stage.addEventListener('pressmove', handleStagePressMove);
+    createjs.Touch.enable(Game.stage);
 
     Game.store.spriteSheet = new createjs.SpriteSheet(Game.store.animationData);
 
