@@ -22,7 +22,7 @@ Tests.addSuite('profits', [
     Tests.equals(Profits.calculateLv1Profit([]), 0);
 
     //intial board
-    var board = [
+    var cells = [
       {type: 'forest'},
       {type: 'forest'},
       {type: 'forest'},
@@ -33,25 +33,30 @@ Tests.addSuite('profits', [
       {type: 'grass'},
       {type: 'grass'}
     ];
-    Tests.equals(Profits.calculateLv1Profit(board), 0);
-    board[0].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 4);
-    board[1].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 6);
-    board[2].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 6);
-    board[3].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 4);
-    board[4].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 5);
-    board[5].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 6);
-    board[6].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 0);
-    board[7].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 0);
-    board[8].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 0);
+    var board = {
+      cells: cells,
+      width: 3,
+      height: 3,
+    }
+    Tests.equals(Profits.calculateLv1Profit(board), 0.0);
+    board.cells[0].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.4);
+    board.cells[1].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.6);
+    board.cells[2].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.6);
+    board.cells[3].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.4);
+    board.cells[4].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.5);
+    board.cells[5].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.6);
+    board.cells[6].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.0);
+    board.cells[7].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.0);
+    board.cells[8].type = 'blueberries';
+    Tests.equals(Profits.calculateLv1Profit(board), 0.0);
   }
 
 ]);
