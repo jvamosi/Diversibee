@@ -99,16 +99,17 @@ var Game = (function() {
   }
 
   function handleStageMouseDown(e) {
-    handleCellPaint(cellAtPos(e.stageX, e.stageY));
+    var cell = cellAtPos(e.stageX, e.stageY);
+    paintCell(cell);
+    updateProfit();
   }
 
   function handleStagePressMove(e) {
-    handleCellPaint(cellAtPos(e.stageX, e.stageY));
-  }
-
-  function handleCellPaint(cell) {
-    paintCell(cell);
-    updateProfit();
+    var cell = cellAtPos(e.stageX, e.stageY);
+    if (cell.type !== paintCellType) {
+      paintCell(cell);
+      updateProfit();
+    }
   }
 
   function getLevelFromHash(hash) {
