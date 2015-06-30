@@ -9,7 +9,7 @@ In this project, we'd like to build a simple browser-based game that illustrates
 
 ## Getting Started
 
-You can view the current version of the site at http://jvamosi.github.io/Diversibee. To set up an environment to work in yourself, clone the project to your local machine. If you have Python installed, you can start up a local server by running `python -m SimpleHTTPServer 8000` from the project's root directory. Open http://127.0.0.1:8000 in your browser to see your local copy of the website. With that, you're ready to hack away on the JavaScript, HTML, CSS or art assets and see those changes in the game.
+You can view the current version of the site at http://www.diversibee.org. To set up an environment to work in yourself, clone the project to your local machine. If you have Python installed, you can start up a local server by running `python -m SimpleHTTPServer 8000` from the project's root directory. Open http://127.0.0.1:8000 in your browser to see your local copy of the website. With that, you're ready to hack away on the JavaScript, HTML, CSS or art assets and see those changes in the game.
 
 ## Get Involved
 
