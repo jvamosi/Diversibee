@@ -238,13 +238,14 @@ var Game = (function() {
     window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
 
     $(Game.level.buttonId).click();
+
+    Game.setPaintType('blueberries');
+    $('#blueberry-input').click();
   };
 
   Game.setPaintType = function(paintType) {
     paintCellType = paintType;
   };
-
-  Game.setPaintType('blueberries');
 
   return Game;
 })();
