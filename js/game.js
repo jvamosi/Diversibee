@@ -99,16 +99,17 @@ var Game = (function() {
   }
 
   function handleStageMouseDown(e) {
-    handleCellPaint(cellAtPos(e.stageX, e.stageY));
+    var cell = cellAtPos(e.stageX, e.stageY);
+    paintCell(cell);
+    updateProfit();
   }
 
   function handleStagePressMove(e) {
-    handleCellPaint(cellAtPos(e.stageX, e.stageY));
-  }
-
-  function handleCellPaint(cell) {
-    paintCell(cell);
-    updateProfit();
+    var cell = cellAtPos(e.stageX, e.stageY);
+    if (cell.type !== paintCellType) {
+      paintCell(cell);
+      updateProfit();
+    }
   }
 
   function getLevelFromHash(hash) {
@@ -146,10 +147,15 @@ var Game = (function() {
     gameBoard.width = canvasWidth;
     gameBoard.height = canvasHeight;
 
+    if (Game.stage) {
+      createjs.Touch.disable(Game.stage);
+    }
+
     Game.stage = new createjs.Stage('board');
     Game.stage.tickOnUpdate = false;
     Game.stage.addEventListener('mousedown', handleStageMouseDown);
     Game.stage.addEventListener('pressmove', handleStagePressMove);
+    createjs.Touch.enable(Game.stage);
 
     Game.store.spriteSheet = new createjs.SpriteSheet(Game.store.animationData);
 
@@ -232,13 +238,14 @@ var Game = (function() {
     window.onhashchange = function() { changeLevel(location.hash.substring(1)); };
 
     $(Game.level.buttonId).click();
+
+    Game.setPaintType('blueberries');
+    $('#blueberry-input').click();
   };
 
   Game.setPaintType = function(paintType) {
     paintCellType = paintType;
   };
-
-  Game.setPaintType('blueberries');
 
   return Game;
 })();
