@@ -6,9 +6,11 @@ h1 {
 }
 .board {
   display: block;
-  width: 400px;
-  height: 400px;
+  width: 464px;
+  height: 464px;
   margin: 0 auto;
+  border: 32px solid transparent;
+  border-image: url("../img/boardBorder.png") 64 64 repeat;
 }
 @media(max-width:400px) {
 .board {
@@ -21,19 +23,17 @@ h1 {
   color: rgba(255,255,255,.9);
 }
 .game-area {
-  border: 1px solid #333;
-  background: #004e00;
-  color: white;
   display: inline-block;
+  margin-left: -8px;
 }
 .profit {
   text-align: right;
   margin-right: 1rem;
   box-sizing: padding-box;
   width: 190px;
-  height: 45px;
-  padding: 14px;
-  color: rgba(255,255,255,.9);
+  height: 40px;
+  padding: 12px;
+  color: rgba(55,55,55,.9);
   font-family: sans-serif;
   background-image: url("../img/profit.png");
   background-repeat: no-repeat;
@@ -60,6 +60,9 @@ h1 {
 }
 .control-bar {
   overflow: hidden;
+  background-image: url("../img/controlBar.png");
+  background-repeat: no-repeat;
+  margin: 0px 8px;
 }
 .control-bar-left {
   float: left;
@@ -68,7 +71,7 @@ h1 {
   float: right;
 }
 .radio-toolbar {
-  margin: 10px;
+  margin: 8px;
 }
 .radio-toolbar-label {
   margin: 2px;
