@@ -10,6 +10,12 @@ h1 {
   height: 400px;
   margin: 0 auto;
 }
+@media(max-width:400px) {
+.board {
+  width: 320px;
+  height: 320px;
+}
+}
 .fa{
   margin-left: 0.5rem;
   color: rgba(255,255,255,.9);
