@@ -39,12 +39,25 @@
       <div class='row'>
         <div class='col-md-12'>
           <header class='page-title'>
-            <img class='logo' src='img/logo.gif' alt=''>
+            <img id='logo' class='logo' src='img/staticLogo.png' longdesc='a flying bee logo'>
             <h1>Diversibee</h1>
           </header>
         </div>
       </div>
     </div>
+
+<script>
+    $(function() {
+        $("#logo").hover(
+            function() {
+                $(this).attr("src", "img/logo.gif");
+            },
+            function() {
+                $(this).attr("src", "img/staticLogo.png");
+            }
+        );
+    });
+</script>
 
     <div class='container'>
 
