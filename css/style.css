@@ -29,8 +29,15 @@ h1 {
 .profit {
   text-align: right;
   margin-right: 1rem;
+  box-sizing: padding-box;
+  width: 190px;
+  height: 45px;
+  padding: 14px;
   color: rgba(255,255,255,.9);
   font-family: sans-serif;
+  background-image: url("../img/profit.png");
+  background-repeat: no-repeat;
+  background-position: right;
 }
 .page-title {
   background: #809680;
@@ -50,6 +57,18 @@ h1 {
   margin-right: auto;
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+.control-bar {
+  overflow: hidden;
+}
+.control-bar-left {
+  float: left;
+}
+.control-bar-right {
+  float: right;
+}
+.radio-toolbar {
+  margin: 10px;
 }
 .radio-toolbar-label {
   margin: 2px;

@@ -52,19 +52,23 @@
 
         <div class='col-md-6'>
           <div class='game-area'>
+           <div class='control-bar'>
 
             <!-- Toolbar Buttons -->
-            <div class='radio-toolbar'>
-              <input type='radio' id='blueberry-input' name='paint-type' onChange='Game.setPaintType("blueberries")' checked>
-              <label title='Blueberry' class='radio-toolbar-label' id='blueberry-button' for='blueberry-input'></label>
-              <input type='radio' id='forest-input' name='paint-type' onChange='Game.setPaintType("forest")'>
-              <label title='Forest' class='radio-toolbar-label' id='tree-button' for='forest-input'></label>
-              <input type='radio' id='grass-input' name='paint-type' onChange='Game.setPaintType("grass")'>
-              <label title='Grass' class='radio-toolbar-label' id='grass-button' for='grass-input'></label>
-            </div>
+            <span class='radio-toolbar control-bar-left'>
+             <input type='radio' id='blueberry-input' name='paint-type' onChange='Game.setPaintType("blueberries")' checked>
+             <label title='Blueberry' class='radio-toolbar-label' id='blueberry-button' for='blueberry-input'></label>
+             <input type='radio' id='forest-input' name='paint-type' onChange='Game.setPaintType("forest")'>
+             <label title='Forest' class='radio-toolbar-label' id='tree-button' for='forest-input'></label>
+             <input type='radio' id='grass-input' name='paint-type' onChange='Game.setPaintType("grass")'>
+             <label title='Grass' class='radio-toolbar-label' id='grass-button' for='grass-input'></label>
+            </span>
 
-            <h4 id='profit' class='profit'>Profit: <span id='profit-value'>$0</span><i id='profit-indicator'></i></h4>
-            <canvas id='board' width=200 height=200 class='board'></canvas>
+            <span class='control-bar-right'>
+             <h4 id='profit' class='profit'>Profit: <span id='profit-value'>$0</span><i id='profit-indicator'></i></h4>
+            </span>
+           </div>
+           <canvas id='board' width=200 height=200 class='board'></canvas>
           </div>
         </div>
 
