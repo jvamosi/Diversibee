@@ -6,7 +6,3 @@ script:
   - "jshint js"
   - "jscs js"
   - "cd tests; node tests-cli.js"
-notifications:
-  irc:
-    channels:
-      - "irc.mozilla.org#diversibee"
