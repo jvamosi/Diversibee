@@ -20,7 +20,7 @@ var Profits = (function() {
       }
     }
 
-    return blueberryCount * treeCount / 10;
+    return blueberryCount * Math.max(treeCount, 0.1) / 10;
   };
 
   Profits.calculateLv2Profit = function(board) {
