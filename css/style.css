@@ -6,9 +6,11 @@ h1 {
 }
 .board {
   display: block;
-  width: 400px;
-  height: 400px;
+  width: 464px;
+  height: 464px;
   margin: 0 auto;
+  border: 32px solid transparent;
+  border-image: url("../img/boardBorder.png") 64 64 repeat;
 }
 @media(max-width:400px) {
 .board {
@@ -20,17 +22,35 @@ h1 {
   margin-left: 0.5rem;
   color: rgba(255,255,255,.9);
 }
+@media(max-width:400px) {
+.fa {
+  margin-left: 0.25rem;
+}
+}
 .game-area {
-  border: 1px solid #333;
-  background: #004e00;
-  color: white;
   display: inline-block;
+  margin-left: -8px;
 }
 .profit {
   text-align: right;
   margin-right: 1rem;
-  color: rgba(255,255,255,.9);
+  box-sizing: padding-box;
+  width: 190px;
+  height: 40px;
+  padding: 12px;
+  color: rgba(55,55,55,.9);
   font-family: sans-serif;
+  background-image: url("../img/profit.png");
+  background-repeat: no-repeat;
+  background-position: right;
+}
+@media(max-width:400px) {
+.profit {
+  margin-right: 0.5rem;
+  width: 150px;
+  padding: 12px 6px;
+  background-image: url("../img/profitSmall.png");
+}
 }
 .page-title {
   background: #809680;
@@ -51,6 +71,26 @@ h1 {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+.control-bar {
+  overflow: hidden;
+  background-image: url("../img/controlBar.png");
+  background-repeat: no-repeat;
+  margin: 0px 8px;
+}
+@media(max-width:400px) {
+.control-bar {
+  background-image: url("../img/controlBarSmall.png");
+}
+}
+.control-bar-left {
+  float: left;
+}
+.control-bar-right {
+  float: right;
+}
+.radio-toolbar {
+  margin: 8px;
+}
 .radio-toolbar-label {
   margin: 2px;
   width: 42px;
@@ -70,7 +110,7 @@ h1 {
   background-position: 0px -80px;
 }
 .radio-toolbar-label#grass-button {
-  background-position: -122px 0px;
+  background-position: -119px 0px;
 }
 .radio-toolbar input[type="radio"] {
   display: none;
@@ -96,4 +136,27 @@ h1 {
   background-size: 160px 120px;
   box-shadow: inset 0 -1px 1px rgba(200,200,200,0.5),
               inset 0 1px 1px rgba(0,0,0,0.75);
+}
+.legal {
+  margin-top: 2rem;
+  margin-bottom: 0;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  text-align: center;
+  background: #809680;
+  color: white;
+}
+.legal a {
+  color: #E2C9B6;
+}
+/* footer based on http://ryanfait.com/sticky-footer/ */
+html, body {
+  height: 100%;
+}
+.wrapper {
+  min-height: 100%;
+  margin: 0 auto -7rem; /* bottom margin is the negative of the footer height */
+}
+.footer, .pusher {
+  height: 7rem; /* .push must be the same height as .footer */
 }
