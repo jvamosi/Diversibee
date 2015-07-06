@@ -22,6 +22,11 @@ h1 {
   margin-left: 0.5rem;
   color: rgba(255,255,255,.9);
 }
+@media(max-width:400px) {
+.fa {
+  margin-left: 0.25rem;
+}
+}
 .game-area {
   display: inline-block;
   margin-left: -8px;
@@ -38,6 +43,14 @@ h1 {
   background-image: url("../img/profit.png");
   background-repeat: no-repeat;
   background-position: right;
+}
+@media(max-width:400px) {
+.profit {
+  margin-right: 0.5rem;
+  width: 150px;
+  padding: 12px 6px;
+  background-image: url("../img/profitSmall.png");
+}
 }
 .page-title {
   background: #809680;
@@ -63,6 +76,11 @@ h1 {
   background-image: url("../img/controlBar.png");
   background-repeat: no-repeat;
   margin: 0px 8px;
+}
+@media(max-width:400px) {
+.control-bar {
+  background-image: url("../img/controlBarSmall.png");
+}
 }
 .control-bar-left {
   float: left;
