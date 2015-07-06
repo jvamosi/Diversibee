@@ -34,12 +34,12 @@
   </head>
 
   <body onload='Game.init()'>
-
+   <div class="wrapper">
     <div class='container-fluid'>
       <div class='row'>
         <div class='col-md-12'>
           <header class='page-title'>
-            <img class='logo' src='img/logo.gif' longdesc='a flying bee logo'>
+            <img class='logo' src='img/logo.gif'>
             <h1>Diversibee</h1>
           </header>
         </div>
@@ -52,19 +52,23 @@
 
         <div class='col-md-6'>
           <div class='game-area'>
+           <div class='control-bar'>
 
             <!-- Toolbar Buttons -->
-            <div class='radio-toolbar'>
-              <input type='radio' id='blueberry-input' name='paint-type' onChange='Game.setPaintType("blueberries")' checked>
-              <label title='Blueberry' class='radio-toolbar-label' id='blueberry-button' for='blueberry-input'></label>
-              <input type='radio' id='forest-input' name='paint-type' onChange='Game.setPaintType("forest")'>
-              <label title='Forest' class='radio-toolbar-label' id='tree-button' for='forest-input'></label>
-              <input type='radio' id='grass-input' name='paint-type' onChange='Game.setPaintType("grass")'>
-              <label title='Grass' class='radio-toolbar-label' id='grass-button' for='grass-input'></label>
-            </div>
+            <span class='radio-toolbar control-bar-left'>
+             <input type='radio' id='blueberry-input' name='paint-type' onChange='Game.setPaintType("blueberries")' checked>
+             <label title='Blueberry' class='radio-toolbar-label' id='blueberry-button' for='blueberry-input'></label>
+             <input type='radio' id='forest-input' name='paint-type' onChange='Game.setPaintType("forest")'>
+             <label title='Forest' class='radio-toolbar-label' id='tree-button' for='forest-input'></label>
+             <input type='radio' id='grass-input' name='paint-type' onChange='Game.setPaintType("grass")'>
+             <label title='Grass' class='radio-toolbar-label' id='grass-button' for='grass-input'></label>
+            </span>
 
-            <h4 id='profit' class='profit'>Profit: <span id='profit-value'>$0</span><i id='profit-indicator'></i></h4>
-            <canvas id='board' width=200 height=200 class='board'></canvas>
+            <span class='control-bar-right'>
+             <h4 id='profit' class='profit'>Profit: <span id='profit-value'>$0</span><i id='profit-indicator'></i></h4>
+            </span>
+           </div>
+           <canvas id='board' width=200 height=200 class='board'></canvas>
           </div>
         </div>
 
@@ -98,6 +102,7 @@
               <div role='tabpanel' class='tab-pane' id='tabpanel-level3'>
                 <h2>Level 3</h2>
                 <p>In the real world, you also gain from maintaining many bee species. So if you have five pollinator species, your blueberry bushes will do even better than if there was only one. But bees are sensitive critters that thrive in large forests. Consider that the number of bee species in each forest patch depends on how many forest patches surround it. Go to it, farmer, optimize your harvest now!</p>
+             </div>
             </div>
 
           </div>
@@ -106,7 +111,19 @@
       </div>
 
     </div>
+    <div class='pusher'></div>
+   </div>
 
+   <footer class='legal footer site-footer'>
+    <div class='container'>
+      <div class='row'>
+        <div class='col-md-12'>
+            <p>Diversibee is an open-source project. Contribute on <a href="https://github.com/jvamosi/Diversibee">GitHub</a>!</p>
+            <p>See <a href="https://github.com/jvamosi/Diversibee/tree/gh-pages/img">README</a> for art credits.</p>
+        </div>
+      </div>
+    </div>
+   </footer>
   </body>
 </html>
 
