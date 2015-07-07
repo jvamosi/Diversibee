@@ -149,6 +149,9 @@ var Game = (function() {
 
     if (Game.stage) {
       createjs.Touch.disable(Game.stage);
+      Game.stage.removeAllEventListeners('mousedown');
+      Game.stage.removeAllEventListeners('pressmove');
+      Game.stage.removeAllChildren();
     }
 
     Game.stage = new createjs.Stage('board');
