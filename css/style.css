@@ -34,6 +34,8 @@ h1 {
 .profit {
   text-align: right;
   margin-right: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
   box-sizing: padding-box;
   width: 190px;
   height: 40px;
