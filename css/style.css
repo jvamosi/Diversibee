@@ -34,6 +34,8 @@ h1 {
 .profit {
   text-align: right;
   margin-right: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
   box-sizing: padding-box;
   width: 190px;
   height: 40px;
@@ -155,8 +157,8 @@ html, body {
 }
 .wrapper {
   min-height: 100%;
-  margin: 0 auto -7rem; /* bottom margin is the negative of the footer height */
+  margin: 0 auto -8rem; /* bottom margin is the negative of the footer height */
 }
 .footer, .pusher {
-  height: 7rem; /* .push must be the same height as .footer */
+  height: 8rem; /* .push must be the same height as .footer */
 }

@@ -52,11 +52,11 @@ Tests.addSuite('profits', [
     board.cells[5].type = 'blueberries';
     Tests.equals(Profits.calculateLv1Profit(board), 0.6);
     board.cells[6].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 0.0);
+    Tests.equals(Profits.calculateLv1Profit(board), 0.07);
     board.cells[7].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 0.0);
+    Tests.equals(Profits.calculateLv1Profit(board), 0.08);
     board.cells[8].type = 'blueberries';
-    Tests.equals(Profits.calculateLv1Profit(board), 0.0);
+    Tests.equals(Profits.calculateLv1Profit(board), 0.09);
   }
 
 ]);
